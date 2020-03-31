@@ -12,8 +12,9 @@ export const loginEmployee = data => dispatch => {
   )
     .then(res => {
       console.log('res.data', res.data);
-
       AsyncStorage.setItem('token', res.data.token);
+      const decoded = jwt_decode(res.data.token);
+      console.log('decoded', decoded);
     })
     .catch(err => {
       console.log('err :', err.response.data);

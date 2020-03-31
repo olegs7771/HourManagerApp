@@ -44,7 +44,7 @@ class App extends Component {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            {this.state.token ? (
+            {!this.state.token ? (
               <Stack.Screen name="Home" component={LandingScreen} />
             ) : (
               <Stack.Screen name="SignIn" component={Login} />
