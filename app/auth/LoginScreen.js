@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, TextInput, Button} from 'react-native';
 import {conect, connect} from 'react-redux';
 import {loginEmployee} from '../../store/actions/authAction';
 
-class Login extends Component {
+class LoginScreen extends Component {
   state = {
     email: '',
     code: '',
@@ -63,7 +63,7 @@ class Login extends Component {
   }
 }
 
-export default connect(null, {loginEmployee})(Login);
+export default connect(null, {loginEmployee})(LoginScreen);
 
 const styles = StyleSheet.create({
   container: {

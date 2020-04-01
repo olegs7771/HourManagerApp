@@ -1,7 +1,6 @@
 import {GET_AUTH, LOADING_AUTH} from './type';
 import Axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-import jwtDecode from 'jwt-decode';
 
 export const loginEmployee = data => dispatch => {
   console.log('data', data);
@@ -12,9 +11,21 @@ export const loginEmployee = data => dispatch => {
   )
     .then(res => {
       console.log('res.data', res.data);
-      AsyncStorage.setItem('token', res.data.token);
-      const decoded = jwt_decode(res.data.token);
-      console.log('decoded', decoded);
+      //Create payload for AsyncStorage
+      const payload = {
+        name: res.data.name,
+        email: res.data.email,
+        token: res.data.token,
+      };
+
+      AsyncStorage.setItem('user', JSON.stringify(payload)).then(() => {
+        //Token set in LocalStorage
+        //Get Email and Name into Redux
+        dispatch({
+          type: GET_AUTH,
+          payload: res.data,
+        });
+      });
     })
     .catch(err => {
       console.log('err :', err.response.data);

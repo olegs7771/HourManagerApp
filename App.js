@@ -1,6 +1,8 @@
 import 'react-native-gesture-handler';
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
+//Redux
+
 import AsyncStorage from '@react-native-community/async-storage';
 //Store
 import {Provider} from 'react-redux';
@@ -8,8 +10,10 @@ import configureStore from './store/store';
 
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+//Redux
+import {GET_AUTH} from './store/actions/type';
 //Auth
-import Login from './app/auth/Login';
+import LoginScreen from './app/auth/LoginScreen';
 //Dashboard
 import LandingScreen from './app/dashboard/LandingScreen';
 
@@ -27,12 +31,27 @@ class App extends Component {
   }
 
   _retieveData = async () => {
-    await AsyncStorage.getItem('token')
-      .then(token => {
+    await AsyncStorage.getItem('user')
+      .then(res => {
         console.log('token', token);
+
+        const parseObj = JSON.parse(res);
+        const {name, email, token} = parseObj;
+
+        //Obj for Reducer
+        const userObj = {
+          name,
+          email,
+        };
+
         this.setState({
           token,
         });
+        store.dispatch({
+          type: GET_AUTH,
+          payload: userObj,
+        });
+        this.props.navigation.navigate('Home');
       })
       .catch(err => {
         console.log('err', err);
@@ -44,10 +63,10 @@ class App extends Component {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            {!this.state.token ? (
+            {this.state.token ? (
               <Stack.Screen name="Home" component={LandingScreen} />
             ) : (
-              <Stack.Screen name="SignIn" component={Login} />
+              <Stack.Screen name="SignIn" component={LoginScreen} />
             )}
           </Stack.Navigator>
         </NavigationContainer>

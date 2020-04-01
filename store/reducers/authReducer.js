@@ -19,12 +19,10 @@ export default (state = initialState, action) => {
         ...state,
         user: {
           email: action.payload.email,
-          _id: action.payload._id,
-          avatar: action.payload.avatar,
-          //path ref for delete()
-          path: action.payload.path,
+          name: action.payload.name,
         },
         isAuthenticated: true,
+        loading: false,
       };
     // case LOGOUT_USER:
     //   return {
