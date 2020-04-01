@@ -1,4 +1,4 @@
-import {GET_AUTH, LOADING_AUTH} from '../actions/type';
+import {GET_AUTH, LOADING_AUTH, LOGOUT_AUTH} from '../actions/type';
 
 const initialState = {
   user: null,
@@ -24,12 +24,12 @@ export default (state = initialState, action) => {
         isAuthenticated: true,
         loading: false,
       };
-    // case LOGOUT_USER:
-    //   return {
-    //     ...state,
-    //     user: null,
-    //     isAuthenticated: false,
-    //   };
+    case LOGOUT_AUTH:
+      return {
+        ...state,
+        user: null,
+        isAuthenticated: false,
+      };
 
     default:
       return state;

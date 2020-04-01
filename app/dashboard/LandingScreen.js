@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import {Text, View, Button} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
+import {logoutEmp} from '../../store/actions/authAction';
 
 class LandingScreen extends Component {
   _signOutEmp = async () => {
     console.log('loggedout');
     await AsyncStorage.removeItem('user').then(() => {
       console.log('removed');
-      this.props.navigation.navigate('Home');
+      this.props.logoutEmp();
     });
   };
 
@@ -22,4 +23,4 @@ class LandingScreen extends Component {
   }
 }
 
-export default connect()(LandingScreen);
+export default connect(null, {logoutEmp})(LandingScreen);

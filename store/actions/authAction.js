@@ -1,4 +1,4 @@
-import {GET_AUTH, LOADING_AUTH} from './type';
+import {GET_AUTH, LOADING_AUTH, LOGOUT_AUTH} from './type';
 import Axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -30,6 +30,23 @@ export const loginEmployee = data => dispatch => {
     .catch(err => {
       console.log('err :', err.response.data);
     });
+};
+
+//Logout Employee
+
+export const logoutEmp = () => dispatch => {
+  dispatch({
+    type: LOGOUT_AUTH,
+  });
+};
+
+//Set Auth every refresh without API request
+
+export const setAuth = data => dispatch => {
+  dispatch({
+    type: GET_AUTH,
+    payload: data,
+  });
 };
 
 export const loading = () => {
