@@ -68,7 +68,7 @@ export default connect(null, {loginEmployee})(LoginScreen);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderWidth: 4,
+
     paddingVertical: 20,
   },
   textTitle: {
