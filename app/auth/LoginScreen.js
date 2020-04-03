@@ -46,6 +46,7 @@ class LoginScreen extends Component {
             value={this.state.email}
             keyboardType="email-address"
           />
+          {this.state.errors ? <View>{}</View> : null}
           <Text style={styles.textLabel}>Code</Text>
           <TextInput
             style={styles.textInput}
