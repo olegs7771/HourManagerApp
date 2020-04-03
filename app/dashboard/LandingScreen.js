@@ -1,67 +1,47 @@
 import React, {Component} from 'react';
-import {Text, View, Button, StyleSheet} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+// import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {logoutEmp} from '../../store/actions/authAction';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import Button from '../components/Button';
 
-class LandingScreen extends Component {
-  state = {
-    drawerOpen: false,
-  };
-
-  _signOutEmp = async () => {
-    console.log('loggedout');
-    await AsyncStorage.removeItem('user').then(() => {
-      console.log('removed');
-      this.props.logoutEmp();
-    });
-  };
-
-  _toggleDrawer = () => {
-    this.props.navigation.toggleDrawer();
-    this.setState({drawerOpen: !this.state.drawerOpen});
-  };
-
+export class LandingScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Text style={styles.textTitle}> Welcome Screen</Text>
         <View style={styles.containerButton}>
-          <View
-            style={
-              this.state.drawerOpen
-                ? styles.containerIconDrawerOpen
-                : styles.containerIconDrawerClosed
-            }>
-            <Icon name="bars" size={50} onPress={this._toggleDrawer} />
-          </View>
-
-          <Button title="SignOut" onPress={this._signOutEmp} />
+          <Button
+            text="Login"
+            onPress={this.props.navigation.navigate('SignIn')}
+          />
         </View>
       </View>
     );
   }
 }
 
-export default connect(null, {logoutEmp})(LandingScreen);
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LandingScreen);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderWidth: 1,
+    justifyContent: 'center',
   },
-  //Move Menu icon If Drawer open
-  containerIconDrawerClosed: {
-    borderWidth: 1,
-    paddingLeft: 20,
-    paddingTop: 10,
-  },
-  containerIconDrawerOpen: {
-    borderWidth: 1,
-    paddingLeft: 300,
-    paddingTop: 10,
+  textTitle: {
+    fontSize: 20,
+    textAlign: 'center',
   },
   containerButton: {
-    alignContent: 'center',
+    marginTop: 30,
+    alignItems: 'center',
+  },
+  containerIcon: {
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#3254a8',
   },
 });

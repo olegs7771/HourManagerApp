@@ -2,17 +2,21 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {setAuth} from '../store/actions/authAction';
 import AsyncStorage from '@react-native-community/async-storage';
+import configureStore from '../store/store';
 // import {Provider as PaperProvider} from 'react-native-paper';
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
-//Screens
+//Screens Unprotected
 import LoaderScreen from '../app/auth/LoaderScreen';
 import LoginScreen from '../app/auth/LoginScreen';
-import LandingScreen from '../app/dashboard/LandingScreen';
+import LandingScreen from './dashboard/LandingScreen';
+//Screens Protected
+import DashboardScreen from './dashboard/DashboardScreen';
 import SettingsScreen from '../app/dashboard/SettingsScreen';
-import configureStore from '../store/store';
+
+//Nav
 import DrawerContent from './navContent/DrawerContent';
 
 const store = configureStore();
@@ -22,8 +26,29 @@ const Stack = createStackNavigator();
 export const DrawerNav = () => {
   return (
     <Drawer.Navigator drawerContent={() => <DrawerContent />}>
-      <Drawer.Screen name="Home" component={LandingScreen} />
+      <Drawer.Screen name="DashBoard" component={DashboardScreen} />
     </Drawer.Navigator>
+  );
+};
+
+export const AppStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Landing"
+        component={LandingScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SignIn"
+        component={LoginScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
   );
 };
 
@@ -92,7 +117,7 @@ export class Home extends Component {
           ) : (
             <Stack.Screen
               name="SignIn"
-              component={LoginScreen}
+              component={AppStack}
               options={{
                 headerShown: false,
               }}
