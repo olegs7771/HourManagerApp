@@ -8,7 +8,7 @@ import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import {MaterialCommunityIcons} from 'react-native-vector-icons';
+import MaterialIcon from 'react-native-vector-icons/dist/MaterialIcons';
 
 //Screens Unprotected
 import LoaderScreen from '../app/auth/LoaderScreen';
@@ -29,8 +29,26 @@ const Tab = createMaterialBottomTabNavigator();
 const tabNav = () => {
   return (
     <Tab.Navigator activeColor="#FFF" barStyle={{backgroundColor: '#694fad'}}>
-      <Tab.Screen name="DashBoard" component={DashboardScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen
+        name="DashBoard"
+        component={DashboardScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({color}) => (
+            <MaterialIcon name="dashboard" size={20} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          tabBarLabel: 'Settings',
+          tabBarIcon: ({color}) => (
+            <MaterialIcon name="settings" size={20} color={color} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -78,7 +96,7 @@ export class Home extends Component {
   }
   _retieveData = async () => {
     await AsyncStorage.getItem('user')
-      .then((res) => {
+      .then(res => {
         console.log('token', token);
 
         const parseObj = JSON.parse(res);
@@ -97,7 +115,7 @@ export class Home extends Component {
 
         this.props.setAuth(userObj);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log('err', err);
       });
   };
@@ -146,7 +164,7 @@ export class Home extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   loading: state.auth.loading,
   isAuthenticated: state.auth.isAuthenticated,
   errors: state.errors.errors,
