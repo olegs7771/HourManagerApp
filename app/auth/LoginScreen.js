@@ -8,6 +8,7 @@ class LoginScreen extends Component {
     email: '',
     code: '',
     errors: {},
+    loading: false,
   };
 
   _loginEmployee = () => {
@@ -41,20 +42,32 @@ class LoginScreen extends Component {
           <Text style={styles.textLabel}>Email</Text>
           <TextInput
             style={styles.textInput}
-            onChangeText={email => this.setState({email})}
+            onChangeText={(email) => this.setState({email, errors: {}})}
             name="email"
             value={this.state.email}
             keyboardType="email-address"
+            placeholder="john@example.com"
           />
-          {this.state.errors ? <View>{}</View> : null}
+          {this.state.errors.email ? (
+            <View style={{marginTop: -10}}>
+              <Text style={{color: 'red'}}>{this.state.errors.email}</Text>
+            </View>
+          ) : null}
           <Text style={styles.textLabel}>Code</Text>
           <TextInput
             style={styles.textInput}
-            onChangeText={code => this.setState({code})}
+            onChangeText={(code) => this.setState({code, errors: {}})}
             name="code"
             value={this.state.code}
             keyboardType="numeric"
+            placeholder="123456"
           />
+          {this.state.errors.code ? (
+            <View style={{marginTop: -10}}>
+              <Text style={{color: 'red'}}>{this.state.errors.code}</Text>
+            </View>
+          ) : null}
+
           <View style={styles.containerButton}>
             <Button title="Submit" size={20} onPress={this._loginEmployee} />
           </View>
@@ -64,7 +77,12 @@ class LoginScreen extends Component {
   }
 }
 
-export default connect(null, {loginEmployee})(LoginScreen);
+const mapStateToProps = (state) => ({
+  // errors: state.errors.errors,
+  // isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, {loginEmployee})(LoginScreen);
 
 const styles = StyleSheet.create({
   container: {

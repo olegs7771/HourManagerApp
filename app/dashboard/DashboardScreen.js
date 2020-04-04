@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {Text, View, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 
 import {connect} from 'react-redux';
 
@@ -14,13 +21,24 @@ class DashboardScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View></View>
-
-        <View style={styles.containerButton}>
+        <View style={{flexDirection: 'row'}}>
           <TouchableOpacity style={styles.containerIconDrawerClosed}>
             <Icon name="bars" size={50} onPress={this._openDrawer} />
+            <Icon name="bars" size={50} onPress={this._openDrawer} />
           </TouchableOpacity>
+
+          <Image
+            source={require('../../assets/hourmanager.png')}
+            style={{
+              width: '50%',
+              height: 60,
+              alignSelf: 'center',
+              marginTop: 5,
+              marginLeft: 40,
+            }}
+          />
         </View>
+        <View></View>
       </View>
     );
   }
@@ -36,9 +54,5 @@ const styles = StyleSheet.create({
   containerIconDrawerClosed: {
     paddingLeft: 20,
     paddingTop: 10,
-  },
-
-  containerButton: {
-    alignContent: 'center',
   },
 });

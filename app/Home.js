@@ -7,6 +7,8 @@ import configureStore from '../store/store';
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {MaterialCommunityIcons} from 'react-native-vector-icons';
 
 //Screens Unprotected
 import LoaderScreen from '../app/auth/LoaderScreen';
@@ -23,10 +25,20 @@ const store = configureStore();
 //Navigation
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
+const Tab = createMaterialBottomTabNavigator();
+const tabNav = () => {
+  return (
+    <Tab.Navigator activeColor="#FFF" barStyle={{backgroundColor: '#694fad'}}>
+      <Tab.Screen name="DashBoard" component={DashboardScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+    </Tab.Navigator>
+  );
+};
+
 export const DrawerNav = () => {
   return (
     <Drawer.Navigator drawerContent={() => <DrawerContent />}>
-      <Drawer.Screen name="DashBoard" component={DashboardScreen} />
+      <Drawer.Screen name="DashBoard" component={tabNav} />
     </Drawer.Navigator>
   );
 };
@@ -61,11 +73,12 @@ export class Home extends Component {
       user: null,
       loading: false,
       isAuthenticated: false,
+      errors: {},
     };
   }
   _retieveData = async () => {
     await AsyncStorage.getItem('user')
-      .then(res => {
+      .then((res) => {
         console.log('token', token);
 
         const parseObj = JSON.parse(res);
@@ -84,7 +97,7 @@ export class Home extends Component {
 
         this.props.setAuth(userObj);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('err', err);
       });
   };
@@ -97,12 +110,16 @@ export class Home extends Component {
         loading: this.props.loading,
       });
     }
+    if (prevProps.errors !== this.props.errors) {
+      this.setState({errors: this.props.errors, loading: false});
+    }
   }
 
   render() {
     if (this.state.loading) {
       return <LoaderScreen />;
     }
+
     return (
       <NavigationContainer>
         <Stack.Navigator>
@@ -129,9 +146,10 @@ export class Home extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: state.auth.loading,
   isAuthenticated: state.auth.isAuthenticated,
+  errors: state.errors.errors,
 });
 
 const mapDispatchToProps = {setAuth};

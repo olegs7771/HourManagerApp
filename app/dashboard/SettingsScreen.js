@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 export class SettingsScreen extends Component {
-  static propTypes = {
-    prop: PropTypes,
-  };
-
   render() {
     return (
       <View>
@@ -17,7 +13,7 @@ export class SettingsScreen extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 

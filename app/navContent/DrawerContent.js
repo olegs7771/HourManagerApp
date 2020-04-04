@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import {logoutEmp} from '../../store/actions/authAction';
 
-const DrawerContent = props => {
+const DrawerContent = (props) => {
   _signOutEmp = async () => {
     await AsyncStorage.removeItem('user').then(() => {
       console.log('removed');
@@ -20,22 +20,22 @@ const DrawerContent = props => {
         <View style={styles.containerProfileBody}>
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
               marginBottom: 10,
             }}>
-            <Text style={{fontSize: 16, fontWeight: 'bold'}}>Name </Text>
-            <Text style={{fontSize: 16}}>Some Name </Text>
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>Name </Text>
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+              {props.auth.user.name}{' '}
+            </Text>
           </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontSize: 16, fontWeight: 'bold'}}>Email </Text>
-            <Text style={{fontSize: 16}}>Some email </Text>
+          <View>
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>Email </Text>
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+              {props.auth.user.email}{' '}
+            </Text>
           </View>
         </View>
       </View>
-      <TouchableOpacity
-        style={styles.containerSignout}
-        onPress={this._signOutEmp}>
+      <TouchableOpacity style={styles.containerSignout} onPress={_signOutEmp}>
         <View style={{paddingTop: 10}}>
           <Text style={{fontSize: 16, fontWeight: 'bold', color: '#FFF'}}>
             SignOut
@@ -48,19 +48,22 @@ const DrawerContent = props => {
     </View>
   );
 };
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
 
-export default connect(null, {logoutEmp})(DrawerContent);
+export default connect(mapStateToProps, {logoutEmp})(DrawerContent);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
+
     alignItems: 'center',
   },
   containerProfile: {
-    height: 200,
-    borderWidth: 1,
-    width: '80%',
+    width: '100%',
+    padding: 5,
+    paddingBottom: 20,
   },
   textTitle: {
     textAlign: 'center',
@@ -68,10 +71,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   containerProfileBody: {
-    borderWidth: 1,
     paddingTop: 10,
-
-    paddingHorizontal: 20,
   },
   containerSignout: {
     borderWidth: 1,

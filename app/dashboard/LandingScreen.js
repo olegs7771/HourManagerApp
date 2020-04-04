@@ -5,9 +5,18 @@ import {connect} from 'react-redux';
 import Button from '../components/Button';
 
 export class LandingScreen extends Component {
+  state = {
+    errors: {},
+  };
+
   _moveToSignIn = () => {
     this.props.navigation.navigate('SignIn');
   };
+
+  componentDidMount() {
+    this.setState({errors: this.props.errors});
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -31,6 +40,30 @@ export class LandingScreen extends Component {
             We are looking forward to working together!
           </Text>
         </View>
+        {this.state.errors.error ? (
+          <View
+            style={{
+              marginTop: 10,
+              borderWidth: 1,
+              borderRadius: 5,
+              width: '70%',
+              alignSelf: 'center',
+              paddingVertical: 10,
+              backgroundColor: '#cc9fae',
+              borderColor: '#940635',
+            }}>
+            <Text
+              style={{
+                color: '#FFF',
+                textAlign: 'center',
+                marginBottom: 10,
+                fontSize: 20,
+              }}>
+              {this.state.errors.error}
+            </Text>
+          </View>
+        ) : null}
+
         <View style={styles.containerButton}>
           <Button
             text="Login"
@@ -43,7 +76,9 @@ export class LandingScreen extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state) => ({
+  errors: state.errors.errors,
+});
 
 const mapDispatchToProps = {};
 
