@@ -7,6 +7,7 @@ class LoginScreen extends Component {
   state = {
     email: '',
     code: '',
+
     errors: {},
     loading: false,
   };
@@ -42,7 +43,7 @@ class LoginScreen extends Component {
           <Text style={styles.textLabel}>Email</Text>
           <TextInput
             style={styles.textInput}
-            onChangeText={(email) => this.setState({email, errors: {}})}
+            onChangeText={email => this.setState({email, errors: {}})}
             name="email"
             value={this.state.email}
             keyboardType="email-address"
@@ -56,7 +57,7 @@ class LoginScreen extends Component {
           <Text style={styles.textLabel}>Code</Text>
           <TextInput
             style={styles.textInput}
-            onChangeText={(code) => this.setState({code, errors: {}})}
+            onChangeText={code => this.setState({code, errors: {}})}
             name="code"
             value={this.state.code}
             keyboardType="numeric"
@@ -77,12 +78,15 @@ class LoginScreen extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   // errors: state.errors.errors,
   // isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, {loginEmployee})(LoginScreen);
+export default connect(
+  mapStateToProps,
+  {loginEmployee},
+)(LoginScreen);
 
 const styles = StyleSheet.create({
   container: {

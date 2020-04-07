@@ -29,19 +29,12 @@ export class JobdayScreen extends Component {
     name: '',
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps !== this.props) {
-      console.log('props changed');
-
-      if (this.props.auth.user) {
-        this.setState({name: this.props.auth.user.name});
-      }
-    }
-  }
-
   componentDidMount() {
     const m = moment();
     console.log('mounted');
+    if (this.props.auth) {
+      this.setState({name: this.props.auth.user.name});
+    }
   }
   //Change props in parent for child model
   _closeModel = () => {

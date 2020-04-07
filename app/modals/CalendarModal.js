@@ -81,6 +81,10 @@ class CalendarModal extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+
 export default connect(
   null,
   {getSelectedMonth},

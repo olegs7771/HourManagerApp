@@ -2,20 +2,21 @@ import {GET_AUTH, LOADING_AUTH, LOGOUT_AUTH, GET_ERRORS} from './type';
 import Axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
-export const loginEmployee = (data) => (dispatch) => {
+export const loginEmployee = data => dispatch => {
   console.log('data', data);
   dispatch(loading());
   Axios.post(
     'https://glacial-crag-30370.herokuapp.com/api/employee/employee_login',
     data,
   )
-    .then((res) => {
+    .then(res => {
       console.log('res.data', res.data);
       //Create payload for AsyncStorage
       const payload = {
         name: res.data.name,
         email: res.data.email,
         token: res.data.token,
+        uid: res.data.uid,
       };
 
       AsyncStorage.setItem('user', JSON.stringify(payload)).then(() => {
@@ -27,7 +28,7 @@ export const loginEmployee = (data) => (dispatch) => {
         });
       });
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('err :', err.response.data);
       dispatch({
         type: GET_ERRORS,
@@ -38,7 +39,7 @@ export const loginEmployee = (data) => (dispatch) => {
 
 //Logout Employee
 
-export const logoutEmp = () => (dispatch) => {
+export const logoutEmp = () => dispatch => {
   dispatch({
     type: LOGOUT_AUTH,
   });
@@ -46,7 +47,7 @@ export const logoutEmp = () => (dispatch) => {
 
 //Set Auth every refresh without API request
 
-export const setAuth = (data) => (dispatch) => {
+export const setAuth = data => dispatch => {
   dispatch(loading());
   dispatch({
     type: GET_AUTH,
