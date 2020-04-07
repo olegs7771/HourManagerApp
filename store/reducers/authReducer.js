@@ -20,6 +20,7 @@ export default (state = initialState, action) => {
         user: {
           email: action.payload.email,
           name: action.payload.name,
+          id: action.payload.uid,
         },
         isAuthenticated: true,
         loading: false,

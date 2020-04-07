@@ -1,58 +1,96 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import {logoutEmp} from '../../store/actions/authAction';
 
-const DrawerContent = (props) => {
+class DrawerContent extends Component {
+  state = {
+    name: '',
+    email: '',
+  };
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.props.auth !== prevProps.auth) {
+  //     console.log('changed props');
+
+  //     this.setState({
+  //       name: this.props.auth.user.name,
+  //       email: this.props.auth.user.email,
+  //     });
+  //   }
+  // }
+  componentDidMount() {
+    if (this.props.auth) {
+      this.setState({
+        name: this.props.auth.user.name,
+        email: this.props.auth.user.email,
+      });
+    }
+  }
+
   _signOutEmp = async () => {
     await AsyncStorage.removeItem('user').then(() => {
       console.log('removed');
-      props.logoutEmp();
+      this.props.logoutEmp();
     });
   };
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.containerProfile}>
-        <Text style={styles.textTitle}>Profile</Text>
-        <View style={styles.containerProfileBody}>
-          <View
-            style={{
-              marginBottom: 10,
-            }}>
-            <Text style={{fontSize: 18, fontWeight: 'bold'}}>Name </Text>
-            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-              {props.auth.user.name}{' '}
-            </Text>
-          </View>
-          <View>
-            <Text style={{fontSize: 18, fontWeight: 'bold'}}>Email </Text>
-            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-              {props.auth.user.email}{' '}
-            </Text>
+  render() {
+    if (!this.props.auth) {
+      return (
+        <View>
+          <Text>Loading..</Text>
+        </View>
+      );
+    }
+    return (
+      <View style={styles.container}>
+        <View style={styles.containerProfile}>
+          <Text style={styles.textTitle}>Profile</Text>
+          <View style={styles.containerProfileBody}>
+            <View
+              style={{
+                marginBottom: 10,
+              }}>
+              <Text style={{fontSize: 18, fontWeight: 'bold'}}>Name </Text>
+              <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+                {this.state.name}
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 18, fontWeight: 'bold'}}>Email </Text>
+              <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+                {this.state.email}
+              </Text>
+            </View>
           </View>
         </View>
+        <TouchableOpacity
+          style={styles.containerSignout}
+          onPress={this._signOutEmp}>
+          <View style={{paddingTop: 10}}>
+            <Text style={{fontSize: 16, fontWeight: 'bold', color: '#FFF'}}>
+              SignOut
+            </Text>
+          </View>
+          <View style={styles.containerSignoutIcon}>
+            <Icon size={20} name="sign-out" color="#FFF" />
+          </View>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.containerSignout} onPress={_signOutEmp}>
-        <View style={{paddingTop: 10}}>
-          <Text style={{fontSize: 16, fontWeight: 'bold', color: '#FFF'}}>
-            SignOut
-          </Text>
-        </View>
-        <View style={styles.containerSignoutIcon}>
-          <Icon size={20} name="sign-out" color="#FFF" />
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-};
-const mapStateToProps = (state) => ({
+    );
+  }
+}
+const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {logoutEmp})(DrawerContent);
+export default connect(
+  mapStateToProps,
+  {logoutEmp},
+)(DrawerContent);
 
 const styles = StyleSheet.create({
   container: {

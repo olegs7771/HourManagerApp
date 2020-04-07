@@ -7,8 +7,8 @@ import configureStore from '../store/store';
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import MaterialIcon from 'react-native-vector-icons/dist/MaterialIcons';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 //Screens Unprotected
 import LoaderScreen from '../app/auth/LoaderScreen';
@@ -17,6 +17,7 @@ import LandingScreen from './dashboard/LandingScreen';
 //Screens Protected
 import DashboardScreen from './dashboard/DashboardScreen';
 import SettingsScreen from '../app/dashboard/SettingsScreen';
+import JobdayScreen from '../app/dashboard/JobdayScreen';
 
 //Nav
 import DrawerContent from './navContent/DrawerContent';
@@ -25,17 +26,31 @@ const store = configureStore();
 //Navigation
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-const Tab = createMaterialBottomTabNavigator();
-const tabNav = () => {
+const Tab = createBottomTabNavigator();
+const TabNav = () => {
   return (
-    <Tab.Navigator activeColor="#FFF" barStyle={{backgroundColor: '#694fad'}}>
+    <Tab.Navigator
+      tabBarOptions={{
+        tabStyle: {
+          backgroundColor: '#694fad',
+        },
+        activeTintColor: '#FFF',
+      }}>
       <Tab.Screen
         name="DashBoard"
         component={DashboardScreen}
         options={{
           tabBarLabel: 'Home',
+          tabBarIcon: ({color}) => <Icon name="home" size={20} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Jobday"
+        component={JobdayScreen}
+        options={{
+          tabBarLabel: 'Jobday',
           tabBarIcon: ({color}) => (
-            <MaterialIcon name="dashboard" size={20} color={color} />
+            <Icon name="briefcase" size={20} color={color} />
           ),
         }}
       />
@@ -44,9 +59,7 @@ const tabNav = () => {
         component={SettingsScreen}
         options={{
           tabBarLabel: 'Settings',
-          tabBarIcon: ({color}) => (
-            <MaterialIcon name="settings" size={20} color={color} />
-          ),
+          tabBarIcon: ({color}) => <Icon name="cogs" size={20} color={color} />,
         }}
       />
     </Tab.Navigator>
@@ -56,7 +69,7 @@ const tabNav = () => {
 export const DrawerNav = () => {
   return (
     <Drawer.Navigator drawerContent={() => <DrawerContent />}>
-      <Drawer.Screen name="DashBoard" component={tabNav} />
+      <Drawer.Screen name="DashBoard" component={TabNav} />
     </Drawer.Navigator>
   );
 };
@@ -96,7 +109,7 @@ export class Home extends Component {
   }
   _retieveData = async () => {
     await AsyncStorage.getItem('user')
-      .then(res => {
+      .then((res) => {
         console.log('token', token);
 
         const parseObj = JSON.parse(res);
@@ -111,11 +124,10 @@ export class Home extends Component {
         this.setState({
           token,
         });
-        console.log('userObj', userObj);
 
         this.props.setAuth(userObj);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('err', err);
       });
   };
@@ -143,7 +155,7 @@ export class Home extends Component {
         <Stack.Navigator>
           {this.state.isAuthenticated ? (
             <Stack.Screen
-              name="Landing"
+              name="App"
               component={DrawerNav}
               options={{
                 headerShown: false,
@@ -164,7 +176,7 @@ export class Home extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: state.auth.loading,
   isAuthenticated: state.auth.isAuthenticated,
   errors: state.errors.errors,

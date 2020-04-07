@@ -1,17 +1,10 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 
 import {connect} from 'react-redux';
+import Button from '../components/Button';
 
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-// import MaterialIcon from 'react-native-vector-icons/dist/MaterialIcons';
 
 class DashboardScreen extends Component {
   _openDrawer = () => {
@@ -43,9 +36,7 @@ class DashboardScreen extends Component {
             }}
           />
         </View>
-        <View style={styles.containerMain}>
-          <Text>main</Text>
-        </View>
+        <View style={styles.containerMain}></View>
       </View>
     );
   }
