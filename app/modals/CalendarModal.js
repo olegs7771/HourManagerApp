@@ -9,12 +9,29 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import moment from 'moment';
 
 class CalendarModal extends Component {
-  state = {isVisible: false};
+  state = {
+    id: '',
+    isVisible: false,
+    month: {},
+  };
+  componentDidMount() {
+    console.log('cal updated1');
+
+    this.setState({
+      id: this.props.id,
+    });
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.showModal !== this.props.showModal) {
       if (this.props.showModal) {
         this.setState({isVisible: true});
       }
+    }
+    if (prevState.month !== this.props.month) {
+      this.setState({
+        month: this.props.month,
+      });
     }
   }
 
@@ -35,8 +52,11 @@ class CalendarModal extends Component {
       .format('');
 
     const data = {
-      startDay,
-      endDay,
+      date: {
+        startDay,
+        endDay,
+      },
+      id: this.state.id,
     };
 
     this.props.getSelectedMonth(data);
@@ -45,7 +65,17 @@ class CalendarModal extends Component {
   _renderItem = item => {
     return (
       <View style={styles.containerItem}>
-        <Text>{item.name}</Text>
+        <Text>
+          {item.timeEnd}timeEnd
+          {item.timeStart}timeStart
+        </Text>
+      </View>
+    );
+  };
+  _renderEmptyData = () => {
+    return (
+      <View style={styles.containerItem}>
+        <Text>No Data..</Text>
       </View>
     );
   };
@@ -57,20 +87,22 @@ class CalendarModal extends Component {
           <Text style={styles.textTitle}>Calendar</Text>
 
           <Agenda
-            items={{
-              '2020-04-06': [{name: 'item 1 for 06'}],
-              '2020-04-07': [{name: 'item 1 for 07'}],
-              '2020-04-23': [{name: 'item 2 for 23'}],
-              '2020-04-24': [{name: 'item 2 for 24'}],
-              '2020-04-25': [{name: 'item 2 for 25'}],
-              '2020-04-26': [{name: 'item 2 for 26'}],
-              '2020-04-27': [{name: 'item 2 for 27'}],
-              '2020-04-28': [{name: 'item 2 for 28'}],
-              '2020-04-29': [{name: 'item 2 for 29'}],
+            // items={{
+            //   '2020-04-06': [{name: 'item 1 for 06', event: 'GoHome'}],
+            //   '2020-04-07': [{name: 'item 1 for 07'}],
+            //   '2020-04-23': [{name: 'item 2 for 23'}],
+            //   '2020-04-24': [{name: 'item 2 for 24'}],
+            //   '2020-04-25': [{name: 'item 2 for 25'}],
+            //   '2020-04-26': [{name: 'item 2 for 26'}],
+            //   '2020-04-27': [{name: 'item 2 for 27'}],
+            //   '2020-04-28': [{name: 'item 2 for 28'}],
+            //   '2020-04-29': [{name: 'item 2 for 29'}],
 
-              '2020-04-25': [{name: 'item 1 for 25'}, {name: 'item 2 for 25'}],
-            }}
+            //   '2020-04-25': [{name: 'item 1 for 25'}, {name: 'item 2 for 25'}],
+            // }}
+            items={this.state.month}
             renderItem={this._renderItem.bind(this)}
+            renderEmptyData={this._renderEmptyData.bind(this)}
             onDayPress={this._onDayPress.bind(this)}
           />
 
@@ -82,11 +114,11 @@ class CalendarModal extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
+  month: state.jobday.month,
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   {getSelectedMonth},
 )(CalendarModal);
 

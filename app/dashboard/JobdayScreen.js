@@ -76,6 +76,7 @@ export class JobdayScreen extends Component {
         <CalendarModal
           showModal={this.state.modalVisible}
           closeModel={this._closeModel}
+          id={this.props.auth.user.id}
         />
       </View>
     );

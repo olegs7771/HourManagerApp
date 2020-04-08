@@ -109,16 +109,17 @@ export class Home extends Component {
   }
   _retieveData = async () => {
     await AsyncStorage.getItem('user')
-      .then((res) => {
-        console.log('token', token);
+      .then(res => {
+        console.log('res', res);
 
         const parseObj = JSON.parse(res);
-        const {name, email, token} = parseObj;
+        const {name, email, uid, token} = parseObj;
 
         //Obj for Reducer
         const userObj = {
           name,
           email,
+          uid,
         };
 
         this.setState({
@@ -127,7 +128,7 @@ export class Home extends Component {
 
         this.props.setAuth(userObj);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log('err', err);
       });
   };
@@ -176,7 +177,7 @@ export class Home extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   loading: state.auth.loading,
   isAuthenticated: state.auth.isAuthenticated,
   errors: state.errors.errors,
@@ -184,4 +185,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {setAuth};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Home);

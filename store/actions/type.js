@@ -5,3 +5,4 @@ export const GET_ERRORS = 'GET_ERRORS';
 
 //JobDay
 export const GET_MONTH = 'GET_MONTH';
+export const LOADING_MONTH = 'LOADING_MONTH';

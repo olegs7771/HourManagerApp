@@ -1,10 +1,12 @@
-import {GET_MONTH} from './type';
+import {GET_MONTH, LOADING_MONTH} from './type';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+import moment from 'moment';
 
 //Get Selected Month
 export const getSelectedMonth = data => dispatch => {
   console.log('data in action', data);
+  dispatch(loadingMonth());
 
   const _retrieveData = async () => {
     try {
@@ -18,14 +20,28 @@ export const getSelectedMonth = data => dispatch => {
         //Create payload for HTTP request
         const payload = {
           token: parsedData.token,
-          date: data,
+          date: data.date,
+          id: data.id,
         };
         console.log('payload', payload);
 
         axios
-          .post('http://192.168.43.14:5000/api/rnapp/test', payload)
+          .post('http://192.168.1.11:5000/api/rnapp/test', payload)
           .then(res => {
             console.log('res.data', res.data);
+            //Adapt res.data for Agenda items={{'2020-04-06':[{key:value,key:value}]}}
+            const mapped = res.data.map(item => ({
+              [JSON.stringify(moment(item.date).format('YYYY-MM-DD'))]: [
+                {item},
+              ],
+            }));
+            const dateObj = Object.assign({}, ...mapped);
+            console.log('dateObj', dateObj);
+            //Send to Reducer
+            dispatch({
+              type: GET_MONTH,
+              payload: dateObj,
+            });
           })
           .catch(err => {
             console.log('http request error:', err.response.data);
@@ -36,4 +52,10 @@ export const getSelectedMonth = data => dispatch => {
     }
   };
   _retrieveData();
+};
+
+export const loadingMonth = () => {
+  return {
+    type: LOADING_MONTH,
+  };
 };
