@@ -2,9 +2,13 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 // import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {
+  getSelectedMonth,
+  createCheckInAuto,
+} from '../../store/actions/jobdayAction';
 import moment from 'moment';
 import Button from '../components/Button';
-import CalendarModal from '../modals/CalendarModal';
+import CalendarModal from '../calendarModal/CalendarModal';
 const m = moment();
 
 const getGreetingTime = m => {
@@ -27,6 +31,7 @@ export class JobdayScreen extends Component {
   state = {
     modalVisible: false,
     name: '',
+    month: {},
   };
 
   componentDidMount() {
@@ -35,11 +40,31 @@ export class JobdayScreen extends Component {
     if (this.props.auth) {
       this.setState({name: this.props.auth.user.name});
     }
+    //request all Jobdays for selected Employee
+    //ID we take in Action from parsed Token
+
+    this.props.getSelectedMonth();
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.month !== this.props.month) {
+      this.setState({
+        month: this.props.month,
+      });
+    }
+  }
+
   //Change props in parent for child model
   _closeModel = () => {
     this.setState({modalVisible: false});
     console.log('model Closed in parent');
+  };
+  _checkIn = () => {
+    //Create payload for Action
+    const payload = {
+      timeStart: parseFloat(m.format('HH:mm')),
+    };
+    this.props.createCheckInAuto(payload);
   };
 
   render() {
@@ -57,7 +82,7 @@ export class JobdayScreen extends Component {
           <Button
             text="CheckIn"
             styleCont={{backgroundColor: '#235408'}}
-            onPress={() => console.log('clicked')}
+            onPress={this._checkIn}
           />
           <Button text="CheckOut" styleCont={{backgroundColor: '#730b0b'}} />
         </View>
@@ -77,6 +102,7 @@ export class JobdayScreen extends Component {
           showModal={this.state.modalVisible}
           closeModel={this._closeModel}
           id={this.props.auth.user.id}
+          items={this.state.month}
         />
       </View>
     );
@@ -85,9 +111,10 @@ export class JobdayScreen extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  month: state.jobday.month,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {getSelectedMonth, createCheckInAuto};
 
 export default connect(
   mapStateToProps,
