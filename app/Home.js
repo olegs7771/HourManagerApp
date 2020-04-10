@@ -110,7 +110,7 @@ export class Home extends Component {
   _retieveData = async () => {
     await AsyncStorage.getItem('user')
       .then(res => {
-        console.log('res', res);
+        // console.log('res', res);
 
         const parseObj = JSON.parse(res);
         const {name, email, uid, token} = parseObj;

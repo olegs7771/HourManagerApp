@@ -15,7 +15,7 @@ class CalendarModal extends Component {
     month: {},
   };
   componentDidMount() {
-    console.log('cal updated1');
+    // console.log('cal updated1');
 
     this.setState({
       id: this.props.id,

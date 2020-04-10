@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {
   getSelectedMonth,
   createCheckInAuto,
+  createCheckOutAuto,
 } from '../../store/actions/jobdayAction';
 import moment from 'moment';
 import Button from '../components/Button';
@@ -36,7 +37,7 @@ export class JobdayScreen extends Component {
 
   componentDidMount() {
     const m = moment();
-    console.log('mounted');
+    // console.log('mounted');
     if (this.props.auth) {
       this.setState({name: this.props.auth.user.name});
     }
@@ -62,9 +63,22 @@ export class JobdayScreen extends Component {
   _checkIn = () => {
     //Create payload for Action
     const payload = {
-      timeStart: parseFloat(m.format('HH:mm')),
+      timeStart: m.format(),
     };
     this.props.createCheckInAuto(payload);
+  };
+  _checkOut = () => {
+    //Create payload for Action
+    const payload = {
+      timeStart: m.format(),
+    };
+    this.props.createCheckOutAuto(payload);
+  };
+
+  _openModalCalendar = () => {
+    this.props.getSelectedMonth();
+
+    this.setState({modalVisible: true});
   };
 
   render() {
@@ -84,7 +98,11 @@ export class JobdayScreen extends Component {
             styleCont={{backgroundColor: '#235408'}}
             onPress={this._checkIn}
           />
-          <Button text="CheckOut" styleCont={{backgroundColor: '#730b0b'}} />
+          <Button
+            text="CheckOut"
+            styleCont={{backgroundColor: '#730b0b'}}
+            onPress={this._checkOut}
+          />
         </View>
 
         {/* {Modal} */}
@@ -92,7 +110,7 @@ export class JobdayScreen extends Component {
         <View style={styles.containerBtn}>
           <Button
             text="View Log"
-            onPress={() => this.setState({modalVisible: true})}
+            onPress={this._openModalCalendar}
             styleCont={styles.containerBtn}
             styleText={{textAlign: 'center'}}
           />
@@ -114,7 +132,11 @@ const mapStateToProps = state => ({
   month: state.jobday.month,
 });
 
-const mapDispatchToProps = {getSelectedMonth, createCheckInAuto};
+const mapDispatchToProps = {
+  getSelectedMonth,
+  createCheckInAuto,
+  createCheckOutAuto,
+};
 
 export default connect(
   mapStateToProps,

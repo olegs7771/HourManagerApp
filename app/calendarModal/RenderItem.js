@@ -13,9 +13,11 @@ class RenderItem extends Component {
           </Text>
         </View>
         <View>
-          <Text style={{fontSize: 18, fontWeight: 'bold'}}>
-            End:{moment(item.item.timeEnd).format('HH:mm')}
-          </Text>
+          {item.item.timeEnd && (
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>
+              End:{moment(item.item.timeEnd).format('HH:mm')}
+            </Text>
+          )}
         </View>
       </View>
     );
