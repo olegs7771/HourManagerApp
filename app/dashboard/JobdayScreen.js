@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 // import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
@@ -94,13 +95,13 @@ export class JobdayScreen extends Component {
         </View>
         <View style={styles.containerJob}>
           <Button
-            text="CheckIn"
-            styleCont={{backgroundColor: '#235408'}}
+            text="Start"
+            styleCont={styles.btnCheckIn}
             onPress={this._checkIn}
           />
           <Button
-            text="CheckOut"
-            styleCont={{backgroundColor: '#730b0b'}}
+            text="End"
+            styleCont={styles.btnCheckOut}
             onPress={this._checkOut}
           />
         </View>
@@ -153,7 +154,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 5,
     paddingTop: 10,
-    backgroundColor: '#300a70',
+    backgroundColor: '#0c4538',
   },
   textGreeting: {
     fontSize: 25,
@@ -173,12 +174,21 @@ const styles = StyleSheet.create({
     marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '60%',
+    width: '90%',
     alignSelf: 'center',
   },
   containerBtn: {
+    borderWidth: 1,
     width: '60%',
     marginTop: 30,
     alignSelf: 'center',
+  },
+  btnCheckOut: {
+    backgroundColor: '#6e6f78',
+    paddingHorizontal: 50,
+  },
+  btnCheckIn: {
+    backgroundColor: '#09574a',
+    paddingHorizontal: 40,
   },
 });

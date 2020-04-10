@@ -3,6 +3,7 @@ import {
   LOADING_MONTH,
   CREATE_JOBDAY_CHECKIN_AUTOMATIC,
   CREATE_JOBDAY_CHECKOUT_AUTOMATIC,
+  GET_CURRENT_START,
 } from './type';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -29,7 +30,7 @@ export const getSelectedMonth = () => dispatch => {
         // console.log('payload', payload);
 
         axios
-          .post('http://192.168.1.11:5000/api/rnapp/fetch_jobdays', payload)
+          .post('http://192.168.1.24:5000/api/rnapp/fetch_jobdays', payload)
           .then(res => {
             // console.log('res.data', res.data);
             //Adapt res.data for Agenda items={{'2020-04-06':[{key:value,key:value}]}}
@@ -55,7 +56,7 @@ export const getSelectedMonth = () => dispatch => {
   _retrieveData();
 };
 
-//Create Jobday CheckIN Automatic
+//Create Jobday CheckIN Automatic. Employee clicks checkIn
 export const createCheckInAuto = data => dispatch => {
   console.log('data in action', data);
   dispatch(loadingMonth());
@@ -75,9 +76,14 @@ export const createCheckInAuto = data => dispatch => {
         };
 
         axios
-          .post('http://192.168.1.11:5000/api/rnapp/checkIn_automatic', payload)
+          .post('http://192.168.1.24:5000/api/rnapp/checkIn_automatic', payload)
           .then(res => {
             console.log('res.data', res.data);
+            //Get timeStart to Redux
+            dispatch({
+              type: GET_CURRENT_START,
+              payload: res.data.timeStart,
+            });
           })
           .catch(err => {
             console.log('http request error:', err.response.data);
@@ -110,7 +116,7 @@ export const createCheckOutAuto = data => dispatch => {
 
         axios
           .post(
-            'http://192.168.1.11:5000/api/rnapp/checkOut_automatic',
+            'http://192.168.1.24:5000/api/rnapp/checkOut_automatic',
             payload,
           )
           .then(res => {
