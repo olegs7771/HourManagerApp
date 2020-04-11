@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 //Redux
 import {connect} from 'react-redux';
-import {getSelectedMonth} from '../../store/actions/jobdayAction';
+import {getJobdays} from '../../store/actions/jobdayAction';
 import {View, Text, Modal, StyleSheet} from 'react-native';
 import Button from '../components/Button';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import moment from 'moment';
 import RenderItem from './RenderItem';
+import RenderEmtyData from './RenderEmtyData';
 
 class CalendarModal extends Component {
   state = {
@@ -54,7 +55,7 @@ class CalendarModal extends Component {
       id: this.state.id,
     };
 
-    this.props.getSelectedMonth(data);
+    this.props.getJobdays(data);
   };
 
   _renderEmptyData = () => {
@@ -77,7 +78,7 @@ class CalendarModal extends Component {
               console.log('day changed');
             }}
             // renderItem={this._renderItem.bind(this)}
-            renderEmptyData={this._renderEmptyData.bind(this)}
+            renderEmptyData={() => <RenderEmtyData />}
             onDayPress={this._onDayPress.bind(this)}
             renderItem={(item, firstItemInDay) => <RenderItem item={item} />}
           />
@@ -95,7 +96,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  {getSelectedMonth},
+  {getJobdays},
 )(CalendarModal);
 
 const styles = StyleSheet.create({

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 // import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -79,6 +79,10 @@ export class JobdayScreen extends Component {
     this.props.createCheckInAuto(payload);
   };
   _checkOut = () => {
+    if (!this.state.timeStart)
+      return Alert.alert(
+        "You can't checkout End without Start jobday time.If you forget to Start , you can edit it in Log",
+      );
     //Create payload for Action
     const payload = {
       timeStart: m.format(),
@@ -90,6 +94,11 @@ export class JobdayScreen extends Component {
     this.props.getJobdays();
 
     this.setState({modalVisible: true});
+  };
+
+  //Show Message if user tries to click on disabled button
+  _message = () => {
+    Alert.alert(' Sorry... You cant change date');
   };
 
   render() {
@@ -126,7 +135,7 @@ export class JobdayScreen extends Component {
           {this.state.endTime ? (
             <View
               style={{
-                paddingHorizontal: 43,
+                paddingHorizontal: 46,
                 paddingVertical: 10,
                 backgroundColor: '#54524d',
                 borderRadius: 5,
@@ -143,16 +152,35 @@ export class JobdayScreen extends Component {
         </View>
 
         <View style={styles.containerJob}>
-          <Button
-            text="Start"
-            styleCont={styles.btnCheckIn}
-            onPress={this._checkIn}
-          />
-          <Button
-            text="End"
-            styleCont={styles.btnCheckOut}
-            onPress={this._checkOut}
-          />
+          {/* {Disable Button if checkIn Exists} */}
+          {!this.state.startTime ? (
+            <Button
+              text="Start"
+              styleCont={styles.btnCheckIn}
+              onPress={this._checkIn}
+            />
+          ) : (
+            <Button
+              text="Checked"
+              styleCont={styles.btnChecked}
+              onPress={this._message}
+            />
+          )}
+
+          {/* {Disable Button if checkOut Exists} */}
+          {!this.state.endTime ? (
+            <Button
+              text="End"
+              styleCont={styles.btnCheckOut}
+              onPress={this._checkOut}
+            />
+          ) : (
+            <Button
+              text="Checked"
+              styleCont={styles.btnChecked}
+              onPress={this._message}
+            />
+          )}
         </View>
 
         {/* {Modal} */}
@@ -237,17 +265,20 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   containerBtn: {
-    borderWidth: 1,
     width: '60%',
     marginTop: 30,
     alignSelf: 'center',
   },
   btnCheckOut: {
-    backgroundColor: '#6e6f78',
+    backgroundColor: '#916704',
     paddingHorizontal: 50,
   },
   btnCheckIn: {
     backgroundColor: '#09574a',
     paddingHorizontal: 50,
+  },
+  btnChecked: {
+    backgroundColor: '#969699',
+    paddingHorizontal: 34,
   },
 });
