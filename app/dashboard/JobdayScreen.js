@@ -4,9 +4,10 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 // import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
-  getSelectedMonth,
+  getJobdays,
   createCheckInAuto,
   createCheckOutAuto,
+  getTime,
 } from '../../store/actions/jobdayAction';
 import moment from 'moment';
 import Button from '../components/Button';
@@ -33,7 +34,9 @@ export class JobdayScreen extends Component {
   state = {
     modalVisible: false,
     name: '',
-    month: {},
+    jobdays: {},
+    startTime: '',
+    endTime: '',
   };
 
   componentDidMount() {
@@ -45,13 +48,20 @@ export class JobdayScreen extends Component {
     //request all Jobdays for selected Employee
     //ID we take in Action from parsed Token
 
-    this.props.getSelectedMonth();
+    this.props.getTime();
+    this.props.getJobdays();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.month !== this.props.month) {
+    if (prevProps.jobdays !== this.props.jobdays) {
       this.setState({
-        month: this.props.month,
+        month: this.props.jobdays,
+      });
+    }
+    if (prevProps.jobTime !== this.props.jobTime) {
+      this.setState({
+        startTime: this.props.jobTime.timeStart,
+        endTime: this.props.jobTime.timeEnd,
       });
     }
   }
@@ -77,7 +87,7 @@ export class JobdayScreen extends Component {
   };
 
   _openModalCalendar = () => {
-    this.props.getSelectedMonth();
+    this.props.getJobdays();
 
     this.setState({modalVisible: true});
   };
@@ -93,6 +103,45 @@ export class JobdayScreen extends Component {
             {m.format('LL')} {m.format('dddd')}
           </Text>
         </View>
+
+        <View //Show Time CheckIn CheckOut
+          style={styles.containerTime}>
+          {this.state.startTime ? (
+            <View
+              style={{
+                paddingHorizontal: 47,
+                paddingVertical: 10,
+                backgroundColor: '#337d05',
+                borderRadius: 5,
+              }}>
+              <Text style={{fontSize: 18, color: '#e9ebe6'}}>
+                {moment(this.state.startTime).format('HH:mm')}
+              </Text>
+            </View>
+          ) : (
+            <View>
+              <Text />
+            </View>
+          )}
+          {this.state.endTime ? (
+            <View
+              style={{
+                paddingHorizontal: 43,
+                paddingVertical: 10,
+                backgroundColor: '#54524d',
+                borderRadius: 5,
+              }}>
+              <Text style={{fontSize: 18, color: '#e9ebe6'}}>
+                {moment(this.state.endTime).format('HH:mm')}
+              </Text>
+            </View>
+          ) : (
+            <View>
+              <Text />
+            </View>
+          )}
+        </View>
+
         <View style={styles.containerJob}>
           <Button
             text="Start"
@@ -130,13 +179,15 @@ export class JobdayScreen extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  month: state.jobday.month,
+  jobdays: state.jobday.jobdays,
+  jobTime: state.jobday.jobTime,
 });
 
 const mapDispatchToProps = {
-  getSelectedMonth,
+  getJobdays,
   createCheckInAuto,
   createCheckOutAuto,
+  getTime,
 };
 
 export default connect(
@@ -147,12 +198,11 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
   },
   containerHeader: {
     borderWidth: 1,
     height: 100,
-    borderRadius: 5,
+
     paddingTop: 10,
     backgroundColor: '#0c4538',
   },
@@ -168,10 +218,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#e4e3e6',
   },
+  containerTime: {
+    marginTop: 20,
+    paddingVertical: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '90%',
+    alignSelf: 'center',
+  },
+
   containerJob: {
     borderRadius: 5,
     height: 50,
-    marginTop: 20,
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '90%',
@@ -189,6 +248,6 @@ const styles = StyleSheet.create({
   },
   btnCheckIn: {
     backgroundColor: '#09574a',
-    paddingHorizontal: 40,
+    paddingHorizontal: 50,
   },
 });

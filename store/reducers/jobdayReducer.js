@@ -1,22 +1,28 @@
-import {GET_MONTH, LOADING_MONTH, GET_CURRENT_START} from '../actions/type';
+import {
+  GET_JOBDAYS,
+  LOADING_JOBDAYS,
+  GET_CURRENT_START,
+  GET_CURRENT_TIME,
+  GET_CURRENT_END,
+} from '../actions/type';
 
 const initialState = {
-  month: null,
+  jobdays: null,
   loading: false,
   jobTime: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LOADING_MONTH:
+    case LOADING_JOBDAYS:
       return {
         ...state,
         loading: true,
       };
-    case GET_MONTH:
+    case GET_JOBDAYS:
       return {
         ...state,
-        month: action.payload,
+        jobdays: action.payload,
         loading: false,
       };
     case GET_CURRENT_START:
@@ -24,6 +30,24 @@ export default (state = initialState, action) => {
         ...state,
         jobTime: {
           timeStart: action.payload,
+        },
+        loading: false,
+      };
+    case GET_CURRENT_END:
+      return {
+        ...state,
+        jobTime: {
+          timeStart: action.payload.timeStart,
+          timeEnd: action.payload.timeEnd,
+        },
+        loading: false,
+      };
+    case GET_CURRENT_TIME:
+      return {
+        ...state,
+        jobTime: {
+          timeStart: action.payload.timeStart,
+          timeEnd: action.payload.timeEnd,
         },
         loading: false,
       };

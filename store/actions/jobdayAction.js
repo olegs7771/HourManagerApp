@@ -1,17 +1,17 @@
 import {
-  GET_MONTH,
-  LOADING_MONTH,
-  CREATE_JOBDAY_CHECKIN_AUTOMATIC,
-  CREATE_JOBDAY_CHECKOUT_AUTOMATIC,
+  GET_JOBDAYS,
+  LOADING_JOBDAYS,
   GET_CURRENT_START,
+  GET_CURRENT_END,
+  GET_CURRENT_TIME,
 } from './type';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import moment from 'moment';
 
 //Get All jobdays for logged Employee
-export const getSelectedMonth = () => dispatch => {
-  dispatch(loadingMonth());
+export const getJobdays = () => dispatch => {
+  dispatch(loadingJobdays());
 
   const _retrieveData = async () => {
     try {
@@ -30,7 +30,7 @@ export const getSelectedMonth = () => dispatch => {
         // console.log('payload', payload);
 
         axios
-          .post('http://192.168.1.24:5000/api/rnapp/fetch_jobdays', payload)
+          .post('http://192.168.1.11:5000/api/rnapp/fetch_jobdays', payload)
           .then(res => {
             // console.log('res.data', res.data);
             //Adapt res.data for Agenda items={{'2020-04-06':[{key:value,key:value}]}}
@@ -41,7 +41,7 @@ export const getSelectedMonth = () => dispatch => {
             // console.log('dateObj', dateObj);
             //Send to Reducer
             dispatch({
-              type: GET_MONTH,
+              type: GET_JOBDAYS,
               payload: dateObj,
             });
           })
@@ -59,7 +59,7 @@ export const getSelectedMonth = () => dispatch => {
 //Create Jobday CheckIN Automatic. Employee clicks checkIn
 export const createCheckInAuto = data => dispatch => {
   console.log('data in action', data);
-  dispatch(loadingMonth());
+  dispatch(loadingJobdays());
 
   const _retrieveData = async () => {
     try {
@@ -76,7 +76,7 @@ export const createCheckInAuto = data => dispatch => {
         };
 
         axios
-          .post('http://192.168.1.24:5000/api/rnapp/checkIn_automatic', payload)
+          .post('http://192.168.1.11:5000/api/rnapp/checkIn_automatic', payload)
           .then(res => {
             console.log('res.data', res.data);
             //Get timeStart to Redux
@@ -98,7 +98,7 @@ export const createCheckInAuto = data => dispatch => {
 
 export const createCheckOutAuto = data => dispatch => {
   console.log('data in action', data);
-  dispatch(loadingMonth());
+  dispatch(loadingJobdays());
 
   const _retrieveData = async () => {
     try {
@@ -116,11 +116,15 @@ export const createCheckOutAuto = data => dispatch => {
 
         axios
           .post(
-            'http://192.168.1.24:5000/api/rnapp/checkOut_automatic',
+            'http://192.168.1.11:5000/api/rnapp/checkOut_automatic',
             payload,
           )
           .then(res => {
             console.log('res.data', res.data);
+            dispatch({
+              type: GET_CURRENT_END,
+              payload: res.data,
+            });
           })
           .catch(err => {
             console.log('http request error:', err.response.data);
@@ -133,8 +137,47 @@ export const createCheckOutAuto = data => dispatch => {
   _retrieveData();
 };
 
-export const loadingMonth = () => {
+//Get Today cheakIn checkOut Time for JobdayScreen if day created
+
+export const getTime = () => dispatch => {
+  dispatch(loadingJobdays());
+
+  const _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('user');
+      if (value !== null) {
+        const parsedData = JSON.parse(value);
+        console.log('parsedData', parsedData);
+        //Send Request to API
+        //Create payload for HTTP request
+        const payload = {
+          token: parsedData.token,
+          id: parsedData.uid,
+          date: moment().format('YYYY-MM-DD'),
+        };
+
+        axios
+          .post('http://192.168.1.11:5000/api/rnapp/get_today_time', payload)
+          .then(res => {
+            console.log('res.data', res.data);
+            dispatch({
+              type: GET_CURRENT_TIME,
+              payload: res.data,
+            });
+          })
+          .catch(err => {
+            console.log('http request error:', err.response.data);
+          });
+      }
+    } catch (error) {
+      console.log('error:', error);
+    }
+  };
+  _retrieveData();
+};
+
+export const loadingJobdays = () => {
   return {
-    type: LOADING_MONTH,
+    type: LOADING_JOBDAYS,
   };
 };
