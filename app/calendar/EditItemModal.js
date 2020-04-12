@@ -36,7 +36,10 @@ export class EditItemsModal extends Component {
     return (
       <Modal visible={this.state.visible}>
         <View style={styles.container}>
-          <Text>Modal</Text>
+          <Text style={styles.textTitle}>Edit Job Time</Text>
+          <View style={styles.start}>
+            <Text>Start</Text>
+          </View>
         </View>
         <Button text="close" onPress={this._closeModal} />
       </Modal>
@@ -59,5 +62,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     borderWidth: 3,
+  },
+  textTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    borderWidth: 1,
+    textAlign: 'center',
   },
 });
