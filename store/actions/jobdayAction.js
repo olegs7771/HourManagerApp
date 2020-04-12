@@ -30,7 +30,7 @@ export const getJobdays = () => dispatch => {
         // console.log('payload', payload);
 
         axios
-          .post('http://192.168.1.24:5000/api/rnapp/fetch_jobdays', payload)
+          .post('http://192.168.1.11:5000/api/rnapp/fetch_jobdays', payload)
           .then(res => {
             // console.log('res.data', res.data);
             //Adapt res.data for Agenda items={{'2020-04-06':[{key:value,key:value}]}}
@@ -76,7 +76,7 @@ export const createCheckInAuto = data => dispatch => {
         };
 
         axios
-          .post('http://192.168.1.24:5000/api/rnapp/checkIn_automatic', payload)
+          .post('http://192.168.1.11:5000/api/rnapp/checkIn_automatic', payload)
           .then(res => {
             console.log('res.data', res.data);
             //Get timeStart to Redux
@@ -116,7 +116,7 @@ export const createCheckOutAuto = data => dispatch => {
 
         axios
           .post(
-            'http://192.168.1.24:5000/api/rnapp/checkOut_automatic',
+            'http://192.168.1.11:5000/api/rnapp/checkOut_automatic',
             payload,
           )
           .then(res => {
@@ -157,7 +157,7 @@ export const getTime = () => dispatch => {
         };
 
         axios
-          .post('http://192.168.1.24:5000/api/rnapp/get_today_time', payload)
+          .post('http://192.168.1.11:5000/api/rnapp/get_today_time', payload)
           .then(res => {
             console.log('res.data', res.data);
             dispatch({

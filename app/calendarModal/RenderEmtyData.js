@@ -1,44 +1,85 @@
+//Employee Can Manually edit checkIn and checkOut, submit explanation
+
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import Button from '../components/Button';
-import moment from 'moment';
-import {
-  Table,
-  Row,
-  Rows,
-  TableWrapper,
-  Cell,
-} from 'react-native-table-component';
+import {Text, View, StyleSheet, TextInput} from 'react-native';
+import {connect} from 'react-redux';
+import NumericInput from 'react-native-numeric-input';
 
-export default class RenderEmtyData extends Component {
+class RenderEmtyData extends Component {
   render() {
-    const tableHead = ['Start', 'End', 'Message', 'Cheacked'];
-    const tableData = [['', '', '', '']];
-
     return (
-      <View style={styles.container}>
-        <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
-          <Row data={tableHead} style={styles.head} textStyle={styles.text} />
-          {tableData.map((rowData, index) => (
-            <TableWrapper key={index} style={styles.row}>
-              {rowData.map((cellData, cellIndex) => (
-                <Cell
-                  key={cellIndex}
-                  // data={cellIndex === 3 ? button(cellData, index) : cellData}
-                  textStyle={styles.text}
-                />
-              ))}
-            </TableWrapper>
-          ))}
-        </Table>
+      <View>
+        <View style={styles.tableHead}>
+          <View //CheckIn Manually
+            style={styles.checkIn}>
+            <Text>Start</Text>
+          </View>
+          <View //CheckOut Manually
+            style={styles.checkOut}>
+            <Text>End</Text>
+          </View>
+          <View //Explanation Message
+            style={styles.message}>
+            <Text>Message</Text>
+          </View>
+          <View //Icon V
+            style={styles.icon}>
+            <Text>Submit</Text>
+          </View>
+        </View>
+
+        <View style={styles.tableData}>
+          <View //CheckIn Manually
+            style={styles.checkIn}>
+            {/* <NumericInput
+              type="up-down"
+              onChange={value => console.log(value)}
+            /> */}
+          </View>
+          <View //CheckOut Manually
+            style={styles.checkOut}>
+            <TextInput />
+          </View>
+          <View //Explanation Message
+            style={styles.message}>
+            <TextInput />
+          </View>
+          <View //Icon V
+            style={styles.icon}>
+            <Text>V</Text>
+          </View>
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff'},
-  head: {height: 40, backgroundColor: '#f1f8ff'},
-  text: {margin: 6},
-  row: {flexDirection: 'row', backgroundColor: '#FFF1C1'},
+  container: {
+    borderWidth: 1,
+  },
+  tableHead: {
+    flexDirection: 'row',
+  },
+  tableData: {
+    flexDirection: 'row',
+  },
+  checkIn: {
+    borderWidth: 1,
+    width: '25%',
+  },
+  checkOut: {
+    borderWidth: 1,
+    width: '25%',
+  },
+  message: {
+    borderWidth: 1,
+    width: '25%',
+  },
+  icon: {
+    borderWidth: 1,
+    width: '10%',
+  },
 });
+
+export default connect()(RenderEmtyData);

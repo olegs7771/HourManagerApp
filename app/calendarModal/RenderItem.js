@@ -9,6 +9,7 @@ import {
   TableWrapper,
   Cell,
 } from 'react-native-table-component';
+import EditItemModal from './EditItemModal';
 
 class RenderItem extends Component {
   state = {
@@ -17,20 +18,33 @@ class RenderItem extends Component {
     message: '',
     employeeConfirmed: false,
     managerConfirmed: false,
+    openModal: false,
   };
   componentDidUpdate(prevProps, prevState) {
     const {item} = this.props;
     if (prevProps !== this.props) {
-      this.setState({start: item.item.timeStart, end: item.item.timeEnd});
+      this.setState({
+        start: item.item.timeStart
+          ? moment(item.item.timeStart).format('HH:mm')
+          : '',
+        end: item.item.timeEnd ? moment(item.item.timeEnd).format('HH:mm') : '',
+      });
     }
   }
-  _submit = () => {
-    console.log('sumitted');
+  _edit = () => {
+    console.log('open modal');
+
+    this.setState({openModal: true});
   };
 
   render() {
     const button = (data, index) => (
-      <Button text="Submit" styleText={{fontSize: 14}} onPress={this._submit} />
+      <Button
+        text="Edit"
+        styleText={{fontSize: 14, textAlign: 'center'}}
+        styleCont={{backgroundColor: '#383834'}}
+        onPress={this._edit}
+      />
     );
 
     const {
@@ -41,17 +55,11 @@ class RenderItem extends Component {
       managerConfirmed,
     } = this.state;
     const tableHead = ['Start', 'End', 'Message', 'Cheacked'];
-    const tableData = [
-      [
-        moment(start).format('HH:hh'),
-        moment(end).format('HH:hh'),
-        message,
-        employeeConfirmed,
-      ],
-    ];
+    const tableData = [[start, end, message, employeeConfirmed]];
 
     return (
       <View style={styles.container}>
+        <EditItemModal showModal={this.state.openModal} />
         <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
           <Row data={tableHead} style={styles.head} textStyle={styles.text} />
           {tableData.map((rowData, index) => (

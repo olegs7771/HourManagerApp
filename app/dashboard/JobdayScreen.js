@@ -79,7 +79,7 @@ export class JobdayScreen extends Component {
     this.props.createCheckInAuto(payload);
   };
   _checkOut = () => {
-    if (!this.state.timeStart)
+    if (!this.state.startTime)
       return Alert.alert(
         "You can't checkout End without Start jobday time.If you forget to Start , you can edit it in Log",
       );
@@ -118,13 +118,13 @@ export class JobdayScreen extends Component {
           {this.state.startTime ? (
             <View
               style={{
-                paddingHorizontal: 47,
+                paddingHorizontal: 12,
                 paddingVertical: 10,
                 backgroundColor: '#337d05',
                 borderRadius: 5,
               }}>
               <Text style={{fontSize: 18, color: '#e9ebe6'}}>
-                {moment(this.state.startTime).format('HH:mm')}
+                Started: {moment(this.state.startTime).format('HH:mm')}
               </Text>
             </View>
           ) : (
@@ -135,13 +135,13 @@ export class JobdayScreen extends Component {
           {this.state.endTime ? (
             <View
               style={{
-                paddingHorizontal: 46,
+                paddingHorizontal: 8,
                 paddingVertical: 10,
                 backgroundColor: '#54524d',
                 borderRadius: 5,
               }}>
               <Text style={{fontSize: 18, color: '#e9ebe6'}}>
-                {moment(this.state.endTime).format('HH:mm')}
+                Finished: {moment(this.state.endTime).format('HH:mm')}
               </Text>
             </View>
           ) : (
