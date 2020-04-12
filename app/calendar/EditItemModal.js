@@ -1,23 +1,46 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Text, StyleSheet, TextInput, Modal} from 'react-native';
 import Button from '../components/Button';
 import NumericInput from 'react-native-numeric-input';
-import Dialog, {DialogContent} from 'react-native-popup-dialog';
 
 import {connect} from 'react-redux';
 
 export class EditItemsModal extends Component {
   state = {
     visible: false,
+    timeStart: '',
+    timeEnd: '',
   };
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.showModal !== this.props.showModal) {
-      this.setState({visible: true});
+      if (this.props.showModal) {
+        this.setState({visible: true});
+      }
     }
   }
+  componentDidMount() {
+    this.setState({
+      timeStart: this.props.item.timeStart,
+      timeEnd: this.props.item.timeEnd,
+    });
+  }
+
+  _closeModal = () => {
+    this.setState({visible: false});
+    this.props.closeModal();
+  };
+
+  //Load
 
   render() {
-    return <Text>Edit</Text>;
+    return (
+      <Modal visible={this.state.visible}>
+        <View style={styles.container}>
+          <Text>Modal</Text>
+        </View>
+        <Button text="close" onPress={this._closeModal} />
+      </Modal>
+    );
   }
 }
 
@@ -36,27 +59,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     borderWidth: 3,
-  },
-  tableHead: {
-    flexDirection: 'row',
-  },
-  tableData: {
-    flexDirection: 'row',
-  },
-  checkIn: {
-    borderWidth: 1,
-    width: '25%',
-  },
-  checkOut: {
-    borderWidth: 1,
-    width: '25%',
-  },
-  message: {
-    borderWidth: 1,
-    width: '25%',
-  },
-  icon: {
-    borderWidth: 1,
-    width: '10%',
   },
 });

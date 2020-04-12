@@ -60,7 +60,9 @@ const TabNav = () => {
         component={AgendaLog}
         options={{
           tabBarLabel: 'Log',
-          tabBarIcon: ({color}) => <Icon name="cogs" size={20} color={color} />,
+          tabBarIcon: ({color}) => (
+            <Icon name="calendar" size={20} color={color} />
+          ),
         }}
       />
     </Tab.Navigator>

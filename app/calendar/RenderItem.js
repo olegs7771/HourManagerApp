@@ -15,6 +15,7 @@ import {
   TableWrapper,
   Cell,
 } from 'react-native-table-component';
+import EditItemModal from './EditItemModal';
 
 class RenderItem extends Component {
   state = {
@@ -42,6 +43,12 @@ class RenderItem extends Component {
     this.setState({openModal: true});
   };
 
+  _closeModal = () => {
+    this.setState({
+      openModal: false,
+    });
+  };
+
   render() {
     const button = (data, index) => (
       <Button
@@ -64,6 +71,11 @@ class RenderItem extends Component {
 
     return (
       <View style={styles.container}>
+        <EditItemModal
+          showModal={this.state.openModal}
+          closeModal={this._closeModal}
+          item={this.props.item.item}
+        />
         <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
           <Row data={tableHead} style={styles.head} textStyle={styles.text} />
           {tableData.map((rowData, index) => (

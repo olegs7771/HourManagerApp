@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 
 import {connect} from 'react-redux';
-import {getJobdays} from '../../store/actions/jobdayAction';
+import {getJobdays, getTime} from '../../store/actions/jobdayAction';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import moment from 'moment';
 import RenderItem from './RenderItem';
@@ -12,16 +12,28 @@ import Button from '../components/Button';
 export class AgendaLog extends Component {
   state = {
     id: '',
-    month: {},
+    jobdays: null,
+    loading: false,
   };
 
   componentDidMount() {
-    // console.log('cal updated1');
+    console.log('agenda loaded');
 
+    this.props.getJobdays();
     this.setState({
       id: this.props.id,
     });
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.jobdays !== this.props.jobdays) {
+      this.setState({jobdays: this.props.jobdays});
+    }
+    if (prevProps.loading !== this.props.loading) {
+      this.setState({loading: this.props.loading});
+    }
+  }
+
   _onDayPress = day => {
     console.log('day', day.dateString);
     //Create firstDay and lastDay of selected month
@@ -45,30 +57,39 @@ export class AgendaLog extends Component {
   };
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.textTitle}>Calendar</Text>
+    if (this.state.jobdays) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.textTitle}>Calendar</Text>
 
-        <Agenda
-          items={this.props.items}
-          onDayChange={day => {
-            console.log('day changed');
-          }}
-          // renderItem={this._renderItem.bind(this)}
-          renderEmptyData={() => <RenderEmtyData />}
-          onDayPress={this._onDayPress.bind(this)}
-          renderItem={(item, firstItemInDay) => <RenderItem item={item} />}
-        />
-      </View>
-    );
+          <Agenda
+            items={this.state.jobdays}
+            onDayChange={day => {
+              console.log('day changed');
+            }}
+            renderEmptyData={() => <RenderEmtyData />}
+            onDayPress={this._onDayPress.bind(this)}
+            renderItem={(item, firstItemInDay) => <RenderItem item={item} />}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <ActivityIndicator />
+        </View>
+      );
+    }
   }
 }
 
 const mapStateToProps = state => ({
-  month: state.jobday.month,
+  jobdays: state.jobday.jobdays,
+  loading: state.jobday.loading,
+  jobTime: state.jobday.jobTime,
 });
 
-const mapDispatchToProps = {getJobdays};
+const mapDispatchToProps = {getJobdays, getTime};
 
 export default connect(
   mapStateToProps,

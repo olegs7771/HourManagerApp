@@ -51,6 +51,11 @@ export class JobdayScreen extends Component {
 
     this.props.getTime();
     this.props.getJobdays();
+    if (this.props.jobdays) {
+      this.setState({
+        jobdays: this.props.jobdays,
+      });
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -195,15 +200,6 @@ export class JobdayScreen extends Component {
         </View>
 
         {/* {Modal} */}
-
-        <View style={styles.containerBtn}>
-          <Button
-            text="View Log"
-            onPress={this._openModalCalendar}
-            styleCont={styles.containerBtn}
-            styleText={{textAlign: 'center'}}
-          />
-        </View>
       </View>
     );
   }
@@ -269,11 +265,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
   },
-  containerBtn: {
-    width: '60%',
-    marginTop: 30,
-    alignSelf: 'center',
-  },
+
   btnCheckOut: {
     backgroundColor: '#916704',
     paddingHorizontal: 50,
