@@ -18,6 +18,7 @@ import LandingScreen from './dashboard/LandingScreen';
 import DashboardScreen from './dashboard/DashboardScreen';
 import SettingsScreen from '../app/dashboard/SettingsScreen';
 import JobdayScreen from '../app/dashboard/JobdayScreen';
+import AgendaLog from './calendar/AgendaLog';
 
 //Nav
 import DrawerContent from './navContent/DrawerContent';
@@ -55,10 +56,10 @@ const TabNav = () => {
         }}
       />
       <Tab.Screen
-        name="Settings"
-        component={SettingsScreen}
+        name="Log"
+        component={AgendaLog}
         options={{
-          tabBarLabel: 'Settings',
+          tabBarLabel: 'Log',
           tabBarIcon: ({color}) => <Icon name="cogs" size={20} color={color} />,
         }}
       />

@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import Button from '../components/Button';
 import moment from 'moment';
 import {
@@ -9,7 +15,6 @@ import {
   TableWrapper,
   Cell,
 } from 'react-native-table-component';
-import EditItemModal from './EditItemModal';
 
 class RenderItem extends Component {
   state = {
@@ -59,7 +64,6 @@ class RenderItem extends Component {
 
     return (
       <View style={styles.container}>
-        <EditItemModal showModal={this.state.openModal} />
         <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
           <Row data={tableHead} style={styles.head} textStyle={styles.text} />
           {tableData.map((rowData, index) => (

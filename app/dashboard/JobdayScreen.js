@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Alert} from 'react-native';
+import {View, Text, StyleSheet, Alert, ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 // import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -11,7 +11,7 @@ import {
 } from '../../store/actions/jobdayAction';
 import moment from 'moment';
 import Button from '../components/Button';
-import CalendarModal from '../calendarModal/CalendarModal';
+
 const m = moment();
 
 const getGreetingTime = m => {
@@ -37,6 +37,7 @@ export class JobdayScreen extends Component {
     jobdays: {},
     startTime: '',
     endTime: '',
+    loading: false,
   };
 
   componentDidMount() {
@@ -62,6 +63,11 @@ export class JobdayScreen extends Component {
       this.setState({
         startTime: this.props.jobTime.timeStart,
         endTime: this.props.jobTime.timeEnd,
+      });
+    }
+    if (prevProps.loading !== this.props.loading) {
+      this.setState({
+        loading: this.props.loading,
       });
     }
   }
@@ -91,7 +97,9 @@ export class JobdayScreen extends Component {
   };
 
   _openModalCalendar = () => {
-    this.props.getJobdays();
+    console.log('open modal');
+
+    // this.props.getJobdays();
 
     this.setState({modalVisible: true});
   };
@@ -102,6 +110,9 @@ export class JobdayScreen extends Component {
   };
 
   render() {
+    if (this.state.loading) {
+      return <ActivityIndicator size={50} style={{marginTop: 100}} />;
+    }
     return (
       <View style={styles.container}>
         <View style={styles.containerHeader}>
@@ -193,13 +204,6 @@ export class JobdayScreen extends Component {
             styleText={{textAlign: 'center'}}
           />
         </View>
-
-        <CalendarModal
-          showModal={this.state.modalVisible}
-          closeModel={this._closeModel}
-          id={this.props.auth.user.id}
-          items={this.state.month}
-        />
       </View>
     );
   }
@@ -209,6 +213,7 @@ const mapStateToProps = state => ({
   auth: state.auth,
   jobdays: state.jobday.jobdays,
   jobTime: state.jobday.jobTime,
+  loading: state.jobday.loading,
 });
 
 const mapDispatchToProps = {

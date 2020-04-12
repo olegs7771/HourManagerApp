@@ -31,10 +31,7 @@ class RenderEmtyData extends Component {
         <View style={styles.tableData}>
           <View //CheckIn Manually
             style={styles.checkIn}>
-            {/* <NumericInput
-              type="up-down"
-              onChange={value => console.log(value)}
-            /> */}
+            <TextInput />
           </View>
           <View //CheckOut Manually
             style={styles.checkOut}>

@@ -9,6 +9,7 @@ import moment from 'moment';
 import RenderItem from './RenderItem';
 import RenderEmtyData from './RenderEmtyData';
 
+
 class CalendarModal extends Component {
   state = {
     id: '',
@@ -56,14 +57,6 @@ class CalendarModal extends Component {
     };
 
     this.props.getJobdays(data);
-  };
-
-  _renderEmptyData = () => {
-    return (
-      <View style={styles.containerItem}>
-        <Text>No Data..</Text>
-      </View>
-    );
   };
 
   render() {
