@@ -5,6 +5,7 @@ import NumericInput from 'react-native-numeric-input';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {connect} from 'react-redux';
 import {setEndTimeMan} from '../../store/actions/jobdayAction';
+import Message from './Message';
 
 export class EditEndTime extends Component {
   state = {
@@ -129,25 +130,7 @@ export class EditEndTime extends Component {
           </View>
         </View>
         {this.state.confirmed ? (
-          <View
-            style={{
-              flexDirection: 'row',
-            }}>
-            <Button
-              text="Set Time"
-              onPress={this._setTimeEnd}
-              styleCont={{borderRadius: 5, backgroundColor: 'green'}}
-            />
-            <Button
-              text="Cancel"
-              onPress={this._resetState}
-              styleCont={{
-                borderRadius: 5,
-                backgroundColor: 'grey',
-                marginLeft: 5,
-              }}
-            />
-          </View>
+          <Message />
         ) : (
           <View>
             <Button text="Submit" onPress={this._submitEdit} />
