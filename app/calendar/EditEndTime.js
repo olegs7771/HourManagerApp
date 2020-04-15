@@ -14,6 +14,7 @@ export class EditEndTime extends Component {
     isDoubleDIgitMinutes: false,
     submitted: false,
     confirmed: false,
+    message: '',
   };
   //Hide 0 if double digit
   _hoursEdit = e => {

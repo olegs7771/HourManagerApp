@@ -18,28 +18,37 @@ export default class Menu extends Component {
       <View style={styles.container}>
         <Button
           text="Edit"
-          styleCont={{backgroundColor: '#3d5873', padding: 5, borderRadius: 5}}
+          styleCont={{
+            backgroundColor: '#3d5873',
+            paddingVertical: 5,
+            paddingHorizontal: 10,
+            borderRadius: 5,
+          }}
+          styleText={{fontSize: 16, fontWeight: 'normal'}}
+          onPress={() => this.props.openEditModal()}
+        />
+        <Button
+          text="Add Message"
+          styleCont={{
+            backgroundColor: '#3d5873',
+            paddingVertical: 5,
+            paddingHorizontal: 10,
+            borderRadius: 5,
+            marginLeft: 10,
+          }}
           styleText={{fontSize: 16, fontWeight: 'normal'}}
         />
         <Button
           text="Close"
           styleCont={{
             backgroundColor: '#3d5873',
-            padding: 5,
+            paddingVertical: 5,
+            paddingHorizontal: 10,
             borderRadius: 5,
             marginLeft: 10,
           }}
           styleText={{fontSize: 16, fontWeight: 'normal'}}
-        />
-        <Button
-          text="Add Message"
-          styleCont={{
-            backgroundColor: '#3d5873',
-            padding: 5,
-            borderRadius: 5,
-            marginLeft: 10,
-          }}
-          styleText={{fontSize: 16, fontWeight: 'normal'}}
+          onPress={() => this.props.closeMenu()}
         />
       </View>
     );
@@ -48,9 +57,9 @@ export default class Menu extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'space-evenly',
 
     marginRight: 30,
   },

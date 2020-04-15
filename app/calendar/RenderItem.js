@@ -28,7 +28,7 @@ class RenderItem extends Component {
     managerConfirmed: false,
     openModal: false,
     verified: false,
-    openMenu: false,
+    isMenuOpen: false,
   };
   componentDidUpdate(prevProps, prevState) {
     const {item} = this.props;
@@ -51,6 +51,10 @@ class RenderItem extends Component {
     this.setState({
       openModal: false,
     });
+  };
+
+  _closeMenu = () => {
+    this.setState({isMenuOpen: false});
   };
 
   render() {
@@ -98,13 +102,15 @@ class RenderItem extends Component {
           </View>
           <TouchableOpacity
             style={styles.options}
-            onPress={() => this.setState({openMenu: !this.state.openMenu})}>
-            {!this.state.openMenu && (
+            onPress={() => this.setState({isMenuOpen: !this.state.isMenuOpen})}>
+            {!this.state.isMenuOpen && (
               <Icon name="ellipsis-v" size={30} color="#717275" />
             )}
           </TouchableOpacity>
         </View>
-        {this.state.openMenu && <Menu />}
+        {this.state.isMenuOpen && (
+          <Menu closeMenu={this._closeMenu} openEditModal={this._edit} /> //Control of model from Menu.js
+        )}
       </View>
     );
   }
