@@ -4,6 +4,7 @@ import Button from '../components/Button';
 import NumericInput from 'react-native-numeric-input';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {connect} from 'react-redux';
+import {setEndTimeMan} from '../../store/actions/jobdayAction';
 
 export class EditEndTime extends Component {
   state = {
@@ -46,20 +47,42 @@ export class EditEndTime extends Component {
   _submitEdit = () => {
     this.setState({submitted: true});
   };
+  _setTimeEnd = () => {
+    const {hours, minutes} = this.state;
+    //Prepare time format for DB
+    let Hours;
+    let Mins;
+    Hours = hours < 10 ? `0${hours}` : hours;
+    Mins = minutes < 10 ? `0${minutes}` : minutes;
+
+    console.log('time end', `${Hours}:${Mins}`);
+    const payload = {
+      timeEnd: `${Hours}:${Mins}`,
+    };
+    this.props.setEndTimeMan(payload);
+  };
+  _resetState = () => {
+    this.setState({
+      hours: 0,
+      minutes: 0,
+      confirmed: false,
+      submitted: false,
+    });
+  };
 
   render() {
     const {hours, minutes} = this.state;
     return (
       <View style={styles.container}>
         <Text style={styles.textTitle}>Edit End Time</Text>
-        <View style={{flexDirection: 'row', borderWidth: 1}}>
+        <View style={{flexDirection: 'row'}}>
           <View style={styles.showTime}>
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>
               {this.state.isDoubleDIgitHours ? `${hours}` : `0${hours}`}:
               {this.state.isDoubleDIgitMinutes ? `${minutes}` : `0${minutes}`}
             </Text>
           </View>
-          {this.state.submitted && (
+          {this.state.submitted && !this.state.confirmed && (
             <TouchableOpacity //Show Icon if submitted
               onPress={() => this.setState({confirmed: true})}
               style={{
@@ -104,9 +127,31 @@ export class EditEndTime extends Component {
             />
           </View>
         </View>
-        <View>
-          <Button text="Submit" onPress={this._submitEdit} />
-        </View>
+        {this.state.confirmed ? (
+          <View
+            style={{
+              flexDirection: 'row',
+            }}>
+            <Button
+              text="Set Time"
+              onPress={this._setTimeEnd}
+              styleCont={{borderRadius: 5, backgroundColor: 'green'}}
+            />
+            <Button
+              text="Cancel"
+              onPress={this._resetState}
+              styleCont={{
+                borderRadius: 5,
+                backgroundColor: 'grey',
+                marginLeft: 5,
+              }}
+            />
+          </View>
+        ) : (
+          <View>
+            <Button text="Submit" onPress={this._submitEdit} />
+          </View>
+        )}
       </View>
     );
   }
@@ -114,7 +159,7 @@ export class EditEndTime extends Component {
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {setEndTimeMan};
 
 export default connect(
   mapStateToProps,

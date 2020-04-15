@@ -16,6 +16,8 @@ import {
   Cell,
 } from 'react-native-table-component';
 import EditItemModal from './EditItemModal';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import Menu from './Menu';
 
 class RenderItem extends Component {
   state = {
@@ -25,6 +27,8 @@ class RenderItem extends Component {
     employeeConfirmed: false,
     managerConfirmed: false,
     openModal: false,
+    verified: false,
+    openMenu: false,
   };
   componentDidUpdate(prevProps, prevState) {
     const {item} = this.props;
@@ -65,31 +69,42 @@ class RenderItem extends Component {
       message,
       employeeConfirmed,
       managerConfirmed,
+      verified,
     } = this.state;
-    const tableHead = ['Start', 'End', 'Message', 'Cheacked'];
-    const tableData = [[start, end, message, employeeConfirmed]];
+    const tableHead = ['Start', 'End', 'Notes', 'Verified'];
+    const tableData = [[start, end, message, verified]];
 
     return (
-      <View style={styles.container}>
-        <EditItemModal
-          showModal={this.state.openModal}
-          closeModal={this._closeModal}
-          item={this.props.item.item}
-        />
-        <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
-          <Row data={tableHead} style={styles.head} textStyle={styles.text} />
-          {tableData.map((rowData, index) => (
-            <TableWrapper key={index} style={styles.row}>
-              {rowData.map((cellData, cellIndex) => (
-                <Cell
-                  key={cellIndex}
-                  data={cellIndex === 3 ? button(cellData, index) : cellData}
-                  textStyle={styles.text}
-                />
-              ))}
-            </TableWrapper>
-          ))}
-        </Table>
+      <View>
+        <View
+          style={{
+            flexDirection: 'row',
+            paddingVertical: 10,
+          }}>
+          <View style={styles.container}>
+            <EditItemModal
+              showModal={this.state.openModal}
+              closeModal={this._closeModal}
+              item={this.props.item.item}
+            />
+            <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
+              <Row
+                data={tableHead}
+                style={styles.head}
+                textStyle={styles.text}
+              />
+              <Rows data={tableData} textStyle={styles.text} />
+            </Table>
+          </View>
+          <TouchableOpacity
+            style={styles.options}
+            onPress={() => this.setState({openMenu: !this.state.openMenu})}>
+            {!this.state.openMenu && (
+              <Icon name="ellipsis-v" size={30} color="#717275" />
+            )}
+          </TouchableOpacity>
+        </View>
+        {this.state.openMenu && <Menu />}
       </View>
     );
   }
@@ -98,8 +113,12 @@ class RenderItem extends Component {
 export default RenderItem;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff'},
+  container: {flex: 1, backgroundColor: '#fff'},
   head: {height: 40, backgroundColor: '#f1f8ff'},
   text: {margin: 6},
   row: {flexDirection: 'row', backgroundColor: '#FFF1C1'},
+  options: {
+    paddingHorizontal: 15,
+    paddingTop: 45,
+  },
 });
