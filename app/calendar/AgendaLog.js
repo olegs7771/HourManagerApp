@@ -6,6 +6,7 @@ import {
   getJobdays,
   getTime,
   getSelectedDay,
+  confirmEmployee,
 } from '../../store/actions/jobdayAction';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import moment from 'moment';
@@ -94,7 +95,12 @@ const mapStateToProps = state => ({
   jobTime: state.jobday.jobTime,
 });
 
-const mapDispatchToProps = {getJobdays, getTime, getSelectedDay};
+const mapDispatchToProps = {
+  getJobdays,
+  getTime,
+  getSelectedDay,
+  confirmEmployee,
+};
 
 export default connect(
   mapStateToProps,

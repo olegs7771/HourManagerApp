@@ -38,6 +38,7 @@ export default class Menu extends Component {
           }}
           styleText={{fontSize: 16, fontWeight: 'normal'}}
         />
+
         <Button
           text="Close"
           styleCont={{

@@ -243,6 +243,40 @@ export const setEndTimeMan = data => dispatch => {
   _retrieveData();
 };
 
+//Confirm Employee
+//Employee pressed V icon to confirm that jobday hours pair ready
+export const confirmEmployee = () => dispatch => {
+  dispatch(loadingJobdays());
+
+  const _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('user');
+      if (value !== null) {
+        const parsedData = JSON.parse(value);
+        console.log('parsedData', parsedData);
+        //Send Request to API
+        //Create payload for HTTP request
+        const payload = {
+          token: parsedData.token,
+          id: parsedData.uid,
+        };
+
+        axios
+          .post('http://192.168.1.28:5000/api/rnapp/confirmEmployee', payload)
+          .then(res => {
+            console.log('res.data', res.data);
+          })
+          .catch(err => {
+            console.log('http request error:', err.response.data);
+          });
+      }
+    } catch (error) {
+      console.log('error:', error);
+    }
+  };
+  _retrieveData();
+};
+
 export const loadingJobdays = () => {
   return {
     type: LOADING_JOBDAYS,

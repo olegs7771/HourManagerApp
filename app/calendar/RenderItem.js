@@ -57,6 +57,10 @@ class RenderItem extends Component {
     this.setState({isMenuOpen: false});
   };
 
+  _confirmEmployee = () => {
+    console.log('confirmed');
+  };
+
   render() {
     const {
       start,
@@ -91,13 +95,24 @@ class RenderItem extends Component {
               <Rows data={tableData} textStyle={styles.text} />
             </Table>
           </View>
-          <TouchableOpacity
-            style={styles.options}
-            onPress={() => this.setState({isMenuOpen: !this.state.isMenuOpen})}>
-            {!this.state.isMenuOpen && (
-              <Icon name="ellipsis-v" size={30} color="#717275" />
-            )}
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity //V icon for confirm jobday by employy
+              style={styles.options}
+              onPress={this._confirmEmployee}>
+              {!this.state.isMenuOpen && (
+                <Icon name="check" size={30} color="#717275" />
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity //open menu
+              style={styles.options}
+              onPress={() =>
+                this.setState({isMenuOpen: !this.state.isMenuOpen})
+              }>
+              {!this.state.isMenuOpen && (
+                <Icon name="ellipsis-v" size={30} color="#717275" />
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
         {this.state.isMenuOpen && (
           <Menu closeMenu={this._closeMenu} openEditModal={this._edit} /> //Control of model from Menu.js
@@ -115,7 +130,7 @@ const styles = StyleSheet.create({
   text: {margin: 6},
   row: {flexDirection: 'row', backgroundColor: '#FFF1C1'},
   options: {
-    paddingHorizontal: 15,
-    paddingTop: 45,
+    paddingHorizontal: 20,
+    paddingTop: 7,
   },
 });
