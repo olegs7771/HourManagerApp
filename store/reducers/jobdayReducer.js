@@ -4,12 +4,14 @@ import {
   GET_CURRENT_START,
   GET_CURRENT_TIME,
   GET_CURRENT_END,
+  GET_SELECTED_DAY,
 } from '../actions/type';
 
 const initialState = {
   jobdays: null,
   loading: false,
   jobTime: null,
+  selectedDay: null,
 };
 
 export default (state = initialState, action) => {
@@ -24,6 +26,11 @@ export default (state = initialState, action) => {
         ...state,
         jobdays: action.payload,
         loading: false,
+      };
+    case GET_SELECTED_DAY:
+      return {
+        ...state,
+        selectedDay: action.payload,
       };
     case GET_CURRENT_START:
       return {

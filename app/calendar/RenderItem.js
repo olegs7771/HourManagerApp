@@ -58,15 +58,6 @@ class RenderItem extends Component {
   };
 
   render() {
-    const button = (data, index) => (
-      <Button
-        text="Edit"
-        styleText={{fontSize: 14, textAlign: 'center'}}
-        styleCont={{backgroundColor: '#383834'}}
-        onPress={this._edit}
-      />
-    );
-
     const {
       start,
       end,

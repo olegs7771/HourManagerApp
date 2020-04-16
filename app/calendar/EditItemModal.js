@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Modal} from 'react-native';
+import {View, Text, StyleSheet, Modal, ScrollView} from 'react-native';
 import Button from '../components/Button';
 
 import {connect} from 'react-redux';
@@ -26,8 +26,10 @@ export class EditItemsModal extends Component {
   render() {
     return (
       <Modal visible={this.state.visible}>
-        <EditStartTime />
-        <EditEndTime />
+        <ScrollView>
+          <EditStartTime />
+          <EditEndTime />
+        </ScrollView>
         <Button text="Close" onPress={this._closeModal} />
       </Modal>
     );

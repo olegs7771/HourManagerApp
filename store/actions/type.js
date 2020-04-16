@@ -5,6 +5,7 @@ export const GET_ERRORS = 'GET_ERRORS';
 
 //JobDay
 export const GET_JOBDAYS = 'GET_JOBDAYS';
+export const GET_SELECTED_DAY = 'GET_SELECTED_DAY';
 export const LOADING_JOBDAYS = 'LOADING_JOBDAYS';
 
 export const GET_CURRENT_START = 'GET_CURRENT_START';

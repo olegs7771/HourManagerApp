@@ -2,7 +2,11 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 
 import {connect} from 'react-redux';
-import {getJobdays, getTime} from '../../store/actions/jobdayAction';
+import {
+  getJobdays,
+  getTime,
+  getSelectedDay,
+} from '../../store/actions/jobdayAction';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import moment from 'moment';
 import RenderItem from './RenderItem';
@@ -54,6 +58,7 @@ export class AgendaLog extends Component {
     };
 
     this.props.getJobdays(data);
+    this.props.getSelectedDay({day: day.dateString});
   };
 
   render() {
@@ -89,7 +94,7 @@ const mapStateToProps = state => ({
   jobTime: state.jobday.jobTime,
 });
 
-const mapDispatchToProps = {getJobdays, getTime};
+const mapDispatchToProps = {getJobdays, getTime, getSelectedDay};
 
 export default connect(
   mapStateToProps,

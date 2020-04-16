@@ -16,6 +16,7 @@ export class EditEndTime extends Component {
     submitted: false,
     confirmed: false,
     message: '',
+    selectedDay: null,
   };
   //Hide 0 if double digit
   _hoursEdit = e => {
@@ -37,6 +38,12 @@ export class EditEndTime extends Component {
     this.setState({minutes: e});
   };
 
+  componentDidMount() {
+    if (this.props.selectedDay) {
+      this.setState({selectedDay: this.props.selectedDay});
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.hours !== this.state.hours) {
       this.setState({hours: this.state.hours});
@@ -49,8 +56,10 @@ export class EditEndTime extends Component {
   _submitEdit = () => {
     this.setState({submitted: true});
   };
+
+  //Send (timeEnd set manually by Employee ) to Action
   _setTimeEnd = () => {
-    const {hours, minutes} = this.state;
+    const {hours, minutes, message} = this.state;
     //Prepare time format for DB
     let Hours;
     let Mins;
@@ -60,6 +69,8 @@ export class EditEndTime extends Component {
     console.log('time end', `${Hours}:${Mins}`);
     const payload = {
       timeEnd: `${Hours}:${Mins}`,
+      message,
+      selectedDay: this.state.selectedDay,
     };
     this.props.setEndTimeMan(payload);
   };
@@ -70,6 +81,11 @@ export class EditEndTime extends Component {
       confirmed: false,
       submitted: false,
     });
+  };
+
+  //get message from Message.js
+  _getMessage = message => {
+    this.setState({message});
   };
 
   render() {
@@ -130,7 +146,11 @@ export class EditEndTime extends Component {
           </View>
         </View>
         {this.state.confirmed ? (
-          <Message />
+          <Message
+            resetState={this._resetState}
+            message={this._getMessage}
+            submit={this._setTimeEnd}
+          />
         ) : (
           <View>
             <Button text="Submit" onPress={this._submitEdit} />
@@ -141,7 +161,9 @@ export class EditEndTime extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  selectedDay: state.jobday.selectedDay,
+});
 
 const mapDispatchToProps = {setEndTimeMan};
 
