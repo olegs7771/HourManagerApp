@@ -87,12 +87,7 @@ export class AgendaLog extends Component {
             renderEmptyData={() => <RenderEmtyData />}
             onDayPress={this._onDayPress.bind(this)}
             renderItem={(item, firstItemInDay) => (
-              <RenderItem
-                item={item}
-                confirm={this._confirm}
-                message={this.props.message}
-                messageLoading={this.props.messageLoading}
-              />
+              <RenderItem item={item} confirm={this._confirm} />
             )}
           />
         </View>
@@ -112,9 +107,8 @@ const mapStateToProps = state => ({
   loading: state.jobday.loading,
   jobTime: state.jobday.jobTime,
   selectedDay: state.jobday.selectedDay,
-  //for loading and message change V icon
   message: state.message.message,
-  messageLoading: state.message.loading,
+  loading: state.message.loading,
 });
 
 const mapDispatchToProps = {
