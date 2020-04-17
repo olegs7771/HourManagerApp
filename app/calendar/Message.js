@@ -18,6 +18,7 @@ class Message extends Component {
       });
     }
     console.log('can send');
+    //create payload body: message
     this.props.submit();
   };
   _onChange = e => {

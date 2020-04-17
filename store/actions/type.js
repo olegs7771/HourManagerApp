@@ -2,6 +2,9 @@ export const GET_AUTH = 'GET_AUTH';
 export const LOGOUT_AUTH = 'LOGOUT_AUTH';
 export const LOADING_AUTH = 'LOADING_AUTH';
 export const GET_ERRORS = 'GET_ERRORS';
+//Messages
+export const GET_MESSAGES = 'GET_MESSAGES';
+export const MESSAGE_LOADING = 'MESSAGE_LOADING';
 
 //JobDay
 export const GET_JOBDAYS = 'GET_JOBDAYS';

@@ -19,6 +19,7 @@ export class AgendaLog extends Component {
     id: '',
     jobdays: null,
     loading: false,
+    selectedDay: null,
   };
 
   componentDidMount() {
@@ -36,6 +37,9 @@ export class AgendaLog extends Component {
     }
     if (prevProps.loading !== this.props.loading) {
       this.setState({loading: this.props.loading});
+    }
+    if (prevProps.selectedDay !== this.props.selectedDay) {
+      this.setState({selectedDay: this.props.selectedDay});
     }
   }
 
@@ -62,6 +66,13 @@ export class AgendaLog extends Component {
     this.props.getSelectedDay({day: day.dateString});
   };
 
+  //Employee pressed V icon confirms on hour pair
+  //V icon loacated in child renderItem.js
+  _confirm = value => {
+    //Create payload for action
+    this.props.confirmEmployee(value);
+  };
+
   render() {
     if (this.state.jobdays) {
       return (
@@ -75,7 +86,14 @@ export class AgendaLog extends Component {
             }}
             renderEmptyData={() => <RenderEmtyData />}
             onDayPress={this._onDayPress.bind(this)}
-            renderItem={(item, firstItemInDay) => <RenderItem item={item} />}
+            renderItem={(item, firstItemInDay) => (
+              <RenderItem
+                item={item}
+                confirm={this._confirm}
+                message={this.props.message}
+                messageLoading={this.props.messageLoading}
+              />
+            )}
           />
         </View>
       );
@@ -93,6 +111,10 @@ const mapStateToProps = state => ({
   jobdays: state.jobday.jobdays,
   loading: state.jobday.loading,
   jobTime: state.jobday.jobTime,
+  selectedDay: state.jobday.selectedDay,
+  //for loading and message change V icon
+  message: state.message.message,
+  messageLoading: state.message.loading,
 });
 
 const mapDispatchToProps = {

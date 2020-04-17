@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import Button from '../components/Button';
 import moment from 'moment';
@@ -21,14 +22,17 @@ import Menu from './Menu';
 
 class RenderItem extends Component {
   state = {
+    comment: '',
     start: '',
     end: '',
-    message: '',
     employeeConfirmed: false,
     managerConfirmed: false,
     openModal: false,
     verified: false,
     isMenuOpen: false,
+    //message coming from
+    message: '',
+    messageLoading: false,
   };
   componentDidUpdate(prevProps, prevState) {
     const {item} = this.props;
@@ -39,6 +43,12 @@ class RenderItem extends Component {
           : '',
         end: item.item.timeEnd ? moment(item.item.timeEnd).format('HH:mm') : '',
       });
+    }
+    if (prevProps.messageLoading !== this.props.messageLoading) {
+      this.setState({messageLoading: this.props.messageLoading});
+    }
+    if (prevProps.message !== this.props.message) {
+      this.setState({message: this.props.message});
     }
   }
   _edit = () => {
@@ -58,20 +68,75 @@ class RenderItem extends Component {
   };
 
   _confirmEmployee = () => {
-    console.log('confirmed');
+    //Create payload for action
+    //Conver "2020-04-12T15:34:30.259Z" to "2020-04-12"
+    const dateEdit = moment(this.props.item.item.date).format('YYYY-MM-DD');
+    const payload = {
+      date: dateEdit,
+    };
+
+    this.props.confirm(payload);
   };
 
   render() {
     const {
       start,
       end,
-      message,
+      comment,
       employeeConfirmed,
       managerConfirmed,
       verified,
     } = this.state;
     const tableHead = ['Start', 'End', 'Notes', 'Verified'];
-    const tableData = [[start, end, message, verified]];
+    const tableData = [[start, end, comment, verified]];
+
+    //Create Icon V behavior
+    let iconContent;
+    if (!this.state.isMenuOpen) {
+      iconContent = (
+        <TouchableOpacity //V icon for confirm jobday by employy
+          style={styles.options}
+          onPress={this._confirmEmployee}>
+          <Text>
+            <Icon name="check" size={30} color="#717275" />
+          </Text>
+        </TouchableOpacity>
+      );
+    }
+    if (this.state.messageLoading) {
+      <TouchableOpacity //V icon for confirm jobday by employy
+        style={styles.options}
+        onPress={this._confirmEmployee}>
+        <Text>
+          <ActivityIndicator size={30} />
+        </Text>
+      </TouchableOpacity>;
+    }
+    if (
+      this.state.message === 'Date was confirmed' ||
+      this.props.item.item.confirmEmployee
+    ) {
+      iconContent = (
+        <TouchableOpacity //V icon for confirm jobday by employy Green
+          style={styles.options}
+          onPress={this._confirmEmployee}>
+          <Text>
+            <Icon name="check" size={30} color="#007313" />
+          </Text>
+        </TouchableOpacity>
+      );
+    }
+    if (this.state.message === 'Confirmation was canceled') {
+      iconContent = (
+        <TouchableOpacity //V icon for confirm jobday by employy
+          style={styles.options}
+          onPress={this._confirmEmployee}>
+          <Text>
+            <Icon name="check" size={30} color="#717275" />
+          </Text>
+        </TouchableOpacity>
+      );
+    }
 
     return (
       <View>
@@ -96,13 +161,8 @@ class RenderItem extends Component {
             </Table>
           </View>
           <View>
-            <TouchableOpacity //V icon for confirm jobday by employy
-              style={styles.options}
-              onPress={this._confirmEmployee}>
-              {!this.state.isMenuOpen && (
-                <Icon name="check" size={30} color="#717275" />
-              )}
-            </TouchableOpacity>
+            {iconContent}
+
             <TouchableOpacity //open menu
               style={styles.options}
               onPress={() =>
