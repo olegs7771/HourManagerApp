@@ -1,13 +1,6 @@
 import React, {Component} from 'react';
 
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-  ActivityIndicator,
-} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import Button from '../components/Button';
 import moment from 'moment';
 import {
@@ -26,11 +19,13 @@ class RenderItem extends Component {
     comment: '',
     start: '',
     end: '',
-    employeeConfirmed: false,
-    managerConfirmed: false,
+
+    // managerConfirmed: false,
     openModal: false,
     verified: false,
     isMenuOpen: false,
+    isConfirmed: false,
+    //this.props.message changed so we can change color of V icon
   };
   componentDidUpdate(prevProps, prevState) {
     const {item} = this.props;
@@ -66,7 +61,21 @@ class RenderItem extends Component {
     const payload = {
       date: dateEdit,
     };
-
+    this.props.confirm(payload);
+    this.setState({
+      isConfirmed: true,
+    });
+  };
+  _cancelConfirmation = () => {
+    this.setState({
+      isConfirmed: false,
+    });
+    //Create payload for action
+    //Conver "2020-04-12T15:34:30.259Z" to "2020-04-12"
+    const dateEdit = moment(this.props.item.item.date).format('YYYY-MM-DD');
+    const payload = {
+      date: dateEdit,
+    };
     this.props.confirm(payload);
   };
 
@@ -75,8 +84,8 @@ class RenderItem extends Component {
       start,
       end,
       comment,
-      employeeConfirmed,
-      managerConfirmed,
+      // employeeConfirmed,
+      // managerConfirmed,
       verified,
     } = this.state;
     const tableHead = ['Start', 'End', 'Notes', 'Verified'];
@@ -107,13 +116,23 @@ class RenderItem extends Component {
             </Table>
           </View>
           <View>
-            <TouchableOpacity //V icon for confirm jobday by employy
-              style={styles.options}
-              onPress={this._confirmEmployee}>
-              <Text>
-                <Icon name="check" size={30} color="#717275" />
-              </Text>
-            </TouchableOpacity>
+            {this.state.isConfirmed || this.props.item.item.confirmEmployee ? (
+              <TouchableOpacity //V icon for confirm jobday by employy
+                style={styles.options}
+                onPress={this._cancelConfirmation}>
+                <Text>
+                  <Icon name="check" size={30} color="#087a02" />
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity //V icon for confirm jobday by employy
+                style={styles.options}
+                onPress={this._confirmEmployee}>
+                <Text>
+                  <Icon name="check" size={30} color="#717275" />
+                </Text>
+              </TouchableOpacity>
+            )}
 
             <TouchableOpacity //open menu
               style={styles.options}
