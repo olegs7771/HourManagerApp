@@ -25,6 +25,7 @@ class RenderItem extends Component {
     verified: false,
     isMenuOpen: false,
     isConfirmed: false,
+    isConfirmedManager: false,
     //this.props.message changed so we can change color of V icon
   };
   componentDidUpdate(prevProps, prevState) {
@@ -38,6 +39,10 @@ class RenderItem extends Component {
       });
     }
   }
+  componentDidMount() {
+    this.setState({isConfirmedManager: this.props.item.item.confirmManager});
+  }
+
   _edit = () => {
     console.log('open modal');
 
@@ -48,6 +53,12 @@ class RenderItem extends Component {
     this.setState({
       openModal: false,
     });
+  };
+
+  _openMenu = () => {
+    if (!this.state.isConfirmedManager) {
+      this.setState({isMenuOpen: !this.state.isMenuOpen});
+    }
   };
 
   _closeMenu = () => {
@@ -117,13 +128,24 @@ class RenderItem extends Component {
           </View>
           <View>
             {this.state.isConfirmed || this.props.item.item.confirmEmployee ? (
-              <TouchableOpacity //V icon for confirm jobday by employy
-                style={styles.options}
-                onPress={this._cancelConfirmation}>
-                <Text>
-                  <Icon name="check" size={30} color="#087a02" />
-                </Text>
-              </TouchableOpacity>
+              <View>
+                {this.state.isConfirmedManager ? (
+                  <View //V icon for confirm jobday by employy
+                    style={styles.options}>
+                    <Text>
+                      <Icon name="check-circle" size={30} color="#087a02" />
+                    </Text>
+                  </View>
+                ) : (
+                  <TouchableOpacity //V icon for confirm jobday by employy
+                    style={styles.options}
+                    onPress={this._cancelConfirmation}>
+                    <Text>
+                      <Icon name="check" size={30} color="#087a02" />
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
             ) : (
               <TouchableOpacity //V icon for confirm jobday by employy
                 style={styles.options}
@@ -136,9 +158,7 @@ class RenderItem extends Component {
 
             <TouchableOpacity //open menu
               style={styles.options}
-              onPress={() =>
-                this.setState({isMenuOpen: !this.state.isMenuOpen})
-              }>
+              onPress={this._openMenu}>
               {!this.state.isMenuOpen && (
                 <Icon name="ellipsis-v" size={30} color="#717275" />
               )}
