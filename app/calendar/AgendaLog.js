@@ -20,6 +20,7 @@ export class AgendaLog extends Component {
     jobdays: null,
     loading: false,
     selectedDay: null,
+    currentDay: null,
   };
 
   componentDidMount() {
@@ -29,6 +30,8 @@ export class AgendaLog extends Component {
     this.setState({
       id: this.props.id,
     });
+    //Get current date on mount for renderEmptyData on openning
+    this.setState({currentDay: moment().format('YYYY-MM-DD')});
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -84,7 +87,9 @@ export class AgendaLog extends Component {
             onDayChange={day => {
               console.log('day changed');
             }}
-            renderEmptyData={() => <RenderEmtyData />}
+            renderEmptyData={() => (
+              <RenderEmtyData date={this.state.currentDay} />
+            )}
             onDayPress={this._onDayPress.bind(this)}
             renderItem={(item, firstItemInDay) => (
               <RenderItem item={item} confirm={this._confirm} />

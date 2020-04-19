@@ -22,7 +22,7 @@ class RenderItem extends Component {
 
     // managerConfirmed: false,
     openModal: false,
-    verified: false,
+
     isMenuOpen: false,
     isConfirmed: false,
     isConfirmedManager: false,
@@ -97,10 +97,9 @@ class RenderItem extends Component {
       comment,
       // employeeConfirmed,
       // managerConfirmed,
-      verified,
     } = this.state;
-    const tableHead = ['Start', 'End', 'Notes', 'Verified'];
-    const tableData = [[start, end, comment, verified]];
+    const tableHead = ['Start', 'End', 'Notes'];
+    const tableData = [[start, end, comment]];
 
     // Create Icon V behavior
 
