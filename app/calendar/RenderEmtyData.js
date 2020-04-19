@@ -2,20 +2,28 @@
 
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import Button from '../components/Button';
+
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Menu from './Menu';
 import EditItemModal from './EditItemModal';
+import {
+  Table,
+  Row,
+  Rows,
+  TableWrapper,
+  Cell,
+} from 'react-native-table-component';
 
 class RenderEmtyData extends Component {
   state = {
     comment: '',
-    start: '',
-    end: '',
+    start: '00:00',
+    end: '00:00',
 
     // managerConfirmed: false,
     openModal: false,
+    comments: '',
 
     isMenuOpen: false,
     isConfirmed: false,
@@ -46,42 +54,42 @@ class RenderEmtyData extends Component {
   };
 
   render() {
+    const {
+      start,
+      end,
+      comment,
+      // employeeConfirmed,
+      // managerConfirmed,
+    } = this.state;
+    const tableHead = ['Start', 'End', 'Notes'];
+    const tableData = [[start, end, comment]];
     return (
       <View>
-        <EditItemModal //Modal
-          showModal={this.state.openModal}
-          closeModal={this._closeModal}
-        />
-        <View style={styles.container}>
+        <View
+          style={{
+            flexDirection: 'row',
+            paddingVertical: 10,
+          }}>
           <View style={styles.dateContainer}>
             <Text style={styles.textdate}>19</Text>
             <Text style={styles.textday}>Fri</Text>
           </View>
-          <View style={styles.table}>
-            <View style={styles.tableHead}>
-              <View style={styles.cell}>
-                <Text>Start</Text>
-              </View>
-              <View style={styles.cell}>
-                <Text>End</Text>
-              </View>
-              <View style={styles.cell}>
-                <Text>Notes</Text>
-              </View>
-            </View>
-            <View style={styles.tableData}>
-              <View style={styles.cell}>
-                <Text>Start</Text>
-              </View>
-              <View style={styles.cell}>
-                <Text>End</Text>
-              </View>
-              <View style={styles.cell}>
-                <Text>Notes</Text>
-              </View>
-            </View>
+          <View style={styles.container}>
+            <EditItemModal
+              showModal={this.state.openModal}
+              closeModal={this._closeModal}
+              // item={this.props.item.item}
+            />
+            <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
+              <Row
+                data={tableHead}
+                style={styles.head}
+                textStyle={styles.text}
+              />
+              <Rows data={tableData} textStyle={styles.text} />
+            </Table>
           </View>
-          <View style={styles.menu}>
+          <View>
             {this.state.isConfirmed ? (
               <View>
                 {this.state.isConfirmedManager ? (
@@ -120,25 +128,21 @@ class RenderEmtyData extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        {this.state.isMenuOpen && (
-          <Menu closeMenu={this._closeMenu} openEditModal={this._edit} /> //Control of model from Menu.js
-        )}
+        <View style={{height: 35}}>
+          {this.state.isMenuOpen && (
+            <Menu closeMenu={this._closeMenu} openEditModal={this._edit} /> //Control of model from Menu.js
+          )}
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    borderWidth: 1,
-    flexDirection: 'row',
-    borderColor: 'green',
-  },
-  //Date Container
+  // //Date Container
   dateContainer: {
     margin: 5,
     paddingHorizontal: 10,
-    paddingTop: 20,
   },
   textdate: {
     fontSize: 25,
@@ -149,35 +153,14 @@ const styles = StyleSheet.create({
     color: '#adacac',
     textAlign: 'center',
   },
-  //Table
-  table: {
-    borderWidth: 1,
-    borderColor: 'red',
-    paddingVertical: 10,
-  },
-  cell: {
-    borderWidth: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-  },
-  tableHead: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    backgroundColor: '#f1f8ff',
-  },
-  tableData: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    backgroundColor: '#FFF1C1',
-  },
-  //Menu
-  menu: {
-    borderWidth: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
+
+  container: {flex: 1, backgroundColor: '#fff'},
+  head: {height: 40, backgroundColor: '#f1f8ff'},
+  text: {margin: 6},
+  row: {flexDirection: 'row', backgroundColor: '#FFF1C1'},
   options: {
-    alignSelf: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 7,
   },
 });
 

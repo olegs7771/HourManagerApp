@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {connect} from 'react-redux';
 import {setEndTimeMan} from '../../store/actions/jobdayAction';
 import Message from './Message';
+import moment from 'moment';
 
 export class EditEndTime extends Component {
   state = {
@@ -20,6 +21,8 @@ export class EditEndTime extends Component {
   };
   //Hide 0 if double digit
   _hoursEdit = e => {
+    console.log('editing time');
+
     if (e > 8) {
       this.setState({isDoubleDIgitHours: true});
     }
@@ -67,10 +70,14 @@ export class EditEndTime extends Component {
     Mins = minutes < 10 ? `0${minutes}` : minutes;
 
     console.log('time end', `${Hours}:${Mins}`);
+    //If in redux state selectedDay===null(on openning renderEmptyData)
+    // get today date
+    const todayDate = moment().format('YYYY-MM-DD');
+
     const payload = {
       timeEnd: `${Hours}:${Mins}`,
       message,
-      selectedDay: this.state.selectedDay,
+      selectedDay: this.state.selectedDay ? this.state.selectedDay : todayDate,
     };
     this.props.setEndTimeMan(payload);
   };
