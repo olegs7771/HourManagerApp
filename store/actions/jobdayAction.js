@@ -34,7 +34,7 @@ export const getJobdays = () => dispatch => {
         // console.log('payload', payload);
 
         axios
-          .post('http://192.168.43.14:5000/api/rnapp/fetch_jobdays', payload)
+          .post('http://192.168.1.11:5000/api/rnapp/fetch_jobdays', payload)
           .then(res => {
             // console.log('res.data', res.data);
             //Adapt res.data for Agenda items={{'2020-04-06':[{key:value,key:value}]}}
@@ -109,10 +109,7 @@ export const createCheckInAuto = data => dispatch => {
         };
 
         axios
-          .post(
-            'http://192.168.43.14:5000/api/rnapp/checkIn_automatic',
-            payload,
-          )
+          .post('http://192.168.1.11:5000/api/rnapp/checkIn_automatic', payload)
           .then(res => {
             console.log('res.data', res.data);
             //Get timeStart to Redux
@@ -152,7 +149,7 @@ export const createCheckOutAuto = data => dispatch => {
 
         axios
           .post(
-            'http://192.168.43.14:5000/api/rnapp/checkOut_automatic',
+            'http://192.168.1.11:5000/api/rnapp/checkOut_automatic',
             payload,
           )
           .then(res => {
@@ -193,7 +190,7 @@ export const getTime = () => dispatch => {
         };
 
         axios
-          .post('http://192.168.43.14:5000/api/rnapp/get_today_time', payload)
+          .post('http://192.168.1.11:5000/api/rnapp/get_today_time', payload)
           .then(res => {
             console.log('res.data', res.data);
             dispatch({
@@ -212,7 +209,48 @@ export const getTime = () => dispatch => {
   _retrieveData();
 };
 
-//Set timeEnd Mannualy by Employee
+//Set timeStart Mannualy by Employee
+export const setStartTimeMan = data => dispatch => {
+  console.log('data in set start time manually', data);
+
+  dispatch(loadingJobdays());
+
+  const _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('user');
+      if (value !== null) {
+        const parsedData = JSON.parse(value);
+        console.log('parsedData', parsedData);
+        //Send Request to API
+        //Create payload for HTTP request
+        const payload = {
+          token: parsedData.token,
+          id: parsedData.uid,
+          date: data.selectedDay,
+          timeStart: data.timeStart, //manually set by Employee
+          message: data.message,
+        };
+
+        axios
+          .post(
+            'http://192.168.1.11:5000/api/rnapp/startTime_manually',
+            payload,
+          )
+          .then(res => {
+            console.log('res.data', res.data);
+          })
+          .catch(err => {
+            console.log('http request error:', err.response.data);
+          });
+      }
+    } catch (error) {
+      console.log('error:', error);
+    }
+  };
+  _retrieveData();
+};
+
+//Set timeEnd manually by Employee
 export const setEndTimeMan = data => dispatch => {
   console.log('data in set end time manually', data);
 
@@ -235,7 +273,7 @@ export const setEndTimeMan = data => dispatch => {
         };
 
         axios
-          .post('http://192.168.43.14:5000/api/rnapp/endTime_manually', payload)
+          .post('http://192.168.1.11:5000/api/rnapp/endTime_manually', payload)
           .then(res => {
             console.log('res.data', res.data);
           })
@@ -272,7 +310,7 @@ export const confirmEmployee = data => dispatch => {
         };
 
         axios
-          .post('http://192.168.43.14:5000/api/rnapp/confirmEmployee', payload)
+          .post('http://192.168.1.11:5000/api/rnapp/confirmEmployee', payload)
           .then(res => {
             console.log('res.data', res.data);
             dispatch({

@@ -9,15 +9,22 @@ import EditEndTime from './EditEndTime';
 export class EditItemsModal extends Component {
   state = {
     visible: false,
+    start: '',
+    end: '',
   };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.showModal !== this.props.showModal) {
       if (this.props.showModal) {
-        this.setState({visible: true});
+        this.setState({
+          visible: true,
+          start: this.props.start,
+          end: this.props.end,
+        });
       }
     }
   }
+
   _closeModal = () => {
     this.props.closeModal();
     this.setState({visible: false});
@@ -27,8 +34,8 @@ export class EditItemsModal extends Component {
     return (
       <Modal visible={this.state.visible}>
         <ScrollView>
-          <EditStartTime />
-          <EditEndTime />
+          <EditStartTime start={this.state.start} />
+          <EditEndTime end={this.state.end} />
         </ScrollView>
         <Button text="Close" onPress={this._closeModal} />
       </Modal>

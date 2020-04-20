@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Button from '../components/Button';
 import NumericInput from 'react-native-numeric-input';
-import moment from 'moment';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {connect} from 'react-redux';
+import {setStartTimeMan} from '../../store/actions/jobdayAction';
+import Message from './Message';
+import moment from 'moment';
 
 export class EditStartTime extends Component {
   state = {
@@ -11,9 +14,15 @@ export class EditStartTime extends Component {
     minutes: 0,
     isDoubleDIgitHours: false,
     isDoubleDIgitMinutes: false,
+    submitted: false,
+    confirmed: false,
+    message: '',
+    selectedDay: null,
   };
   //Hide 0 if double digit
   _hoursEdit = e => {
+    console.log('editing time');
+
     if (e > 8) {
       this.setState({isDoubleDIgitHours: true});
     }
@@ -32,6 +41,12 @@ export class EditStartTime extends Component {
     this.setState({minutes: e});
   };
 
+  componentDidMount() {
+    if (this.props.selectedDay) {
+      this.setState({selectedDay: this.props.selectedDay});
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.hours !== this.state.hours) {
       this.setState({hours: this.state.hours});
@@ -41,16 +56,69 @@ export class EditStartTime extends Component {
     }
   }
 
+  _submitEdit = () => {
+    this.setState({submitted: true});
+  };
+
+  //Send (timeStart set manually by Employee ) to Action
+  _setTimeStart = () => {
+    const {hours, minutes, message} = this.state;
+    //Prepare time format for DB
+    let Hours;
+    let Mins;
+    Hours = hours < 10 ? `0${hours}` : hours;
+    Mins = minutes < 10 ? `0${minutes}` : minutes;
+
+    console.log('time end', `${Hours}:${Mins}`);
+    //If in redux state selectedDay===null(on openning renderEmptyData)
+    // get today date
+    const todayDate = moment().format('YYYY-MM-DD');
+
+    const payload = {
+      timeStart: `${Hours}:${Mins}`,
+      message,
+      selectedDay: this.state.selectedDay ? this.state.selectedDay : todayDate,
+    };
+    this.props.setStartTimeMan(payload);
+  };
+  _resetState = () => {
+    this.setState({
+      hours: 0,
+      minutes: 0,
+      confirmed: false,
+      submitted: false,
+    });
+  };
+
+  //get message from Message.js
+  _getMessage = message => {
+    this.setState({message});
+  };
+
   render() {
     const {hours, minutes} = this.state;
     return (
       <View style={styles.container}>
         <Text style={styles.textTitle}>Edit Start Time</Text>
-        <View style={styles.showTime}>
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>
-            {this.state.isDoubleDIgitHours ? `${hours}` : `0${hours}`}:
-            {this.state.isDoubleDIgitMinutes ? `${minutes}` : `0${minutes}`}
-          </Text>
+        <View style={{flexDirection: 'row'}}>
+          <View style={styles.showTime}>
+            <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+              {this.state.isDoubleDIgitHours ? `${hours}` : `0${hours}`}:
+              {this.state.isDoubleDIgitMinutes ? `${minutes}` : `0${minutes}`}
+            </Text>
+          </View>
+          {this.state.submitted && !this.state.confirmed && (
+            <TouchableOpacity //Show Icon if submitted
+              onPress={() => this.setState({confirmed: true})}
+              style={{
+                backgroundColor: 'green',
+                borderRadius: 50,
+                marginLeft: 20,
+                padding: 20,
+              }}>
+              <Icon name="check" size={20} color="#FFF" />
+            </TouchableOpacity>
+          )}
         </View>
 
         <View style={styles.editTime}>
@@ -84,17 +152,27 @@ export class EditStartTime extends Component {
             />
           </View>
         </View>
-        <View>
-          <Button text="Submit" />
-        </View>
+        {this.state.confirmed ? (
+          <Message
+            resetState={this._resetState}
+            message={this._getMessage}
+            submit={this._setTimeStart}
+          />
+        ) : (
+          <View>
+            <Button text="Submit" onPress={this._submitEdit} />
+          </View>
+        )}
       </View>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  selectedDay: state.jobday.selectedDay,
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {setStartTimeMan};
 
 export default connect(
   mapStateToProps,
@@ -121,7 +199,6 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   showTime: {
-    marginVertical: 10,
     alignSelf: 'center',
     paddingHorizontal: 30,
     paddingVertical: 10,

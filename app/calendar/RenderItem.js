@@ -115,6 +115,9 @@ class RenderItem extends Component {
               showModal={this.state.openModal}
               closeModal={this._closeModal}
               item={this.props.item.item}
+              //time pair to show in EditStartTime && EditEndTime
+              start={this.state.start}
+              end={this.state.end}
             />
             <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
               <Row
