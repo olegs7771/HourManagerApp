@@ -92,7 +92,12 @@ export class AgendaLog extends Component {
             )}
             onDayPress={this._onDayPress.bind(this)}
             renderItem={(item, firstItemInDay) => (
-              <RenderItem item={item} confirm={this._confirm} />
+              <RenderItem
+                item={item}
+                confirm={this._confirm}
+                //Pass navigation for chirdren
+                navigation={this.props.navigation}
+              />
             )}
           />
         </View>

@@ -118,6 +118,7 @@ class RenderItem extends Component {
               //time pair to show in EditStartTime && EditEndTime
               start={this.state.start}
               end={this.state.end}
+              navigation={this.props.navigation}
             />
             <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
               <Row

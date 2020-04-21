@@ -18,6 +18,9 @@ export class EditStartTime extends Component {
     confirmed: false,
     message: '',
     selectedDay: null,
+    //Response from API on setting timeStart
+    apiMessage: null,
+    loading: false,
   };
   //Hide 0 if double digit
   _hoursEdit = e => {
@@ -78,6 +81,13 @@ export class EditStartTime extends Component {
     if (prevState.minutes !== this.state.minutes) {
       this.setState({minutes: this.state.minutes});
     }
+    //apiMessage
+    if (prevProps.apiMessage !== this.props.apiMessage) {
+      this.setState({apiMessage: this.props.apiMessage});
+    }
+    if (prevProps.loading !== this.props.loading) {
+      this.setState({loading: this.props.loading});
+    }
   }
 
   _submitEdit = () => {
@@ -119,8 +129,31 @@ export class EditStartTime extends Component {
     this.setState({message});
   };
 
+  // this.props.jobTime.timeStart
+  _onPressBtn = () => {
+    const jobTime = {timeStart: this.state};
+    this.props.navigation.navigate('DashBoard');
+    // close Modal
+    this.props.closeModal();
+  };
+
   render() {
     const {hours, minutes} = this.state;
+    if (this.state.loading) {
+      return (
+        <View>
+          <Text>Loding..</Text>
+        </View>
+      );
+    }
+    if (this.state.apiMessage) {
+      return (
+        <View style={styles.apiMessage}>
+          <Text style={styles.textapiMessage}>{this.state.apiMessage}</Text>
+          <Button text="Back to Jobday" onPress={this._onPressBtn} />
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
         <Text style={styles.textTitle}>Edit Start Time</Text>
