@@ -27,9 +27,6 @@ export class EditItemsModal extends Component {
     //Response apiMessage from timeStart manually
     if (prevProps.apiMessage !== this.props.apiMessage) {
       this.setState({apiMessage: this.props.apiMessage});
-      setTimeout(() => {
-        this.setState({apiMessage: null});
-      }, 5000);
     }
     if (prevProps.loading !== this.props.loading) {
       this.setState({loading: this.props.loading});
@@ -40,6 +37,10 @@ export class EditItemsModal extends Component {
     this.props.closeModal();
     this.setState({visible: false});
   };
+
+  componentWillUnmount() {
+    console.log('modal closed');
+  }
 
   render() {
     return (
