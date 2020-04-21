@@ -45,6 +45,28 @@ export class EditEndTime extends Component {
     if (this.props.selectedDay) {
       this.setState({selectedDay: this.props.selectedDay});
     }
+
+    //show end time if exists on mout
+    console.log('start on mount', typeof this.props.start);
+    if (this.props.end) {
+      let hourNum;
+      let minNum;
+
+      if (parseInt(this.props.end.slice(0, 2)) > 9) {
+        hourNum = parseInt(this.props.end.slice(0, 2));
+        this.setState({isDoubleDIgitHours: true, hours: hourNum});
+      } else {
+        hourNum = parseInt(this.props.end.slice(0, 2));
+        this.setState({hours: hourNum});
+      }
+      if (parseInt(this.props.end.slice(3, 5)) > 9) {
+        minNum = parseInt(this.props.end.slice(3, 5));
+        this.setState({isDoubleDIgitMinutes: true, minutes: minNum});
+      } else {
+        minNum = parseInt(this.props.end.slice(3, 5));
+        this.setState({minutes: minNum});
+      }
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {

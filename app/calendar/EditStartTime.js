@@ -45,6 +45,30 @@ export class EditStartTime extends Component {
     if (this.props.selectedDay) {
       this.setState({selectedDay: this.props.selectedDay});
     }
+    //show start time if exists on mout
+    console.log('start on mount', typeof this.props.start);
+    if (this.props.start) {
+      let hourNum;
+      let minNum;
+
+      if (parseInt(this.props.start.slice(0, 2)) > 9) {
+        hourNum = parseInt(this.props.start.slice(0, 2));
+        this.setState({isDoubleDIgitHours: true, hours: hourNum});
+      } else {
+        hourNum = parseInt(this.props.start.slice(0, 2));
+        this.setState({hours: hourNum});
+      }
+      if (parseInt(this.props.start.slice(3, 5)) > 9) {
+        minNum = parseInt(this.props.start.slice(3, 5));
+        this.setState({isDoubleDIgitMinutes: true, minutes: minNum});
+      } else {
+        minNum = parseInt(this.props.start.slice(3, 5));
+        this.setState({minutes: minNum});
+      }
+    }
+
+    //  const hourStr = this.props.start?this.props.start:0
+    //  const minStr = this.props.start?this.props.start:0
   }
 
   componentDidUpdate(prevProps, prevState) {
