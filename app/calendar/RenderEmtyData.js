@@ -78,7 +78,9 @@ class RenderEmtyData extends Component {
             <EditItemModal
               showModal={this.state.openModal}
               closeModal={this._closeModal}
-              // item={this.props.item.item}
+              currentDate={this.props.currentDate}
+              selectedDate={this.props.selectedDay}
+              navigation={this.props.navigation}
             />
             <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
               <Row

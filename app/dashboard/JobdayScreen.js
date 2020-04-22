@@ -75,6 +75,11 @@ export class JobdayScreen extends Component {
         loading: this.props.loading,
       });
     }
+    //Params came from Navigatin. update state
+    // if(prevParams.route!==this.props.route){
+    //   //Create time string for react
+
+    // }
   }
 
   //Change props in parent for child model
@@ -91,9 +96,7 @@ export class JobdayScreen extends Component {
   };
   _checkOut = () => {
     if (!this.state.startTime)
-      return Alert.alert(
-        "You can't checkout End without Start jobday time.If you forget to Start , you can edit it in Log",
-      );
+      return Alert.alert('Please Edit Start manually in Log!');
     //Create payload for Action
     const payload = {
       timeStart: m.format(),

@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-
-    marginRight: 30,
+    marginRight: 70,
+    marginTop: -5,
+    marginBottom: 10,
   },
 });

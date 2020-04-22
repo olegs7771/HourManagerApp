@@ -28,10 +28,10 @@ class Message extends Component {
     if (prevState.message !== this.state.message) {
       if (this.state.message.length >= 20) {
         this.setState({isValid: true});
-      } else {
-        this.setState({isValid: false});
         //If isValid we send message to Parent
         this.props.message(this.state.message);
+      } else {
+        this.setState({isValid: false});
       }
     }
   }

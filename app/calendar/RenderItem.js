@@ -19,7 +19,8 @@ class RenderItem extends Component {
     comment: '',
     start: '',
     end: '',
-
+    //Local error
+    error: '',
     // managerConfirmed: false,
     openModal: false,
 
@@ -66,6 +67,14 @@ class RenderItem extends Component {
   };
 
   _confirmEmployee = () => {
+    //Only if Start End pair exists
+    if (this.state.start.length === 0) {
+      return this.setState({start: 'No Time Set!'});
+    }
+    if (this.state.end.length === 0) {
+      return this.setState({end: 'No Time Set!'});
+    }
+
     //Create payload for action
     //Conver "2020-04-12T15:34:30.259Z" to "2020-04-12"
     const dateEdit = moment(this.props.item.item.date).format('YYYY-MM-DD');

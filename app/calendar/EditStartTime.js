@@ -131,8 +131,18 @@ export class EditStartTime extends Component {
 
   // this.props.jobTime.timeStart
   _onPressBtn = () => {
-    const jobTime = {timeStart: this.state};
-    this.props.navigation.navigate('DashBoard');
+    const jobTime = {
+      timeStart: {
+        hours: this.state.hours,
+        minutes: this.state.minutes,
+      },
+    };
+
+    this.props.navigation.navigate('Log', {
+      jobTime,
+      // currentDate: this.props.currentDate,
+      // selectedDate: this.props.selectedDay,
+    });
     // close Modal
     this.props.closeModal();
   };
@@ -146,10 +156,12 @@ export class EditStartTime extends Component {
         </View>
       );
     }
-    if (this.state.apiMessage) {
+    if (this.state.apiMessage || this.props.apiMessage) {
       return (
         <View style={styles.apiMessage}>
-          <Text style={styles.textapiMessage}>{this.state.apiMessage}</Text>
+          <Text style={styles.textapiMessage}>
+            {this.state.apiMessage || this.props.apiMessage}
+          </Text>
           <Button text="Back to Jobday" onPress={this._onPressBtn} />
         </View>
       );

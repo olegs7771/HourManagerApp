@@ -34,8 +34,8 @@ export class EditItemsModal extends Component {
   }
 
   _closeModal = () => {
-    this.props.closeModal();
-    this.setState({visible: false});
+    this.props.closeModal(); //from renderItem.js
+    this.setState({visible: false, apiMessage: null});
   };
 
   componentWillUnmount() {
@@ -52,6 +52,8 @@ export class EditItemsModal extends Component {
             loading={this.state.loading}
             navigation={this.props.navigation}
             closeModal={this._closeModal}
+            currentDate={this.props.currentDate}
+            selectedDate={this.props.selectedDate}
           />
           <EditEndTime
             end={this.state.end}
@@ -59,6 +61,8 @@ export class EditItemsModal extends Component {
             loading={this.state.loading}
             navigation={this.props.navigation}
             closeModal={this._closeModal}
+            currentDate={this.props.currentDate}
+            selectedDate={this.props.selectedDate}
           />
         </ScrollView>
         <Button text="Close" onPress={this._closeModal} />

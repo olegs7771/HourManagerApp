@@ -44,6 +44,9 @@ export class AgendaLog extends Component {
     if (prevProps.selectedDay !== this.props.selectedDay) {
       this.setState({selectedDay: this.props.selectedDay});
     }
+    if (prevProps.route !== this.props.route) {
+      this.props.getJobdays();
+    }
   }
 
   _onDayPress = day => {
@@ -88,7 +91,11 @@ export class AgendaLog extends Component {
               console.log('day changed');
             }}
             renderEmptyData={() => (
-              <RenderEmtyData date={this.state.currentDay} />
+              <RenderEmtyData
+                selectedDay={this.state.selectedDay}
+                currentDate={this.state.currentDay}
+                navigation={this.props.navigation}
+              />
             )}
             onDayPress={this._onDayPress.bind(this)}
             renderItem={(item, firstItemInDay) => (
