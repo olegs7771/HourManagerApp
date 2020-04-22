@@ -183,7 +183,12 @@ export class EditStartTime extends Component {
       );
     }
     return (
-      <View style={styles.container}>
+      <View
+        style={
+          !this.state.confirmed
+            ? styles.container
+            : styles.containerWithPaddingBotom
+        }>
         <Text style={styles.textTitle}> Start Time</Text>
         <View style={{flexDirection: 'row'}}>
           <View style={styles.showTime}>
@@ -310,8 +315,17 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     alignContent: 'center',
     alignItems: 'center',
-
     backgroundColor: '#e0e0e0',
+    paddingBottom: 20,
+  },
+  containerWithPaddingBotom: {
+    flex: 1,
+    paddingTop: 10,
+    alignContent: 'center',
+    alignItems: 'center',
+    marginTop: 5,
+    backgroundColor: '#e0e0e0',
+    paddingBottom: 150,
   },
   textTitle: {
     fontSize: 20,

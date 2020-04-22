@@ -7,6 +7,7 @@ import {
   // SET_ENDTIME_MANUALLY,
   GET_SELECTED_DAY,
   GET_MESSAGES,
+  MESSAGE_LOADING,
   MESSAGE_LOADING_START,
   MESSAGE_LOADING_END,
   CLEAR_MESSAGE,
@@ -356,6 +357,11 @@ export const confirmEmployee = data => dispatch => {
 export const loadingJobdays = () => {
   return {
     type: LOADING_JOBDAYS,
+  };
+};
+export const loadingMessages = () => {
+  return {
+    type: MESSAGE_LOADING,
   };
 };
 export const loadingMessagesStart = () => {

@@ -1,5 +1,6 @@
 import {
   GET_MESSAGES,
+  MESSAGE_LOADING,
   MESSAGE_LOADING_START,
   MESSAGE_LOADING_END,
   CLEAR_MESSAGE,
@@ -11,9 +12,15 @@ const initialState = {
   // we want then loading separatly
   loadingStart: false,
   loadingEnd: false,
+  loading: false,
 };
 export default (state = initialState, action) => {
   switch (action.type) {
+    case MESSAGE_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
     case MESSAGE_LOADING_START:
       return {
         ...state,
@@ -28,8 +35,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         message: action.payload,
-        loadingStart: false,
-        loadingEnd: false,
+        loading: false,
       };
     //Clear Messages to Reload editItemModal.js
     case CLEAR_MESSAGE:

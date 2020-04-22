@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import Button from '../components/Button';
 import NumericInput from 'react-native-numeric-input';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -152,8 +158,8 @@ export class EditEndTime extends Component {
     const {hours, minutes} = this.state;
     if (this.state.loading) {
       return (
-        <View>
-          <Text>Loading end..</Text>
+        <View style={{justifyContent: 'center', paddingVertical: 50}}>
+          <ActivityIndicator size={50} />
         </View>
       );
     }
@@ -163,12 +169,25 @@ export class EditEndTime extends Component {
           <Text style={styles.textapiMessage}>
             {this.state.apiMessage || this.props.apiMessage}
           </Text>
-          <Button text="Back to Jobday" onPress={this._onPressBtn} />
+          <Button
+            text="Back to Jobday"
+            onPress={this._onPressBtn}
+            styleCont={{
+              borderRadius: 5,
+              marginTop: 20,
+              backgroundColor: '#195424',
+            }}
+          />
         </View>
       );
     }
     return (
-      <View style={styles.container}>
+      <View
+        style={
+          !this.state.confirmed
+            ? styles.container
+            : styles.containerWithPaddingBotom
+        }>
         <Text style={styles.textTitle}> End Time</Text>
         <View style={{flexDirection: 'row'}}>
           <View style={styles.showTime}>
@@ -294,6 +313,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 5,
     backgroundColor: '#e0e0e0',
+    paddingBottom: 30,
+  },
+  containerWithPaddingBotom: {
+    flex: 1,
+    paddingTop: 10,
+    alignContent: 'center',
+    alignItems: 'center',
+    marginTop: 5,
+    backgroundColor: '#e0e0e0',
+    paddingBottom: 150,
   },
   textTitle: {
     fontSize: 20,
@@ -313,5 +342,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 10,
     backgroundColor: '#ffffff',
+  },
+  apiMessage: {
+    paddingVertical: 50,
+    alignItems: 'center',
+  },
+  textapiMessage: {
+    fontSize: 20,
+    color: '#03852a',
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
 });
