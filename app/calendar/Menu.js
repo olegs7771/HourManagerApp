@@ -21,22 +21,11 @@ export default class Menu extends Component {
           styleCont={{
             backgroundColor: '#3d5873',
             paddingVertical: 5,
-            paddingHorizontal: 10,
+            paddingHorizontal: 30,
             borderRadius: 5,
           }}
           styleText={{fontSize: 16, fontWeight: 'normal'}}
           onPress={() => this.props.openEditModal()}
-        />
-        <Button
-          text="Add Message"
-          styleCont={{
-            backgroundColor: '#3d5873',
-            paddingVertical: 5,
-            paddingHorizontal: 10,
-            borderRadius: 5,
-            marginLeft: 10,
-          }}
-          styleText={{fontSize: 16, fontWeight: 'normal'}}
         />
 
         <Button
@@ -44,7 +33,7 @@ export default class Menu extends Component {
           styleCont={{
             backgroundColor: '#3d5873',
             paddingVertical: 5,
-            paddingHorizontal: 10,
+            paddingHorizontal: 30,
             borderRadius: 5,
             marginLeft: 10,
           }}

@@ -18,6 +18,9 @@ export class EditEndTime extends Component {
     confirmed: false,
     message: '',
     selectedDay: null,
+    //Response from API on setting timeStart
+    apiMessage: null,
+    loading: false,
   };
   //Hide 0 if double digit
   _hoursEdit = e => {
@@ -42,13 +45,17 @@ export class EditEndTime extends Component {
   };
 
   componentDidMount() {
+    console.log('this.props end', this.props.end);
+
     if (this.props.selectedDay) {
       this.setState({selectedDay: this.props.selectedDay});
     }
 
-    //show end time if exists on mout
+    //show end time if exists on mount
     console.log('start on mount', typeof this.props.start);
-    if (this.props.end) {
+    if (this.props.end.length === 5 || !this.props.end === 'No Time Set!') {
+      console.log('this.props.end', this.props.end);
+
       let hourNum;
       let minNum;
 
@@ -75,6 +82,13 @@ export class EditEndTime extends Component {
     }
     if (prevState.minutes !== this.state.minutes) {
       this.setState({minutes: this.state.minutes});
+    }
+    //apiMessage
+    if (prevProps.apiMessage !== this.props.apiMessage) {
+      this.setState({apiMessage: this.props.apiMessage});
+    }
+    if (prevProps.loading !== this.props.loading) {
+      this.setState({loading: this.props.loading});
     }
   }
 
@@ -116,12 +130,46 @@ export class EditEndTime extends Component {
   _getMessage = message => {
     this.setState({message});
   };
+  // this.props.jobTime.timeStart
+  _onPressBtn = () => {
+    const jobTime = {
+      timeEnd: {
+        hours: this.state.hours,
+        minutes: this.state.minutes,
+      },
+    };
+
+    this.props.navigation.navigate('Log', {
+      jobTime,
+      // currentDate: this.props.currentDate,
+      // selectedDate: this.props.selectedDay,
+    });
+    // close Modal
+    this.props.closeModal();
+  };
 
   render() {
     const {hours, minutes} = this.state;
+    if (this.state.loading) {
+      return (
+        <View>
+          <Text>Loading end..</Text>
+        </View>
+      );
+    }
+    if (this.state.apiMessage || this.props.apiMessage) {
+      return (
+        <View style={styles.apiMessage}>
+          <Text style={styles.textapiMessage}>
+            {this.state.apiMessage || this.props.apiMessage}
+          </Text>
+          <Button text="Back to Jobday" onPress={this._onPressBtn} />
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
-        <Text style={styles.textTitle}>Edit End Time</Text>
+        <Text style={styles.textTitle}> End Time</Text>
         <View style={{flexDirection: 'row'}}>
           <View style={styles.showTime}>
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>
@@ -142,38 +190,65 @@ export class EditEndTime extends Component {
             </TouchableOpacity>
           )}
         </View>
-
-        <View style={styles.editTime}>
-          <View style={styles.hours}>
-            <View style={{borderWidth: 1, marginBottom: 20}}>
-              <Text style={{textAlign: 'center', fontSize: 18}}>Hours</Text>
+        {!this.state.confirmed && (
+          <View style={styles.editTime}>
+            <View style={styles.hours}>
+              <View
+                style={{
+                  marginBottom: 20,
+                  borderRadius: 5,
+                  paddingVertical: 5,
+                  backgroundColor: '#ffffff',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                  }}>
+                  Hours
+                </Text>
+              </View>
+              <NumericInput
+                value={this.state.hours}
+                onChange={this._hoursEdit}
+                maxValue={23}
+                minValue={0}
+                onLimitReached={(isMax, msg) => console.log(isMax, msg)}
+                rounded={true}
+                totalHeight={50}
+                totalWidth={150}
+              />
             </View>
-            <NumericInput
-              value={this.state.hours}
-              onChange={this._hoursEdit}
-              maxValue={23}
-              minValue={0}
-              onLimitReached={(isMax, msg) => console.log(isMax, msg)}
-              rounded={true}
-              totalHeight={50}
-              totalWidth={150}
-            />
-          </View>
-          <View style={styles.minutes}>
-            <View style={{borderWidth: 1, marginBottom: 20}}>
-              <Text style={{textAlign: 'center', fontSize: 18}}>Minutes</Text>
+            <View style={styles.minutes}>
+              <View
+                style={{
+                  marginBottom: 20,
+                  borderRadius: 5,
+                  paddingVertical: 5,
+                  backgroundColor: '#ffffff',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                  }}>
+                  Minutes
+                </Text>
+              </View>
+              <NumericInput
+                value={this.state.value}
+                onChange={this._minutesEdit}
+                maxValue={59}
+                minValue={0}
+                rounded={true}
+                totalHeight={50}
+                totalWidth={150}
+              />
             </View>
-            <NumericInput
-              value={this.state.value}
-              onChange={this._minutesEdit}
-              maxValue={59}
-              minValue={0}
-              rounded={true}
-              totalHeight={50}
-              totalWidth={150}
-            />
           </View>
-        </View>
+        )}
         {this.state.confirmed ? (
           <Message
             resetState={this._resetState}
@@ -182,7 +257,17 @@ export class EditEndTime extends Component {
           />
         ) : (
           <View>
-            <Button text="Submit" onPress={this._submitEdit} />
+            <Button
+              text="Submit"
+              onPress={this._submitEdit}
+              styleCont={{
+                backgroundColor: '#03801c',
+                paddingVertical: 5,
+                paddingHorizontal: 20,
+                borderRadius: 5,
+                marginBottom: 20,
+              }}
+            />
           </View>
         )}
       </View>
@@ -208,6 +293,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
+    backgroundColor: '#e0e0e0',
   },
   textTitle: {
     fontSize: 20,
@@ -224,7 +310,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingHorizontal: 30,
     paddingVertical: 10,
-    borderWidth: 1,
     borderRadius: 5,
+    marginTop: 10,
+    backgroundColor: '#ffffff',
   },
 });

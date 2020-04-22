@@ -16,7 +16,7 @@ import Menu from './Menu';
 
 class RenderItem extends Component {
   state = {
-    comment: '',
+    comment: false,
     start: '',
     end: '',
     //Local error
@@ -37,6 +37,7 @@ class RenderItem extends Component {
           ? moment(item.item.timeStart).format('HH:mm')
           : '',
         end: item.item.timeEnd ? moment(item.item.timeEnd).format('HH:mm') : '',
+        comment: item.item.message ? true : false,
       });
     }
   }
@@ -67,11 +68,13 @@ class RenderItem extends Component {
   };
 
   _confirmEmployee = () => {
+    console.log('this.state.start.length', this.state.start.length);
+
     //Only if Start End pair exists
-    if (this.state.start.length === 0) {
+    if (this.state.start.length !== 5) {
       return this.setState({start: 'No Time Set!'});
     }
-    if (this.state.end.length === 0) {
+    if (this.state.end.length !== 5) {
       return this.setState({end: 'No Time Set!'});
     }
 
@@ -100,15 +103,15 @@ class RenderItem extends Component {
   };
 
   render() {
-    const {
-      start,
-      end,
-      comment,
-      // employeeConfirmed,
-      // managerConfirmed,
-    } = this.state;
-    const tableHead = ['Start', 'End', 'Notes'];
-    const tableData = [[start, end, comment]];
+    const {start, end} = this.state;
+    //if item has message
+    //show employee that is been sent to manager
+    const commentBoolen = this.state.comment
+      ? 'Sent To Manager'
+      : 'No Comments';
+
+    const tableHead = ['Start', 'End', 'Comment'];
+    const tableData = [[start, end, commentBoolen]];
 
     // Create Icon V behavior
 

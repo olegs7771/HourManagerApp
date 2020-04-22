@@ -4,7 +4,9 @@ export const LOADING_AUTH = 'LOADING_AUTH';
 export const GET_ERRORS = 'GET_ERRORS';
 //Messages
 export const GET_MESSAGES = 'GET_MESSAGES';
-export const MESSAGE_LOADING = 'MESSAGE_LOADING';
+export const MESSAGE_LOADING_START = 'MESSAGE_LOADING_START';
+export const MESSAGE_LOADING_END = 'MESSAGE_LOADING_END';
+export const CLEAR_MESSAGE = 'CLEAR_MESSAGE';
 
 //JobDay
 export const GET_JOBDAYS = 'GET_JOBDAYS';

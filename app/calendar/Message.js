@@ -56,6 +56,10 @@ class Message extends Component {
         <View
           style={{
             flexDirection: 'row',
+
+            justifyContent: 'space-between',
+            width: '60%',
+            marginVertical: 5,
           }}>
           <Button
             text="Set Time"
@@ -63,8 +67,8 @@ class Message extends Component {
             styleCont={{
               borderRadius: 5,
               backgroundColor: this.state.isValid ? 'green' : 'grey',
-              padding: 3,
-              height: 30,
+              paddingVertical: 5,
+              paddingHorizontal: 15,
             }}
           />
           <Button
@@ -73,9 +77,9 @@ class Message extends Component {
             styleCont={{
               borderRadius: 5,
               backgroundColor: 'grey',
-              marginLeft: 5,
-              padding: 3,
-              height: 30,
+
+              paddingVertical: 5,
+              paddingHorizontal: 15,
             }}
             styleText={{fontSize: 16}}
           />
@@ -95,5 +99,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 5,
     alignItems: 'center',
+    marginVertical: 20,
+    backgroundColor: '#ffffff',
   },
 });

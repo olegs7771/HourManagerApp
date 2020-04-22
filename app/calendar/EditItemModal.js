@@ -10,8 +10,10 @@ export class EditItemsModal extends Component {
     visible: false,
     start: '',
     end: '',
-    apiMessage: null,
-    loading: false,
+    apiMessageStart: null,
+    apiMessageEnd: null,
+    loadingStart: false,
+    loadingEnd: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -26,16 +28,24 @@ export class EditItemsModal extends Component {
     }
     //Response apiMessage from timeStart manually
     if (prevProps.apiMessage !== this.props.apiMessage) {
-      this.setState({apiMessage: this.props.apiMessage});
+      if (this.props.apiMessage) {
+        const str = this.props.apiMessage;
+        if (str.includes('Start')) {
+          return this.setState({apiMessageStart: this.props.apiMessage});
+        } else {
+          this.setState({apiMessageEnd: this.props.apiMessage});
+        }
+      }
     }
-    if (prevProps.loading !== this.props.loading) {
-      this.setState({loading: this.props.loading});
+    if (prevProps !== this.props) {
+      this.setState({loadingEnd: this.props.loadingEnd});
+      this.setState({loadingStart: this.props.loadingStart});
     }
   }
 
   _closeModal = () => {
     this.props.closeModal(); //from renderItem.js
-    this.setState({visible: false, apiMessage: null});
+    this.setState({visible: false, apiMessageStart: null, apiMessageEnd: null});
   };
 
   componentWillUnmount() {
@@ -48,8 +58,8 @@ export class EditItemsModal extends Component {
         <ScrollView>
           <EditStartTime
             start={this.state.start}
-            apiMessage={this.state.apiMessage}
-            loading={this.state.loading}
+            apiMessage={this.state.apiMessageStart}
+            loading={this.state.loadingStart}
             navigation={this.props.navigation}
             closeModal={this._closeModal}
             currentDate={this.props.currentDate}
@@ -57,8 +67,8 @@ export class EditItemsModal extends Component {
           />
           <EditEndTime
             end={this.state.end}
-            apiMessage={this.state.apiMessage}
-            loading={this.state.loading}
+            apiMessage={this.state.apiMessageEnd}
+            loading={this.state.loadingEnd}
             navigation={this.props.navigation}
             closeModal={this._closeModal}
             currentDate={this.props.currentDate}
@@ -74,7 +84,8 @@ export class EditItemsModal extends Component {
 const mapStateToProps = state => ({
   jobTime: state.jobday.jobTime,
   apiMessage: state.message.message.message,
-  loading: state.message.loading,
+  loadingStart: state.message.loadingStart,
+  loadingEnd: state.message.loadingEnd,
 });
 
 const mapDispatchToProps = {};
