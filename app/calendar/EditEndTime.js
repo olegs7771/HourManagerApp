@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     alignContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
+    marginTop: 5,
     backgroundColor: '#e0e0e0',
   },
   textTitle: {

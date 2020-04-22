@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import Button from '../components/Button';
 import NumericInput from 'react-native-numeric-input';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -153,8 +159,8 @@ export class EditStartTime extends Component {
     const {hours, minutes} = this.state;
     if (this.state.loading) {
       return (
-        <View>
-          <Text>Loading start..</Text>
+        <View style={{justifyContent: 'center', paddingVertical: 50}}>
+          <ActivityIndicator size={50} />
         </View>
       );
     }
@@ -164,7 +170,15 @@ export class EditStartTime extends Component {
           <Text style={styles.textapiMessage}>
             {this.state.apiMessage || this.props.apiMessage}
           </Text>
-          <Button text="Back to Jobday" onPress={this._onPressBtn} />
+          <Button
+            text="Back to Log"
+            onPress={this._onPressBtn}
+            styleCont={{
+              borderRadius: 5,
+              marginTop: 20,
+              backgroundColor: '#195424',
+            }}
+          />
         </View>
       );
     }
@@ -296,7 +310,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     alignContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
+
     backgroundColor: '#e0e0e0',
   },
   textTitle: {
@@ -317,5 +331,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 10,
     backgroundColor: '#ffffff',
+  },
+  apiMessage: {
+    paddingVertical: 50,
+    alignItems: 'center',
+  },
+  textapiMessage: {
+    fontSize: 20,
+    color: '#03852a',
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
 });
