@@ -36,6 +36,8 @@ export default (state = initialState, action) => {
         ...state,
         message: action.payload,
         loading: false,
+        loadingEnd: false,
+        loadingStart: false,
       };
     //Clear Messages to Reload editItemModal.js
     case CLEAR_MESSAGE:
