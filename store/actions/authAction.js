@@ -17,6 +17,7 @@ export const loginEmployee = data => dispatch => {
         email: res.data.email,
         token: res.data.token,
         uid: res.data.uid,
+        projectID: res.data.projectID,
       };
 
       AsyncStorage.setItem('user', JSON.stringify(payload)).then(() => {

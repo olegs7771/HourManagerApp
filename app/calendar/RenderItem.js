@@ -42,6 +42,17 @@ class RenderItem extends Component {
     }
   }
   componentDidMount() {
+    if (this.props.item) {
+      const {item} = this.props;
+      this.setState({
+        start: item.item.timeStart
+          ? moment(item.item.timeStart).format('HH:mm')
+          : '',
+        end: item.item.timeEnd ? moment(item.item.timeEnd).format('HH:mm') : '',
+        comment: item.item.message ? true : false,
+      });
+    }
+
     this.setState({isConfirmedManager: this.props.item.item.confirmManager});
   }
 

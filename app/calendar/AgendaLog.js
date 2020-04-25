@@ -44,8 +44,10 @@ export class AgendaLog extends Component {
     if (prevProps.selectedDay !== this.props.selectedDay) {
       this.setState({selectedDay: this.props.selectedDay});
     }
+    //Reload Jobdays to update calendar after navigate from message.js
     if (prevProps.route !== this.props.route) {
       this.props.getJobdays();
+      this.props.getTime();
     }
   }
 

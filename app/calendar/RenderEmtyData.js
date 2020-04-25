@@ -20,6 +20,9 @@ class RenderEmtyData extends Component {
     comment: '',
     start: '00:00',
     end: '00:00',
+    //Date to show in {19 Fri}
+    date: '',
+    weekdayshort: '',
 
     // managerConfirmed: false,
     openModal: false,
@@ -53,6 +56,23 @@ class RenderEmtyData extends Component {
     this.setState({isMenuOpen: false});
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.selectedDay !== this.props.selectedDay) {
+      if (this.props.selectedDay) {
+        this.setState({
+          date: moment(this.props.selectedDay).format('DD'),
+          weekdayshort: moment(this.props.selectedDay).format('ddd'),
+        });
+      }
+    }
+  }
+  componentDidMount() {
+    this.setState({
+      date: moment(this.props.currentDate).format('D'),
+      weekdayshort: moment(this.props.currentDate).format('ddd'),
+    });
+  }
+
   render() {
     const {
       start,
@@ -71,8 +91,8 @@ class RenderEmtyData extends Component {
             paddingVertical: 10,
           }}>
           <View style={styles.dateContainer}>
-            <Text style={styles.textdate}>19</Text>
-            <Text style={styles.textday}>Fri</Text>
+            <Text style={styles.textdate}>{this.state.date}</Text>
+            <Text style={styles.textday}>{this.state.weekdayshort}</Text>
           </View>
           <View style={styles.container}>
             <EditItemModal
@@ -81,6 +101,9 @@ class RenderEmtyData extends Component {
               currentDate={this.props.currentDate}
               selectedDate={this.props.selectedDay}
               navigation={this.props.navigation}
+              //time pair to show in EditStartTime && EditEndTime
+              start={this.state.start}
+              end={this.state.end}
             />
             <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
               <Row

@@ -75,10 +75,9 @@ export class JobdayScreen extends Component {
         loading: this.props.loading,
       });
     }
-    //Params came from Navigatin. update state
-    // if(prevParams.route!==this.props.route){
-    //   //Create time string for react
-
+    // if (prevProps.route !== this.props.route) {
+    //   this.props.getJobdays();
+    //   this.props.getTime();
     // }
   }
 
