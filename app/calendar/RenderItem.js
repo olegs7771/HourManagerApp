@@ -53,7 +53,7 @@ class RenderItem extends Component {
       });
     }
 
-    this.setState({isConfirmedManager: this.props.item.item.confirmManager});
+    // this.setState({isConfirmedManager: this.props.item.item.confirmManager});
   }
 
   _edit = () => {
@@ -69,7 +69,7 @@ class RenderItem extends Component {
   };
 
   _openMenu = () => {
-    if (!this.state.isConfirmedManager) {
+    if (!this.props.item.item.confirmManager) {
       this.setState({isMenuOpen: !this.state.isMenuOpen});
     }
   };

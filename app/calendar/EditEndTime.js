@@ -121,6 +121,8 @@ export class EditEndTime extends Component {
       message,
       selectedDay: this.state.selectedDay ? this.state.selectedDay : todayDate,
     };
+    console.log('payload', payload);
+
     this.props.setEndTimeMan(payload);
   };
   _resetState = () => {
