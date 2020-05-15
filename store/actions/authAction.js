@@ -5,10 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 export const loginEmployee = data => dispatch => {
   console.log('data', data);
   dispatch(loading());
-  Axios.post(
-    'https://glacial-crag-30370.herokuapp.com/api/employee/employee_login',
-    data,
-  )
+  Axios.post('http://192.168.43.14:5000/api/employee/employee_login', data)
     .then(res => {
       console.log('res.data', res.data);
       //Create payload for AsyncStorage
