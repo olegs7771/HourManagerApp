@@ -28,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new ReanimatedPackage());
           return packages;
         }
+        
 
         @Override
         protected String getJSMainModuleName() {

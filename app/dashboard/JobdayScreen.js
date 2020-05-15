@@ -11,6 +11,7 @@ import {
 } from '../../store/actions/jobdayAction';
 import moment from 'moment';
 import Button from '../components/Button';
+import BgTracking from './BgTracking';
 
 const m = moment();
 
@@ -122,6 +123,7 @@ export class JobdayScreen extends Component {
     }
     return (
       <View style={styles.container}>
+        <BgTracking />
         <View style={styles.containerHeader}>
           <Text style={styles.textGreeting}>
             Good {getGreetingTime(m)} {this.state.name}!
