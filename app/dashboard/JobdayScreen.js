@@ -127,22 +127,7 @@ export class JobdayScreen extends Component {
 
   //get current coordsfrom
   _getCurrentCoords = data => {
-    console.log('data current coords', data);
-    this.setState(prevState => {
-      return {
-        ...prevState,
-        currentCoords: data,
-      };
-    });
-
-    if (this.state.project) {
-      console.log('current position', data);
-      console.log('project position', this.state.project.coords);
-
-      if (this.state.currentCoords === this.state.project.coords) {
-        return console.log('Match!');
-      }
-    }
+    console.log('data', data);
   };
 
   render() {
