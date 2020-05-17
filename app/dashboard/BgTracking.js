@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {Alert} from 'react-native';
+import {Alert, View, Text} from 'react-native';
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
 
 const BgTracking = props => {
-  const [location, setLocation] = useState({});
-  const [isValidLocation, setIsValidLocation] = useState(false);
+  const [coords, setLocation] = useState({});
 
   useEffect(() => {
-    console.log('BackgroundGeolocation', BackgroundGeolocation);
+    console.log('coords', coords);
+    // props.coordsChild(coords);
 
     BackgroundGeolocation.configure({
-      desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
+      desiredAccuracy: BackgroundGeolocation.DISTANCE_FILTER_PROVIDER,
       stationaryRadius: 50,
       distanceFilter: 50,
       notificationTitle: 'Background tracking',
@@ -19,9 +19,9 @@ const BgTracking = props => {
       startOnBoot: false,
       stopOnTerminate: true,
       locationProvider: BackgroundGeolocation.ACTIVITY_PROVIDER,
-      interval: 10000,
-      fastestInterval: 5000,
-      activitiesInterval: 10000,
+      interval: 100000,
+      fastestInterval: 50000,
+      activitiesInterval: 20000,
       stopOnStillActivity: false,
       url: 'http://192.168.81.15:3000/location',
       httpHeaders: {
@@ -37,6 +37,19 @@ const BgTracking = props => {
 
     BackgroundGeolocation.on('location', location => {
       console.log('location', location);
+      setLocation(prevState => ({
+        ...prevState,
+        coords: {
+          lat: location.latitude,
+          lng: location.longitude,
+        },
+      }));
+
+      // const payload = {
+      //   lat: location.latitude,
+      //   lng: location.longitude,
+      // };
+      // props.coordsChild(payload);
 
       // handle your locations here
       // to perform long running operation on iOS
@@ -136,14 +149,17 @@ const BgTracking = props => {
 
     // you can also just start without checking for status
     // BackgroundGeolocation.start();
-    BackgroundGeolocation.getCurrentLocation((data, fail) => {
-      console.log('current location', data);
-      const payload = {
-        lat: data.latitude,
-        lng: data.longitude,
-      };
-      props.coordsChild(payload);
-    });
+    // BackgroundGeolocation.getCurrentLocation((data, fail) => {
+    //   console.log('current location data', data);
+    //   // setLocation({location: 'one'});
+
+    //   setLocation(prevState => ({
+    //     ...prevState,
+
+    //     lat: data.latitude,
+    //     lng: data.longitude,
+    //   }));
+    // });
 
     // unregister all event listeners
     BackgroundGeolocation.removeAllListeners();

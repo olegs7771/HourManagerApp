@@ -40,6 +40,8 @@ export class JobdayScreen extends Component {
     startTime: '',
     endTime: '',
     loading: false,
+    project: null,
+    currentCoords: {},
   };
 
   componentDidMount() {
@@ -59,6 +61,7 @@ export class JobdayScreen extends Component {
         jobdays: this.props.jobdays,
       });
     }
+    console.log('current coords');
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -76,6 +79,11 @@ export class JobdayScreen extends Component {
     if (prevProps.loading !== this.props.loading) {
       this.setState({
         loading: this.props.loading,
+      });
+    }
+    if (prevProps.project !== this.props.project) {
+      this.setState({
+        project: this.props.project,
       });
     }
   }
@@ -118,6 +126,21 @@ export class JobdayScreen extends Component {
   //get current coordsfrom
   _getCurrentCoords = data => {
     console.log('data current coords', data);
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        currentCoords: data,
+      };
+    });
+
+    if (this.state.project) {
+      console.log('current position', data);
+      console.log('project position', this.state.project.coords);
+
+      if (this.state.currentCoords === this.state.project.coords) {
+        return console.log('Match!');
+      }
+    }
   };
 
   render() {
@@ -220,6 +243,7 @@ const mapStateToProps = state => ({
   jobdays: state.jobday.jobdays,
   jobTime: state.jobday.jobTime,
   loading: state.jobday.loading,
+  project: state.project.project,
 });
 
 const mapDispatchToProps = {
