@@ -113,23 +113,25 @@ export class Home extends Component {
   _retieveData = async () => {
     await AsyncStorage.getItem('user')
       .then(res => {
-        // console.log('res', res);
+        if (res) {
+          console.log('res in home', res);
 
-        const parseObj = JSON.parse(res);
-        const {name, email, uid, token} = parseObj;
+          const parseObj = JSON.parse(res);
+          const {name, email, uid, token} = parseObj;
 
-        //Obj for Reducer
-        const userObj = {
-          name,
-          email,
-          uid,
-        };
+          //Obj for Reducer
+          const userObj = {
+            name,
+            email,
+            uid,
+          };
 
-        this.setState({
-          token,
-        });
+          this.setState({
+            token,
+          });
 
-        this.props.setAuth(userObj);
+          this.props.setAuth(userObj);
+        }
       })
       .catch(err => {
         console.log('err', err);

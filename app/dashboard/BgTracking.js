@@ -5,8 +5,25 @@ import BackgroundGeolocation from '@mauron85/react-native-background-geolocation
 const BgTracking = props => {
   const [coords, setLocation] = useState({});
 
+  const options = {timeout: 5000};
+  BackgroundGeolocation.getCurrentLocation((data, fail, options) => {
+    console.log('current location data', data);
+    // setLocation({location: 'one'});
+
+    // setLocation(prevState => ({
+    //   ...prevState,
+    //   lat: data.latitude,
+    //   lng: data.longitude,
+    // }));
+    const payload = {
+      lat: data.latitude,
+      lng: data.longitude,
+    };
+    props.coordsChild(payload);
+  });
+
   useEffect(() => {
-    console.log('coords', coords);
+    // console.log('coords', coords);
     // props.coordsChild(coords);
 
     BackgroundGeolocation.configure({
@@ -37,13 +54,18 @@ const BgTracking = props => {
 
     BackgroundGeolocation.on('location', location => {
       console.log('location', location);
-      setLocation(prevState => ({
-        ...prevState,
-        coords: {
-          lat: location.latitude,
-          lng: location.longitude,
-        },
-      }));
+      // setLocation(prevState => ({
+      //   ...prevState,
+      //   coords: {
+      //     lat: location.latitude,
+      //     lng: location.longitude,
+      //   },
+      // }));
+      const data = {
+        lat: location.latitude,
+        lng: location.longitude,
+      };
+      props.coordsChild(data);
 
       // const payload = {
       //   lat: location.latitude,
@@ -149,17 +171,6 @@ const BgTracking = props => {
 
     // you can also just start without checking for status
     // BackgroundGeolocation.start();
-    // BackgroundGeolocation.getCurrentLocation((data, fail) => {
-    //   console.log('current location data', data);
-    //   // setLocation({location: 'one'});
-
-    //   setLocation(prevState => ({
-    //     ...prevState,
-
-    //     lat: data.latitude,
-    //     lng: data.longitude,
-    //   }));
-    // });
 
     // unregister all event listeners
     BackgroundGeolocation.removeAllListeners();

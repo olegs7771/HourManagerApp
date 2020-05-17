@@ -41,7 +41,9 @@ export class JobdayScreen extends Component {
     endTime: '',
     loading: false,
     project: null,
-    currentCoords: {},
+    // currentCoords: {lat: 32.854503559749695, lng: 35.07124642858887},
+    currentCoords: null,
+    isGeolocated: false,
   };
 
   componentDidMount() {
@@ -61,7 +63,6 @@ export class JobdayScreen extends Component {
         jobdays: this.props.jobdays,
       });
     }
-    console.log('current coords');
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -85,6 +86,7 @@ export class JobdayScreen extends Component {
       this.setState({
         project: this.props.project,
       });
+      console.log('coords from project', this.props.project.coords);
     }
   }
 
@@ -144,6 +146,7 @@ export class JobdayScreen extends Component {
   };
 
   render() {
+    // if (this.state.isGeolocated) {
     if (this.state.loading) {
       return <ActivityIndicator size={50} style={{marginTop: 100}} />;
     }
@@ -232,9 +235,28 @@ export class JobdayScreen extends Component {
           )}
         </View>
 
-        {/* {Modal} */}
+        {/* {Current Coords} */}
+        {this.state.currentCoords && (
+          <View>
+            <Text style={{textAlign: 'center'}}>Coordinates</Text>
+            <Text>lat {this.state.currentCoords.lat}</Text>
+            <Text>lng {this.state.currentCoords.lng}</Text>
+          </View>
+        )}
       </View>
     );
+    // }
+    // else {
+    //   return (
+    //     <View style={styles.container2}>
+    //       <BgTracking coordsChild={this._getCurrentCoords} />
+    //       <Text style={styles.textTitle2}>No Location</Text>
+    //       <View style={{alignSelf: 'center', paddingTop: 20}}>
+    //         <Icon name="times-circle" size={50} color="red" />
+    //       </View>
+    //     </View>
+    //   );
+    // }
   }
 }
 
@@ -312,5 +334,15 @@ const styles = StyleSheet.create({
   btnChecked: {
     backgroundColor: '#969699',
     paddingHorizontal: 34,
+  },
+  //Style for No Location Available
+  container2: {
+    flex: 1,
+
+    alignContent: 'center',
+    paddingTop: 20,
+  },
+  textTitle2: {
+    textAlign: 'center',
   },
 });
