@@ -8,6 +8,7 @@ import {
   createCheckInAuto,
   createCheckOutAuto,
   getTime,
+  getProject,
 } from '../../store/actions/jobdayAction';
 import moment from 'moment';
 import Button from '../components/Button';
@@ -52,6 +53,7 @@ export class JobdayScreen extends Component {
 
     this.props.getTime();
     this.props.getJobdays();
+    this.props.getProject();
     if (this.props.jobdays) {
       this.setState({
         jobdays: this.props.jobdays,
@@ -76,10 +78,6 @@ export class JobdayScreen extends Component {
         loading: this.props.loading,
       });
     }
-    // if (prevProps.route !== this.props.route) {
-    //   this.props.getJobdays();
-    //   this.props.getTime();
-    // }
   }
 
   //Change props in parent for child model
@@ -117,13 +115,21 @@ export class JobdayScreen extends Component {
     Alert.alert(' Sorry... You cant change date');
   };
 
+  //get current coordsfrom
+  _getCurrentCoords = data => {
+    console.log('data current coords', data);
+  };
+
   render() {
     if (this.state.loading) {
       return <ActivityIndicator size={50} style={{marginTop: 100}} />;
     }
     return (
       <View style={styles.container}>
-        <BgTracking />
+        <BgTracking
+          //Get Current Coords
+          coordsChild={this._getCurrentCoords}
+        />
         <View style={styles.containerHeader}>
           <Text style={styles.textGreeting}>
             Good {getGreetingTime(m)} {this.state.name}!
@@ -221,6 +227,7 @@ const mapDispatchToProps = {
   createCheckInAuto,
   createCheckOutAuto,
   getTime,
+  getProject,
 };
 
 export default connect(

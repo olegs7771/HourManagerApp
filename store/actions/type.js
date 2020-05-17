@@ -19,3 +19,6 @@ export const GET_CURRENT_END = 'GET_CURRENT_END';
 export const GET_CURRENT_TIME = 'GET_CURRENT_TIME';
 
 export const SET_ENDTIME_MANUALLY = 'SET_ENDTIME_MANUALLY';
+
+//Get Project
+export const GET_PROJECT = 'GET_PROJECT';
