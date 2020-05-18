@@ -40,7 +40,7 @@ export class JobdayScreen extends Component {
     startTime: '',
     endTime: '',
     loading: false,
-    project: null,
+    projectCoords: null,
     // currentCoords: {lat: 32.854503559749695, lng: 35.07124642858887},
     currentCoords: null,
     isGeolocated: false,
@@ -84,7 +84,7 @@ export class JobdayScreen extends Component {
     }
     if (prevProps.project !== this.props.project) {
       this.setState({
-        project: this.props.project,
+        projectCoords: this.props.project.coords,
       });
       console.log('coords from project', this.props.project.coords);
     }
@@ -125,21 +125,18 @@ export class JobdayScreen extends Component {
     Alert.alert(' Sorry... You cant change date');
   };
 
-  //get current coordsfrom
-  _getCurrentCoords = data => {
-    console.log('data', data);
-  };
-
   render() {
     // if (this.state.isGeolocated) {
-    if (this.state.loading) {
+    if (this.state.loading || this.state.projectCoords === null) {
       return <ActivityIndicator size={50} style={{marginTop: 100}} />;
     }
+
     return (
       <View style={styles.container}>
         <BgTracking
           //Get Current Coords
-          coordsChild={this._getCurrentCoords}
+
+          projectCoords={this.state.projectCoords}
         />
         <View style={styles.containerHeader}>
           <Text style={styles.textGreeting}>

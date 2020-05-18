@@ -3,10 +3,9 @@ import {Alert, View, Text} from 'react-native';
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
 
 const BgTracking = props => {
-  const [coords, setLocation] = useState({});
+  const [coords, setLocation] = useState(null);
 
-  const options = {timeout: 5000};
-  BackgroundGeolocation.getCurrentLocation((data, fail, options) => {
+  BackgroundGeolocation.getCurrentLocation((data, fail) => {
     console.log('current location data', data);
     // setLocation({location: 'one'});
 
@@ -15,11 +14,6 @@ const BgTracking = props => {
     //   lat: data.latitude,
     //   lng: data.longitude,
     // }));
-    const payload = {
-      lat: data.latitude,
-      lng: data.longitude,
-    };
-    props.coordsChild(payload);
   });
 
   useEffect(() => {
@@ -65,7 +59,6 @@ const BgTracking = props => {
         lat: location.latitude,
         lng: location.longitude,
       };
-      props.coordsChild(data);
 
       // const payload = {
       //   lat: location.latitude,
