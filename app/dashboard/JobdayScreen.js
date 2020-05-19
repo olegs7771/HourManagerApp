@@ -12,7 +12,6 @@ import {
 } from '../../store/actions/jobdayAction';
 import moment from 'moment';
 import Button from '../components/Button';
-import BgTracking from './BgTracking';
 
 const m = moment();
 
@@ -144,10 +143,6 @@ export class JobdayScreen extends Component {
     if (this.state.loading || !this.state.showPanel) {
       return (
         <View>
-          <BgTracking //Get Current Coords
-            projectCoords={this.state.projectCoords}
-            isCoordsMatched={this._isMatatched}
-          />
           <ActivityIndicator size={50} style={{marginTop: 100}} />
         </View>
       );
