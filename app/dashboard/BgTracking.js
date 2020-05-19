@@ -5,16 +5,17 @@ import BackgroundGeolocation from '@mauron85/react-native-background-geolocation
 const BgTracking = props => {
   const [coords, setLocation] = useState(null);
 
-  BackgroundGeolocation.getCurrentLocation((data, fail) => {
-    console.log('current location data', data);
-    // setLocation({location: 'one'});
+  // BackgroundGeolocation.getCurrentLocation((data, fail) => {
+  //   console.log('current location data', data);
 
-    // setLocation(prevState => ({
-    //   ...prevState,
-    //   lat: data.latitude,
-    //   lng: data.longitude,
-    // }));
-  });
+  //   setLocation(prevState => ({
+  //     ...prevState,
+  //     coords: {
+  //       lat: data.latitude,
+  //       lng: data.longitude,
+  //     },
+  //   }));
+  // });
 
   useEffect(() => {
     // console.log('coords', coords);
@@ -48,23 +49,19 @@ const BgTracking = props => {
 
     BackgroundGeolocation.on('location', location => {
       console.log('location', location);
-      // setLocation(prevState => ({
-      //   ...prevState,
-      //   coords: {
-      //     lat: location.latitude,
-      //     lng: location.longitude,
-      //   },
-      // }));
-      const data = {
+      setLocation(prevState => ({
+        ...prevState,
+
         lat: location.latitude,
         lng: location.longitude,
-      };
-
-      // const payload = {
-      //   lat: location.latitude,
-      //   lng: location.longitude,
-      // };
-      // props.coordsChild(payload);
+      }));
+      if (props.projectCoords) {
+        if (coords === props.projectCoords) {
+          props.isCoordsMatched(true);
+        } else {
+          props.isCoordsMatched(false);
+        }
+      }
 
       // handle your locations here
       // to perform long running operation on iOS
@@ -95,6 +92,8 @@ const BgTracking = props => {
     });
 
     BackgroundGeolocation.on('authorization', status => {
+      console.log('status', status);
+
       console
         .log
         // '[INFO] BackgroundGeolocation authorization status: ' + status,
@@ -124,7 +123,7 @@ const BgTracking = props => {
     });
 
     BackgroundGeolocation.on('background', () => {
-      // console.log('[INFO] App is in background');
+      console.log('[INFO] App is in background');
     });
 
     BackgroundGeolocation.on('foreground', () => {
@@ -144,17 +143,17 @@ const BgTracking = props => {
     });
 
     BackgroundGeolocation.checkStatus(status => {
-      // console.log(
-      //   '[INFO] BackgroundGeolocation service is running',
-      //   status.isRunning,
-      // );
-      // console.log(
-      //   '[INFO] BackgroundGeolocation services enabled',
-      //   status.locationServicesEnabled,
-      // );
-      // console.log(
-      //   '[INFO] BackgroundGeolocation auth status: ' + status.authorization,
-      // );
+      console.log(
+        '[INFO] BackgroundGeolocation service is running',
+        status.isRunning,
+      );
+      console.log(
+        '[INFO] BackgroundGeolocation services enabled',
+        status.locationServicesEnabled,
+      );
+      console.log(
+        '[INFO] BackgroundGeolocation auth status: ' + status.authorization,
+      );
 
       // you don't need to check status before start (this is just the example)
       if (!status.isRunning) {

@@ -44,9 +44,11 @@ export class JobdayScreen extends Component {
     // currentCoords: {lat: 32.854503559749695, lng: 35.07124642858887},
     currentCoords: null,
     isGeolocated: false,
+    showPanel: false,
   };
 
   componentDidMount() {
+    this.setState({loading: true});
     const m = moment();
     // console.log('mounted');
     if (this.props.auth) {
@@ -77,11 +79,11 @@ export class JobdayScreen extends Component {
         endTime: this.props.jobTime.timeEnd,
       });
     }
-    if (prevProps.loading !== this.props.loading) {
-      this.setState({
-        loading: this.props.loading,
-      });
-    }
+    // if (prevProps.loading !== this.props.loading) {
+    //   this.setState({
+    //     loading: this.props.loading,
+    //   });
+    // }
     if (prevProps.project !== this.props.project) {
       this.setState({
         projectCoords: this.props.project.coords,
@@ -124,121 +126,142 @@ export class JobdayScreen extends Component {
   _message = () => {
     Alert.alert(' Sorry... You cant change date');
   };
+  _isMatatched = state => {
+    if (!state) {
+      this.setState({
+        loading: false,
+        showPanel: state,
+      });
+    } else {
+      this.setState({
+        loading: false,
+        showPanel: state,
+      });
+    }
+  };
 
   render() {
-    // if (this.state.isGeolocated) {
-    if (this.state.loading || this.state.projectCoords === null) {
-      return <ActivityIndicator size={50} style={{marginTop: 100}} />;
+    if (this.state.loading || !this.state.showPanel) {
+      return (
+        <View>
+          <BgTracking //Get Current Coords
+            projectCoords={this.state.projectCoords}
+            isCoordsMatched={this._isMatatched}
+          />
+          <ActivityIndicator size={50} style={{marginTop: 100}} />
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <BgTracking
+            //Get Current Coords
+            projectCoords={this.state.projectCoords}
+            isCoordsMatched={this._isMatatched}
+          />
+          <View style={styles.containerHeader}>
+            <Text style={styles.textGreeting}>
+              Good {getGreetingTime(m)} {this.state.name}!
+            </Text>
+            <Text style={styles.textDate}>
+              {m.format('LL')} {m.format('dddd')}
+            </Text>
+          </View>
+
+          <View //Show Time CheckIn CheckOut
+            style={styles.containerTime}>
+            {this.state.startTime ? (
+              <View
+                style={{
+                  paddingHorizontal: 12,
+                  paddingVertical: 10,
+                  backgroundColor: '#337d05',
+                  borderRadius: 5,
+                }}>
+                <Text style={{fontSize: 18, color: '#e9ebe6'}}>
+                  Started: {moment(this.state.startTime).format('HH:mm')}
+                </Text>
+              </View>
+            ) : (
+              <View>
+                <Text />
+              </View>
+            )}
+            {this.state.endTime ? (
+              <View
+                style={{
+                  paddingHorizontal: 8,
+                  paddingVertical: 10,
+                  backgroundColor: '#54524d',
+                  borderRadius: 5,
+                }}>
+                <Text style={{fontSize: 18, color: '#e9ebe6'}}>
+                  Finished: {moment(this.state.endTime).format('HH:mm')}
+                </Text>
+              </View>
+            ) : (
+              <View>
+                <Text />
+              </View>
+            )}
+          </View>
+
+          <View style={styles.containerJob}>
+            {/* {Disable Button if checkIn Exists} */}
+            {!this.state.startTime ? (
+              <Button
+                text="Start"
+                styleCont={styles.btnCheckIn}
+                onPress={this._checkIn}
+              />
+            ) : (
+              <Button
+                text="Checked"
+                styleCont={styles.btnChecked}
+                onPress={this._message}
+              />
+            )}
+
+            {/* {Disable Button if checkOut Exists} */}
+            {!this.state.endTime ? (
+              <Button
+                text="End"
+                styleCont={styles.btnCheckOut}
+                onPress={this._checkOut}
+              />
+            ) : (
+              <Button
+                text="Checked"
+                styleCont={styles.btnChecked}
+                onPress={this._message}
+              />
+            )}
+          </View>
+
+          {/* {Current Coords} */}
+          {this.state.currentCoords && (
+            <View>
+              <Text style={{textAlign: 'center'}}>Coordinates</Text>
+              <Text>lat {this.state.currentCoords.lat}</Text>
+              <Text>lng {this.state.currentCoords.lng}</Text>
+            </View>
+          )}
+        </View>
+      );
     }
 
-    return (
-      <View style={styles.container}>
-        <BgTracking
-          //Get Current Coords
-
-          projectCoords={this.state.projectCoords}
-        />
-        <View style={styles.containerHeader}>
-          <Text style={styles.textGreeting}>
-            Good {getGreetingTime(m)} {this.state.name}!
-          </Text>
-          <Text style={styles.textDate}>
-            {m.format('LL')} {m.format('dddd')}
-          </Text>
-        </View>
-
-        <View //Show Time CheckIn CheckOut
-          style={styles.containerTime}>
-          {this.state.startTime ? (
-            <View
-              style={{
-                paddingHorizontal: 12,
-                paddingVertical: 10,
-                backgroundColor: '#337d05',
-                borderRadius: 5,
-              }}>
-              <Text style={{fontSize: 18, color: '#e9ebe6'}}>
-                Started: {moment(this.state.startTime).format('HH:mm')}
-              </Text>
-            </View>
-          ) : (
-            <View>
-              <Text />
-            </View>
-          )}
-          {this.state.endTime ? (
-            <View
-              style={{
-                paddingHorizontal: 8,
-                paddingVertical: 10,
-                backgroundColor: '#54524d',
-                borderRadius: 5,
-              }}>
-              <Text style={{fontSize: 18, color: '#e9ebe6'}}>
-                Finished: {moment(this.state.endTime).format('HH:mm')}
-              </Text>
-            </View>
-          ) : (
-            <View>
-              <Text />
-            </View>
-          )}
-        </View>
-
-        <View style={styles.containerJob}>
-          {/* {Disable Button if checkIn Exists} */}
-          {!this.state.startTime ? (
-            <Button
-              text="Start"
-              styleCont={styles.btnCheckIn}
-              onPress={this._checkIn}
-            />
-          ) : (
-            <Button
-              text="Checked"
-              styleCont={styles.btnChecked}
-              onPress={this._message}
-            />
-          )}
-
-          {/* {Disable Button if checkOut Exists} */}
-          {!this.state.endTime ? (
-            <Button
-              text="End"
-              styleCont={styles.btnCheckOut}
-              onPress={this._checkOut}
-            />
-          ) : (
-            <Button
-              text="Checked"
-              styleCont={styles.btnChecked}
-              onPress={this._message}
-            />
-          )}
-        </View>
-
-        {/* {Current Coords} */}
-        {this.state.currentCoords && (
-          <View>
-            <Text style={{textAlign: 'center'}}>Coordinates</Text>
-            <Text>lat {this.state.currentCoords.lat}</Text>
-            <Text>lng {this.state.currentCoords.lng}</Text>
-          </View>
-        )}
-      </View>
-    );
-    // }
-    // else {
-    //   return (
-    //     <View style={styles.container2}>
-    //       <BgTracking coordsChild={this._getCurrentCoords} />
-    //       <Text style={styles.textTitle2}>No Location</Text>
-    //       <View style={{alignSelf: 'center', paddingTop: 20}}>
-    //         <Icon name="times-circle" size={50} color="red" />
-    //       </View>
+    // return (
+    //   <View style={styles.container2}>
+    //     <BgTracking //Get Current Coords
+    //       projectCoords={this.state.projectCoords}
+    //       isCoordsMatched={this._isMatatched}
+    //     />
+    //     <Text style={styles.textTitle2}>No Location</Text>
+    //     <View style={{alignSelf: 'center', paddingTop: 20}}>
+    //       <Icon name="times-circle" size={50} color="red" />
     //     </View>
-    //   );
-    // }
+    //   </View>
+    // );
   }
 }
 
