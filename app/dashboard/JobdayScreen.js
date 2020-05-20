@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, Alert, ActivityIndicator} from 'react-native';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
+// import Icon from 'react-native-vector-icons/dist/FontAwesome';
 // import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
@@ -10,8 +10,10 @@ import {
   getTime,
   getProject,
 } from '../../store/actions/jobdayAction';
+import {logoutEmp} from '../../store/actions/authAction';
 import moment from 'moment';
 import Button from '../components/Button';
+import Geolocation from '../geolocation/Geolocation';
 
 const m = moment();
 
@@ -33,6 +35,7 @@ const getGreetingTime = m => {
 
 export class JobdayScreen extends Component {
   state = {
+    errors: {},
     modalVisible: false,
     name: '',
     jobdays: {},
@@ -47,7 +50,6 @@ export class JobdayScreen extends Component {
   };
 
   componentDidMount() {
-    this.setState({loading: true});
     const m = moment();
     // console.log('mounted');
     if (this.props.auth) {
@@ -78,16 +80,21 @@ export class JobdayScreen extends Component {
         endTime: this.props.jobTime.timeEnd,
       });
     }
-    // if (prevProps.loading !== this.props.loading) {
-    //   this.setState({
-    //     loading: this.props.loading,
-    //   });
-    // }
+    if (prevProps.loading !== this.props.loading) {
+      this.setState({
+        loading: this.props.loading,
+      });
+    }
     if (prevProps.project !== this.props.project) {
       this.setState({
         projectCoords: this.props.project.coords,
       });
       console.log('coords from project', this.props.project.coords);
+    }
+    if (prevProps.errors !== this.props.errors) {
+      if ((this.props.errors.error = 'Unauthorized!')) {
+        this.props.logoutEmp();
+      }
     }
   }
 
@@ -125,22 +132,9 @@ export class JobdayScreen extends Component {
   _message = () => {
     Alert.alert(' Sorry... You cant change date');
   };
-  _isMatatched = state => {
-    if (!state) {
-      this.setState({
-        loading: false,
-        showPanel: state,
-      });
-    } else {
-      this.setState({
-        loading: false,
-        showPanel: state,
-      });
-    }
-  };
 
   render() {
-    if (this.state.loading || !this.state.showPanel) {
+    if (this.state.loading) {
       return (
         <View>
           <ActivityIndicator size={50} style={{marginTop: 100}} />
@@ -149,11 +143,7 @@ export class JobdayScreen extends Component {
     } else {
       return (
         <View style={styles.container}>
-          <BgTracking
-            //Get Current Coords
-            projectCoords={this.state.projectCoords}
-            isCoordsMatched={this._isMatatched}
-          />
+          <Geolocation projectCoords={this.state.projectCoords} />
           <View style={styles.containerHeader}>
             <Text style={styles.textGreeting}>
               Good {getGreetingTime(m)} {this.state.name}!
@@ -266,6 +256,7 @@ const mapStateToProps = state => ({
   jobTime: state.jobday.jobTime,
   loading: state.jobday.loading,
   project: state.project.project,
+  errors: state.errors.errors,
 });
 
 const mapDispatchToProps = {
@@ -274,6 +265,7 @@ const mapDispatchToProps = {
   createCheckOutAuto,
   getTime,
   getProject,
+  logoutEmp,
 };
 
 export default connect(
@@ -326,10 +318,12 @@ const styles = StyleSheet.create({
   btnCheckOut: {
     backgroundColor: '#916704',
     paddingHorizontal: 50,
+    borderRadius: 5,
   },
   btnCheckIn: {
     backgroundColor: '#09574a',
     paddingHorizontal: 50,
+    borderRadius: 5,
   },
   btnChecked: {
     backgroundColor: '#969699',

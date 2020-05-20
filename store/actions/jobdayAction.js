@@ -4,7 +4,7 @@ import {
   GET_CURRENT_START,
   GET_CURRENT_END,
   GET_CURRENT_TIME,
-  // SET_ENDTIME_MANUALLY,
+  GET_ERRORS,
   GET_SELECTED_DAY,
   GET_MESSAGES,
   MESSAGE_LOADING,
@@ -217,6 +217,10 @@ export const getTime = () => dispatch => {
           })
           .catch(err => {
             console.log('http request error:', err.response.data);
+            dispatch({
+              type: GET_ERRORS,
+              payload: err.response.data,
+            });
           });
       }
     } catch (error) {
