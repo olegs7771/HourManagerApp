@@ -24,11 +24,13 @@ const RequestGeoLocPermission = async () => {
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       console.log('Your device can use the geolocation');
+      return true;
     } else {
       console.log('Geolocation denied');
     }
   } catch (err) {
     console.warn(err);
+    return false;
   }
 };
 

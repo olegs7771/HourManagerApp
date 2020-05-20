@@ -43,7 +43,9 @@ class LoginScreen extends Component {
           <Text style={styles.textLabel}>Email</Text>
           <TextInput
             style={styles.textInput}
-            onChangeText={email => this.setState({email, errors: {}})}
+            onChangeText={email =>
+              this.setState({email: email.toLowerCase(), errors: {}})
+            }
             name="email"
             value={this.state.email}
             keyboardType="email-address"

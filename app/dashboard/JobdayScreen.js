@@ -36,14 +36,12 @@ const getGreetingTime = m => {
 export class JobdayScreen extends Component {
   state = {
     errors: {},
-    modalVisible: false,
     name: '',
     jobdays: {},
     startTime: '',
     endTime: '',
     loading: false,
     projectCoords: null,
-    // currentCoords: {lat: 32.854503559749695, lng: 35.07124642858887},
     currentCoords: null,
     isGeolocated: false,
     showPanel: false,
@@ -96,13 +94,12 @@ export class JobdayScreen extends Component {
         this.props.logoutEmp();
       }
     }
+    //Show Current Coords from Geolocation
+    if (this.state.currentCoords !== prevState.currentCoords) {
+      this.setState({currentCoords: this.state.currentCoords});
+    }
   }
 
-  //Change props in parent for child model
-  _closeModel = () => {
-    this.setState({modalVisible: false});
-    console.log('model Closed in parent');
-  };
   _checkIn = () => {
     //Create payload for Action
     const payload = {
@@ -120,17 +117,21 @@ export class JobdayScreen extends Component {
     this.props.createCheckOutAuto(payload);
   };
 
-  _openModalCalendar = () => {
-    console.log('open modal');
-
-    // this.props.getJobdays();
-
-    this.setState({modalVisible: true});
-  };
-
   //Show Message if user tries to click on disabled button
   _message = () => {
     Alert.alert(' Sorry... You cant change date');
+  };
+  //get coords status if match from Geolocation child
+  _coordsMatched = data => {
+    console.log('data in _coordsMatched', data);
+  };
+  //Show updated coords from Geolocation
+  _showCoords = data => {
+    console.log('data coords from Geolocation', data);
+    this.setState(prevState => ({
+      ...prevState,
+      currentCoords: data,
+    }));
   };
 
   render() {
@@ -143,7 +144,11 @@ export class JobdayScreen extends Component {
     } else {
       return (
         <View style={styles.container}>
-          <Geolocation projectCoords={this.state.projectCoords} />
+          <Geolocation
+            projectCoords={this.state.projectCoords}
+            getGeoStatus={this._coordsMatched}
+            geoCoords={this._showCoords}
+          />
           <View style={styles.containerHeader}>
             <Text style={styles.textGreeting}>
               Good {getGreetingTime(m)} {this.state.name}!
