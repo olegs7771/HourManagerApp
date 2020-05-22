@@ -36,7 +36,7 @@ class DashboardScreen extends Component {
             }}
           />
         </View>
-        <View style={styles.containerMain}></View>
+        <View style={styles.containerMain} />
       </View>
     );
   }

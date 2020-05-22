@@ -17,61 +17,76 @@ class Geolocation extends Component {
       if (this.props.projectCoords)
         console.log('this.props.projectCoords', this.props.projectCoords);
     }
-    if (this.state.coords !== prevState.coords) {
-      if (this.state.coords === this.props.projectCoords) {
+    if (this.state.address !== prevState.address) {
+      if (this.state.address === this.props.projectAddress) {
         console.log('match');
         this.props.getGeoStatus({matched: true});
-        this.props.geoCoords(this.state.coords);
+        this.props.geoCoords(this.state.address);
       } else {
         console.log('not matched');
         this.props.getGeoStatus({matched: false});
-        this.props.geoCoords(this.state.coords);
+        this.props.geoCoords(this.state.address);
       }
     }
   }
 
-  componentDidMount() {
-    RequestGeoLocPermission().then(permission => {
-      //Got Permission from GeoPermission
-      if (permission) {
-        if (this.props.projectCoords) {
-          Geoloc.watchPosition(
-            position => {
-              console.log('position in cdm', position);
-              this.setState(prevState => ({
-                ...prevState,
-                coords: {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude,
-                },
-              }));
-              //GeoDecode position
-              Geocoder.from(position.coords.latitude, position.coords.longitude)
-                .then(address => {
-                  console.log('address', address);
-                  this.setState(prevState => ({
-                    ...prevState,
-                    address: address.results[0].formatted_address,
-                  }));
-                })
-                .catch(err => {
-                  console.log('error to decode', err);
-                });
-            },
-            error => {
-              // See error code charts below.
-              console.log(error.code, error.message);
-            },
-            {
-              enableHighAccuracy: false,
-              distanceFilter: 10,
-              timeout: 15000,
-              maximumAge: 10000,
-            },
-          );
-        }
+  async componentDidMount() {
+    console.log('cdm in Geolocation first time');
+    const permission = await RequestGeoLocPermission();
+
+    //Got Permission from GeoPermission
+    if (permission) {
+      if (this.props.projectCoords) {
+        // Geoloc.getCurrentPosition(
+        //   position => {
+        //     console.log('position getCurrentPosition', position);
+        //   },
+        //   error => {
+        //     // See error code charts below.
+        //     console.log(error.code, error.message);
+        //   },
+        //   {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+        // );
+
+        Geoloc.watchPosition(
+          position => {
+            console.log('position in cdm', position);
+            this.setState(prevState => ({
+              ...prevState,
+              coords: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+              },
+            }));
+            //GeoDecode position
+            Geocoder.from(position.coords.latitude, position.coords.longitude)
+              .then(address => {
+                console.log('address', address);
+                this.setState(prevState => ({
+                  ...prevState,
+                  address: address.results[0].formatted_address,
+                }));
+              })
+              .catch(err => {
+                console.log('error to decode', err);
+              });
+          },
+          error => {
+            // See error code charts below.
+            console.log(error.code, error.message);
+          },
+          {
+            enableHighAccuracy: false,
+            distanceFilter: 10,
+            timeout: 15000,
+            maximumAge: 10000,
+          },
+        );
       }
-    });
+    }
+  }
+  componentWillUnmount() {
+    Geoloc.stopObserving();
   }
 
   render() {

@@ -41,8 +41,13 @@ export class JobdayScreen extends Component {
     startTime: '',
     endTime: '',
     loading: false,
+    //coming from DB
     projectCoords: null,
+    projectAddress: null,
+    //Coming from App
     currentCoords: null,
+    currentAddress: null,
+    //Local State
     isGeolocated: false,
     showPanel: false,
   };
@@ -86,6 +91,7 @@ export class JobdayScreen extends Component {
     if (prevProps.project !== this.props.project) {
       this.setState({
         projectCoords: this.props.project.coords,
+        projectAddress: this.props.project.address,
       });
       console.log('coords from project', this.props.project.coords);
     }
@@ -126,11 +132,11 @@ export class JobdayScreen extends Component {
     console.log('data in _coordsMatched', data);
   };
   //Show updated coords from Geolocation
-  _showCoords = data => {
-    console.log('data coords from Geolocation', data);
+  _showAdress = data => {
+    console.log('data address from Geolocation', data);
     this.setState(prevState => ({
       ...prevState,
-      currentCoords: data,
+      currentAddress: data,
     }));
   };
 
@@ -146,8 +152,9 @@ export class JobdayScreen extends Component {
         <View style={styles.container}>
           <Geolocation
             projectCoords={this.state.projectCoords}
+            projectAddress={this.state.projectAddress}
             getGeoStatus={this._coordsMatched}
-            geoCoords={this._showCoords}
+            geoCoords={this._showAdress}
           />
           <View style={styles.containerHeader}>
             <Text style={styles.textGreeting}>
@@ -229,11 +236,10 @@ export class JobdayScreen extends Component {
           </View>
 
           {/* {Current Coords} */}
-          {this.state.currentCoords && (
+          {this.state.currentAddress && (
             <View>
-              <Text style={{textAlign: 'center'}}>Coordinates</Text>
-              <Text>lat {this.state.currentCoords.lat}</Text>
-              <Text>lng {this.state.currentCoords.lng}</Text>
+              <Text style={{textAlign: 'center'}}>Address</Text>
+              <Text> {this.state.currentAddress}</Text>
             </View>
           )}
         </View>
