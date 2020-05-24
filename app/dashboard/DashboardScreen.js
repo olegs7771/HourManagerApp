@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import Button from '../components/Button';
 
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+// import Geolocation from '../geolocation/Geolocation'
 
 class DashboardScreen extends Component {
   _openDrawer = () => {

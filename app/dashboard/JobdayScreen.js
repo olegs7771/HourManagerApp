@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, Alert, ActivityIndicator} from 'react-native';
-// import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 // import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
@@ -130,6 +130,7 @@ export class JobdayScreen extends Component {
   //get coords status if match from Geolocation child
   _coordsMatched = data => {
     console.log('data in _coordsMatched', data);
+    this.setState({showPanel: data.matched});
   };
   //Show updated coords from Geolocation
   _showAdress = data => {
@@ -147,7 +148,7 @@ export class JobdayScreen extends Component {
           <ActivityIndicator size={50} style={{marginTop: 100}} />
         </View>
       );
-    } else {
+    } else if (this.state.showPanel) {
       return (
         <View style={styles.container}>
           <Geolocation
@@ -244,20 +245,27 @@ export class JobdayScreen extends Component {
           )}
         </View>
       );
+    } else {
+      return (
+        <View style={styles.container2}>
+          <Geolocation //Get Current Coords
+            projectCoords={this.state.projectCoords}
+            projectAddress={this.state.projectAddress}
+            getGeoStatus={this._coordsMatched}
+            geoCoords={this._showAdress}
+          />
+          <Text style={styles.textTitle2}>No Location</Text>
+          <View style={{alignSelf: 'center', paddingVertical: 20}}>
+            <Icon name="times-circle" size={50} color="red" />
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>
+              Can not find location. Please edit hours manually.
+            </Text>
+          </View>
+        </View>
+      );
     }
-
-    // return (
-    //   <View style={styles.container2}>
-    //     <BgTracking //Get Current Coords
-    //       projectCoords={this.state.projectCoords}
-    //       isCoordsMatched={this._isMatatched}
-    //     />
-    //     <Text style={styles.textTitle2}>No Location</Text>
-    //     <View style={{alignSelf: 'center', paddingTop: 20}}>
-    //       <Icon name="times-circle" size={50} color="red" />
-    //     </View>
-    //   </View>
-    // );
   }
 }
 
@@ -343,11 +351,19 @@ const styles = StyleSheet.create({
   //Style for No Location Available
   container2: {
     flex: 1,
-
     alignContent: 'center',
     paddingTop: 20,
   },
   textTitle2: {
     textAlign: 'center',
+  },
+  textContainer: {
+    borderWidth: 1,
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  text: {
+    fontSize: 18,
+    alignSelf: 'center',
   },
 });
