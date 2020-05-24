@@ -9,7 +9,7 @@ Geocoder.init('AIzaSyDF9BWn17CT9geI3L-Ff0ujGWwpPHmxvCQ');
 class Geolocation extends Component {
   state = {
     coords: {},
-    address: '',
+    address: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -37,16 +37,36 @@ class Geolocation extends Component {
     //Got Permission from GeoPermission
     if (permission) {
       if (this.props.projectCoords) {
-        // Geoloc.getCurrentPosition(
-        //   position => {
-        //     console.log('position getCurrentPosition', position);
-        //   },
-        //   error => {
-        //     // See error code charts below.
-        //     console.log(error.code, error.message);
-        //   },
-        //   {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-        // );
+        if (this.state.address === null) {
+          Geoloc.getCurrentPosition(
+            position => {
+              console.log('position getCurrentPosition', position);
+              this.setState(prevState => ({
+                ...prevState,
+                coords: {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude,
+                },
+              }));
+              Geocoder.from(position.coords.latitude, position.coords.longitude)
+                .then(address => {
+                  console.log('address', address);
+                  this.setState(prevState => ({
+                    ...prevState,
+                    address: address.results[0].formatted_address,
+                  }));
+                })
+                .catch(err => {
+                  console.log('error to decode', err);
+                });
+            },
+            error => {
+              // See error code charts below.
+              console.log(error.code, error.message);
+            },
+            {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+          );
+        }
 
         Geoloc.watchPosition(
           position => {
