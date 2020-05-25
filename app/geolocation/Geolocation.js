@@ -31,14 +31,42 @@ class Geolocation extends Component {
   }
 
   async componentDidMount() {
-    this.setState({
-      address: this.props.projectAddress,
-    });
     console.log('cdm in Geolocation first time');
     const permission = await RequestGeoLocPermission();
 
     //Got Permission from GeoPermission
     if (permission) {
+      /////Get Current Position
+      Geoloc.getCurrentPosition(
+        position => {
+          this.setState(prevState => ({
+            ...prevState,
+            coords: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            },
+          }));
+          //GeoDecode position
+          Geocoder.from(position.coords.latitude, position.coords.longitude)
+            .then(address => {
+              console.log('address', address);
+              this.setState(prevState => ({
+                ...prevState,
+                address: address.results[0].formatted_address,
+              }));
+            })
+            .catch(err => {
+              console.log('error to decode', err);
+            });
+        },
+        error => {
+          // See error code charts below.
+          console.log(error.code, error.message);
+        },
+        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      );
+      /////////
+
       if (this.props.projectCoords) {
         Geoloc.watchPosition(
           position => {
