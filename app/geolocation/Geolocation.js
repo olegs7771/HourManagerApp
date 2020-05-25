@@ -21,11 +21,11 @@ class Geolocation extends Component {
       if (this.state.address === this.props.projectAddress) {
         console.log('match');
         this.props.getGeoStatus({matched: true});
-        this.props.geoCoords(this.state.address);
+        this.props.position(this.state.address);
       } else {
         console.log('not matched');
         this.props.getGeoStatus({matched: false});
-        this.props.geoCoords(this.state.address);
+        this.props.position(this.state.address);
       }
     }
   }

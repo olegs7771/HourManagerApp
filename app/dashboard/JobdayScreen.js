@@ -133,7 +133,7 @@ export class JobdayScreen extends Component {
     this.setState({showPanel: data.matched});
   };
   //Show updated coords from Geolocation
-  _showAdress = data => {
+  _showAddress = data => {
     console.log('data address from Geolocation', data);
     this.setState(prevState => ({
       ...prevState,
@@ -155,7 +155,7 @@ export class JobdayScreen extends Component {
             projectCoords={this.state.projectCoords}
             projectAddress={this.state.projectAddress}
             getGeoStatus={this._coordsMatched}
-            geoCoords={this._showAdress}
+            position={this._showAddress}
           />
           <View style={styles.containerHeader}>
             <Text style={styles.textGreeting}>
@@ -252,7 +252,7 @@ export class JobdayScreen extends Component {
             projectCoords={this.state.projectCoords}
             projectAddress={this.state.projectAddress}
             getGeoStatus={this._coordsMatched}
-            geoCoords={this._showAdress}
+            position={this._showAddress}
           />
           <Text style={styles.textTitle2}>No Location</Text>
           <View style={{alignSelf: 'center', paddingVertical: 20}}>
@@ -262,6 +262,13 @@ export class JobdayScreen extends Component {
             <Text style={styles.text}>
               Can not find location. Please edit hours manually.
             </Text>
+            {/* {Current Coords} */}
+            {this.state.currentAddress && (
+              <View>
+                <Text style={{textAlign: 'center'}}>Address</Text>
+                <Text> {this.state.currentAddress}</Text>
+              </View>
+            )}
           </View>
         </View>
       );
@@ -358,7 +365,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textContainer: {
-    borderWidth: 1,
     alignItems: 'center',
     paddingHorizontal: 10,
   },
