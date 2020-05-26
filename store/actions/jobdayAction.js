@@ -418,6 +418,10 @@ export const getProject = () => dispatch => {
 
 export const getLocationMatch = data => dispatch => {
   console.log('data in getLocationMatch', data);
+  dispatch({
+    type: GET_LOCATION_MATCH,
+    payload: data.match,
+  });
 };
 
 export const loadingJobdays = () => {

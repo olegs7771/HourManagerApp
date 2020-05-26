@@ -30,6 +30,9 @@ class DashboardScreen extends Component {
     }
     if (this.state.currentAddress !== prevState.currentAddress) {
       console.log('currentAddres updated');
+      this.props.getLocationMatch({match: false});
+    } else {
+      this.props.getLocationMatch({match: true});
     }
   }
 

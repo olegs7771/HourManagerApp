@@ -1,4 +1,4 @@
-import {GET_PROJECT} from '../actions/type';
+import {GET_PROJECT, GET_LOCATION_MATCH} from '../actions/type';
 const initialState = {
   project: null,
   isLocationMatched: false,
@@ -10,6 +10,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         project: action.payload,
+      };
+    case GET_LOCATION_MATCH:
+      return {
+        ...state,
+        isLocationMatched: action.payload,
       };
 
     default:
