@@ -39,7 +39,7 @@ class Geolocation extends Component {
 
               this.setState(prevState => ({
                 ...prevState,
-                address: address.results[0].formatted_address,
+                address: address.results[0].address_components[1].short_name,
               }));
             })
             .catch(err => {

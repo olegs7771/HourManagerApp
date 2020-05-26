@@ -30,9 +30,13 @@ class DashboardScreen extends Component {
     }
     if (this.state.currentAddress !== prevState.currentAddress) {
       console.log('currentAddres updated');
-      this.props.getLocationMatch({match: false});
-    } else {
-      this.props.getLocationMatch({match: true});
+      if (this.state.currentAddress !== this.state.projectAddress) {
+        this.setState({isMatchedLocation: true});
+        this.props.getLocationMatch({match: false});
+      } else {
+        this.setState({isMatchedLocation: false});
+        this.props.getLocationMatch({match: true});
+      }
     }
   }
 
@@ -79,13 +83,14 @@ class DashboardScreen extends Component {
           <View style={styles.containerMain}>
             {this.state.isMatchedLocation ? (
               <View style={styles.locationContainer}>
-                <Text>Location Matched</Text>
+                <Text style={styles.textTitle}>Location Matched</Text>
+                <Icon name="podcast" size={100} color="green" />
                 <Text>Current Address:{this.state.currentAddress}</Text>
                 <Text>Project Address:{this.state.projectAddress}</Text>
               </View>
             ) : (
               <View style={styles.locationContainer}>
-                <Text>Location Not Matched</Text>
+                <Text style={styles.textTitle}>Location Not Matched</Text>
                 <Text>Current Address:{this.state.currentAddress}</Text>
                 <Text>Project Address:{this.state.projectAddress}</Text>
               </View>
@@ -133,5 +138,10 @@ const styles = StyleSheet.create({
   locationContainer: {
     flex: 1,
     paddingTop: 20,
+    alignItems: 'center',
+  },
+  textTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
