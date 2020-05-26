@@ -12,6 +12,7 @@ import {
   MESSAGE_LOADING_END,
   CLEAR_MESSAGE,
   GET_PROJECT,
+  GET_LOCATION_MATCH,
 } from './type';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -413,6 +414,10 @@ export const getProject = () => dispatch => {
     }
   };
   _retrieveData();
+};
+
+export const getLocationMatch = data => dispatch => {
+  console.log('data in getLocationMatch', data);
 };
 
 export const loadingJobdays = () => {

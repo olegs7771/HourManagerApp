@@ -22,3 +22,5 @@ export const SET_ENDTIME_MANUALLY = 'SET_ENDTIME_MANUALLY';
 
 //Get Project
 export const GET_PROJECT = 'GET_PROJECT';
+//Location
+export const GET_LOCATION_MATCH = 'GET_LOCATION_MATCH';

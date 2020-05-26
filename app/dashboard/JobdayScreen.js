@@ -151,12 +151,6 @@ export class JobdayScreen extends Component {
     } else if (this.state.showPanel) {
       return (
         <View style={styles.container}>
-          <Geolocation
-            projectCoords={this.state.projectCoords}
-            projectAddress={this.state.projectAddress}
-            getGeoStatus={this._coordsMatched}
-            position={this._showAddress}
-          />
           <View style={styles.containerHeader}>
             <Text style={styles.textGreeting}>
               Good {getGreetingTime(m)} {this.state.name}!
@@ -248,12 +242,6 @@ export class JobdayScreen extends Component {
     } else {
       return (
         <View style={styles.container2}>
-          <Geolocation //Get Current Coords
-            projectCoords={this.state.projectCoords}
-            projectAddress={this.state.projectAddress}
-            getGeoStatus={this._coordsMatched}
-            position={this._showAddress}
-          />
           <Text style={styles.textTitle2}>No Location</Text>
           <View style={{alignSelf: 'center', paddingVertical: 20}}>
             <Icon name="times-circle" size={50} color="red" />
