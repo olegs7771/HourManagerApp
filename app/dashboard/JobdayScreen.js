@@ -47,7 +47,7 @@ export class JobdayScreen extends Component {
     currentCoords: null,
     currentAddress: null,
     //Local State
-    isPositionMatched: false,
+    isLocationMatched: false,
   };
 
   componentDidMount() {
@@ -90,9 +90,14 @@ export class JobdayScreen extends Component {
       this.setState({
         projectCoords: this.props.project.coords,
         projectAddress: this.props.project.address,
-        isPositionMatched: this.props.isPositionMatched,
+        isLocationMatched: this.props.isLocationMatched,
       });
       console.log('coords from project', this.props.project.coords);
+    }
+    if (prevProps.isLocationMatched !== this.props.isLocationMatched) {
+      this.setState({
+        isLocationMatched: this.props.isLocationMatched,
+      });
     }
     if (prevProps.errors !== this.props.errors) {
       if ((this.props.errors.error = 'Unauthorized!')) {
@@ -147,7 +152,7 @@ export class JobdayScreen extends Component {
           <ActivityIndicator size={50} style={{marginTop: 100}} />
         </View>
       );
-    } else if (this.state.isPositionMatched) {
+    } else if (this.state.isLocationMatched) {
       return (
         <View style={styles.container}>
           <View style={styles.containerHeader}>
@@ -270,7 +275,7 @@ const mapStateToProps = state => ({
   loading: state.jobday.loading,
   project: state.project.project,
   errors: state.errors.errors,
-  isPositionMatched: state.project.isLocationMatched,
+  isLocationMatched: state.project.isLocationMatched,
 });
 
 const mapDispatchToProps = {

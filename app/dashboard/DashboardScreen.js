@@ -3,6 +3,8 @@ import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 
 import {connect} from 'react-redux';
 import {getProject, getLocationMatch} from '../../store/actions/jobdayAction';
+import {logoutEmp} from '../../store/actions/authAction';
+
 import Button from '../components/Button';
 
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -28,13 +30,19 @@ class DashboardScreen extends Component {
         this.setState({projectAddress: this.props.project.address});
       }
     }
+    //Handle Errors
+    if (prevProps.errors !== this.props.errors) {
+      if ((this.props.errors.error = 'Unauthorized!')) {
+        this.props.logoutEmp();
+      }
+    }
     if (this.state.currentAddress !== prevState.currentAddress) {
       console.log('currentAddres updated');
       if (this.state.currentAddress !== this.state.projectAddress) {
-        this.setState({isMatchedLocation: true});
+        this.setState({isMatchedLocation: false});
         this.props.getLocationMatch({match: false});
       } else {
-        this.setState({isMatchedLocation: false});
+        this.setState({isMatchedLocation: true});
         this.props.getLocationMatch({match: true});
       }
     }
@@ -47,8 +55,8 @@ class DashboardScreen extends Component {
   _geoStatus = data => {
     console.log('data in dashboard ', data);
   };
-  _showAddress = data => {
-    console.log('_showAddress data dashboard', data);
+  _updateCurrAddress = data => {
+    console.log('_updateCurrAddress data dashboard', data);
 
     this.setState({
       currentAddress: data,
@@ -91,6 +99,7 @@ class DashboardScreen extends Component {
             ) : (
               <View style={styles.locationContainer}>
                 <Text style={styles.textTitle}>Location Not Matched</Text>
+                <Icon name="podcast" size={100} color="red" />
                 <Text>Current Address:{this.state.currentAddress}</Text>
                 <Text>Project Address:{this.state.projectAddress}</Text>
               </View>
@@ -98,7 +107,7 @@ class DashboardScreen extends Component {
           </View>
           <Geolocation //Get Current Coords
             getGeoStatus={this._geoStatus}
-            position={this._showAddress}
+            position={this._updateCurrAddress}
           />
           {/* {Show Location Status} */}
         </View>
@@ -115,11 +124,12 @@ class DashboardScreen extends Component {
 
 const mapStateToProps = state => ({
   project: state.project.project,
+  errors: state.errors.errors,
 });
 
 export default connect(
   mapStateToProps,
-  {getProject, getLocationMatch},
+  {getProject, getLocationMatch, logoutEmp},
 )(DashboardScreen);
 
 const styles = StyleSheet.create({

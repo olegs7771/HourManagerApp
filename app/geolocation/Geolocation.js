@@ -12,14 +12,7 @@ class Geolocation extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.address !== prevState.address) {
-      if (this.state.address === this.props.projectAddress) {
-        console.log('match');
-
-        this.props.position(this.state.address);
-      } else {
-        console.log('not match');
-        this.props.position(this.state.address);
-      }
+      this.props.position(this.state.address);
     }
   }
 
@@ -32,6 +25,8 @@ class Geolocation extends Component {
       /////Get Current Position
       Geoloc.getCurrentPosition(
         position => {
+          console.log('position ', position);
+
           //GeoDecode position
           Geocoder.from(position.coords.latitude, position.coords.longitude)
             .then(address => {
@@ -54,41 +49,39 @@ class Geolocation extends Component {
       );
       /////////
 
-      if (this.props.projectCoords) {
-        Geoloc.watchPosition(
-          position => {
-            console.log('position in cdm', position);
+      this.watchID = Geoloc.watchPosition(
+        position => {
+          console.log('position in cdm', position);
 
-            //GeoDecode position
-            Geocoder.from(position.coords.latitude, position.coords.longitude)
-              .then(address => {
-                console.log('address', address);
+          //GeoDecode position
+          Geocoder.from(position.coords.latitude, position.coords.longitude)
+            .then(address => {
+              console.log('address in watchPosition', address);
 
-                this.setState(prevState => ({
-                  ...prevState,
-                  address: address.results[0].formatted_address,
-                }));
-              })
-              .catch(err => {
-                console.log('error to decode', err);
-              });
-          },
-          error => {
-            // See error code charts below.
-            console.log(error.code, error.message);
-          },
-          {
-            enableHighAccuracy: false,
-            distanceFilter: 10,
-            timeout: 15000,
-            maximumAge: 10000,
-          },
-        );
-      }
+              this.setState(prevState => ({
+                ...prevState,
+                address: address.results[0].address_components[1].short_name,
+              }));
+            })
+            .catch(err => {
+              console.log('error to decode', err);
+            });
+        },
+        error => {
+          // See error code charts below.
+          console.log(error.code, error.message);
+        },
+        {
+          enableHighAccuracy: false,
+          distanceFilter: 10,
+          timeout: 15000,
+          maximumAge: 10000,
+        },
+      );
     }
   }
   componentWillUnmount() {
-    Geoloc.stopObserving();
+    Geoloc.clearWatch(this.watchID);
   }
 
   render() {

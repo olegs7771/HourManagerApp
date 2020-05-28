@@ -406,6 +406,10 @@ export const getProject = () => dispatch => {
             });
           })
           .catch(err => {
+            dispatch({
+              type: GET_ERRORS,
+              payload: err.response.data,
+            });
             console.log('http request error:', err.response.data);
           });
       }
