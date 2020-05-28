@@ -99,7 +99,7 @@ export const getSelectedDay = data => dispatch => {
 
 //Create Jobday CheckIN Automatic. Employee clicks checkIn
 export const createCheckInAuto = data => dispatch => {
-  console.log('data in action', data);
+  console.log('data createCheckInAuto in action', data);
   dispatch(loadingJobdays());
 
   const _retrieveData = async () => {
@@ -142,7 +142,7 @@ export const createCheckInAuto = data => dispatch => {
 };
 
 export const createCheckOutAuto = data => dispatch => {
-  console.log('data in action', data);
+  console.log('data createCheckOutAuto in action', data);
   dispatch(loadingJobdays());
 
   const _retrieveData = async () => {

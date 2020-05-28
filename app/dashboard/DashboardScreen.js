@@ -45,6 +45,9 @@ class DashboardScreen extends Component {
         this.setState({isMatchedLocation: true});
         this.props.getLocationMatch({match: true});
       }
+      if (this.state.isMatchedLocation !== prevState.isMatchedLocation) {
+        this.setState({isMatchedLocation: this.state.isMatchedLocation});
+      }
     }
   }
 
@@ -99,7 +102,9 @@ class DashboardScreen extends Component {
             ) : (
               <View style={styles.locationContainer}>
                 <Text style={styles.textTitle}>Location Not Matched</Text>
-                <Icon name="podcast" size={100} color="red" />
+                <View style={{marginVertical: 20}}>
+                  <Icon name="podcast" size={100} color="red" />
+                </View>
                 <Text>Current Address:{this.state.currentAddress}</Text>
                 <Text>Project Address:{this.state.projectAddress}</Text>
               </View>
