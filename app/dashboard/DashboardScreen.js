@@ -1,11 +1,19 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 
 import {connect} from 'react-redux';
 import {getProject, getLocationMatch} from '../../store/actions/jobdayAction';
 import {logoutEmp} from '../../store/actions/authAction';
 
 import Button from '../components/Button';
+import moduleName from '../../';
 
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Geolocation from '../geolocation/Geolocation';
@@ -119,8 +127,9 @@ class DashboardScreen extends Component {
       );
     } else {
       return (
-        <View>
-          <Text>Loading..</Text>
+        <View style={{paddingTop: 50}}>
+          {/* <Text>Loading..</Text> */}
+          <ActivityIndicator size={50} />
         </View>
       );
     }
