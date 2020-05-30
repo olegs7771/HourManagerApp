@@ -152,7 +152,7 @@ export class JobdayScreen extends Component {
           <ActivityIndicator size={50} style={{marginTop: 100}} />
         </View>
       );
-    } else if (!this.state.isLocationMatched) {
+    } else if (this.state.isLocationMatched) {
       return (
         <View style={styles.container}>
           <View style={styles.containerHeader}>
@@ -251,9 +251,8 @@ export class JobdayScreen extends Component {
             <Icon name="times-circle" size={50} color="red" />
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.text}>
-              Can not find location. Please edit hours manually.
-            </Text>
+            <Text style={styles.text}>Can not find location.</Text>
+            <Text style={styles.text}>Please edit hours manually in Log</Text>
             {/* {Current Coords} */}
             {this.state.currentAddress && (
               <View>
@@ -356,13 +355,19 @@ const styles = StyleSheet.create({
   },
   textTitle2: {
     textAlign: 'center',
+    fontSize: 20,
   },
   textContainer: {
     alignItems: 'center',
-    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 20,
+    alignSelf: 'center',
+    backgroundColor: '#753e3e',
   },
   text: {
     fontSize: 18,
     alignSelf: 'center',
+    color: '#fff',
   },
 });
