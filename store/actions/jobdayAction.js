@@ -157,13 +157,13 @@ export const createCheckOutAuto = data => dispatch => {
           token: parsedData.token,
           id: parsedData.uid,
           projectID: parsedData.projectID,
-          timeEnd: data.timeStart,
+          timeEnd: data.timeEnd,
         };
 
         axios
           .post(
             'https://glacial-crag-30370.herokuapp.com/api/rnapp/checkOut_automatic',
-            // 'http://192.168.43.14:5000/api/rnapp/checkOut_automatic',
+            // 'http://192.168.1.11:5000/api/rnapp/checkOut_automatic',
             payload,
           )
           .then(res => {

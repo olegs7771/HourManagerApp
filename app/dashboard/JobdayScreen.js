@@ -122,7 +122,7 @@ export class JobdayScreen extends Component {
       return Alert.alert('Please Edit Start manually in Log!');
     //Create payload for Action
     const payload = {
-      timeStart: m.format(),
+      timeEnd: m.format(),
     };
     this.props.createCheckOutAuto(payload);
   };
