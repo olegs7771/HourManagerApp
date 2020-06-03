@@ -25,7 +25,7 @@ class RenderItem extends Component {
     openModal: false,
 
     isMenuOpen: false,
-    isConfirmed: false,
+    isConfirmedEmployee: false,
     isConfirmedManager: false,
     //this.props.message changed so we can change color of V icon
   };
@@ -42,6 +42,8 @@ class RenderItem extends Component {
     }
   }
   componentDidMount() {
+    console.log('cdm');
+
     if (this.props.item) {
       const {item} = this.props;
       this.setState({
@@ -54,6 +56,16 @@ class RenderItem extends Component {
     }
 
     // this.setState({isConfirmedManager: this.props.item.item.confirmManager});
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.item !== this.props.item) {
+      if (this.props.item) {
+        this.setState({
+          isConfirmedEmployee: this.props.item.item.confirmEmployee,
+          isConfirmedManager: this.props.item.item.confirmManager,
+        });
+      }
+    }
   }
 
   _edit = () => {
@@ -90,19 +102,19 @@ class RenderItem extends Component {
     }
 
     //Create payload for action
-    //Conver "2020-04-12T15:34:30.259Z" to "2020-04-12"
+    //Convert "2020-04-12T15:34:30.259Z" to "2020-04-12"
     const dateEdit = moment(this.props.item.item.date).format('YYYY-MM-DD');
     const payload = {
       date: dateEdit,
     };
     this.props.confirm(payload);
     this.setState({
-      isConfirmed: true,
+      isConfirmedEmployee: true,
     });
   };
   _cancelConfirmation = () => {
     this.setState({
-      isConfirmed: false,
+      isConfirmedEmployee: false,
     });
     //Create payload for action
     //Conver "2020-04-12T15:34:30.259Z" to "2020-04-12"
@@ -153,7 +165,8 @@ class RenderItem extends Component {
             </Table>
           </View>
           <View>
-            {this.state.isConfirmed || this.props.item.item.confirmEmployee ? (
+            {this.state.isConfirmedEmployee ||
+            this.props.item.item.confirmEmployee ? (
               <View>
                 {this.state.isConfirmedManager ? (
                   <View //V icon for confirm jobday by employy
@@ -163,7 +176,7 @@ class RenderItem extends Component {
                     </Text>
                   </View>
                 ) : (
-                  <TouchableOpacity //V icon for confirm jobday by employy
+                  <TouchableOpacity //V icon for confirm jobday by emplo
                     style={styles.options}
                     onPress={this._cancelConfirmation}>
                     <Text>

@@ -12,7 +12,7 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import moment from 'moment';
 import RenderItem from './RenderItem';
 import RenderEmtyData from './RenderEmtyData';
-import Button from '../components/Button';
+// import Button from '../components/Button';
 
 export class AgendaLog extends Component {
   state = {
