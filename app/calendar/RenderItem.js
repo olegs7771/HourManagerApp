@@ -42,7 +42,7 @@ class RenderItem extends Component {
     }
   }
   componentDidMount() {
-    console.log('cdm');
+    console.log('cdm this.props', this.props);
 
     if (this.props.item) {
       const {item} = this.props;
@@ -170,14 +170,14 @@ class RenderItem extends Component {
               <View>
                 {this.state.isConfirmedManager ? (
                   <View //V icon for confirm jobday by employy
-                    style={styles.options}>
+                    style={{paddingLeft: 10}}>
                     <Text>
                       <Icon name="check-circle" size={30} color="#087a02" />
                     </Text>
                   </View>
                 ) : (
                   <TouchableOpacity //V icon for confirm jobday by emplo
-                    style={styles.options}
+                    style={{paddingLeft: 7}}
                     onPress={this._cancelConfirmation}>
                     <Text>
                       <Icon name="check" size={30} color="#087a02" />
@@ -187,7 +187,7 @@ class RenderItem extends Component {
               </View>
             ) : (
               <TouchableOpacity //V icon for confirm jobday by employy
-                style={styles.options}
+                style={{paddingLeft: 7}}
                 onPress={this._confirmEmployee}>
                 <Text>
                   <Icon name="check" size={30} color="#717275" />
@@ -215,12 +215,12 @@ class RenderItem extends Component {
 export default RenderItem;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: '#fff'},
+  container: {flex: 1, backgroundColor: '#fff', marginLeft: -10},
   head: {height: 40, backgroundColor: '#f1f8ff'},
   text: {margin: 6},
   row: {flexDirection: 'row', backgroundColor: '#FFF1C1'},
   options: {
-    paddingHorizontal: 20,
     paddingTop: 7,
+    marginLeft: 10,
   },
 });
