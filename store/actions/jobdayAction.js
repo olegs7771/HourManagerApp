@@ -310,6 +310,7 @@ export const setEndTimeMan = data => dispatch => {
         axios
           .post(
             'https://glacial-crag-30370.herokuapp.com/api/rnapp/endTime_manually',
+            // 'http://192.168.43.14:5000/api/rnapp/endTime_manually',
             payload,
           )
           .then(res => {

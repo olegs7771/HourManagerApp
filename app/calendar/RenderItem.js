@@ -37,7 +37,7 @@ class RenderItem extends Component {
           ? moment(item.item.timeStart).format('HH:mm')
           : '',
         end: item.item.timeEnd ? moment(item.item.timeEnd).format('HH:mm') : '',
-        comment: item.item.message ? true : false,
+        comment: item.item.messages.length > 0 ? true : false,
       });
     }
   }
@@ -51,18 +51,26 @@ class RenderItem extends Component {
           ? moment(item.item.timeStart).format('HH:mm')
           : '',
         end: item.item.timeEnd ? moment(item.item.timeEnd).format('HH:mm') : '',
-        comment: item.item.message ? true : false,
+        comment: item.item.messages.length > 0 ? true : false,
       });
     }
 
     // this.setState({isConfirmedManager: this.props.item.item.confirmManager});
   }
   componentDidUpdate(prevProps, prevState) {
+    const {item} = this.props;
     if (prevProps.item !== this.props.item) {
-      if (this.props.item) {
+      if (item) {
         this.setState({
-          isConfirmedEmployee: this.props.item.item.confirmEmployee,
-          isConfirmedManager: this.props.item.item.confirmManager,
+          isConfirmedEmployee: item.item.confirmEmployee,
+          isConfirmedManager: item.item.confirmManager,
+          start: item.item.timeStart
+            ? moment(item.item.timeStart).format('HH:mm')
+            : '',
+          end: item.item.timeEnd
+            ? moment(item.item.timeEnd).format('HH:mm')
+            : '',
+          comment: item.item.message ? true : false,
         });
       }
     }
@@ -130,7 +138,7 @@ class RenderItem extends Component {
     //if item has message
     //show employee that is been sent to manager
     const commentBoolen = this.state.comment
-      ? 'Sent To Manager'
+      ? `${this.props.item.item.messages.length} comments been sents `
       : 'No Comments';
 
     const tableHead = ['Start', 'End', 'Comment'];
