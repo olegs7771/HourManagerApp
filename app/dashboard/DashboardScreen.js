@@ -12,8 +12,8 @@ import {connect} from 'react-redux';
 import {getProject, getLocationMatch} from '../../store/actions/jobdayAction';
 import {logoutEmp} from '../../store/actions/authAction';
 
-import Button from '../components/Button';
-import moduleName from '../../';
+// import Button from '../components/Button';
+// import moduleName from '../../';
 
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Geolocation from '../geolocation/Geolocation';
