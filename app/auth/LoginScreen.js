@@ -6,11 +6,17 @@ import {loginEmployee} from '../../store/actions/authAction';
 class LoginScreen extends Component {
   state = {
     email: '',
-    code: '',
-
+    appCode: '',
+    projectCode: '',
     errors: {},
     loading: false,
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.errors !== this.props.errors) {
+      this.setState({errors: this.props.errors});
+    }
+  }
 
   _loginEmployee = () => {
     //Validation
@@ -22,12 +28,15 @@ class LoginScreen extends Component {
     if (!regex.test(this.state.email))
       return this.setState({errors: {email: 'Email invalid format'}});
 
-    if (this.state.code.length === 0)
-      return this.setState({errors: {code: 'Provide Code'}});
+    if (this.state.appCode.length === 0)
+      return this.setState({errors: {appCode: 'Provide  App Code'}});
+    if (this.state.projectCode.length === 0)
+      return this.setState({errors: {projectCode: 'Provide Project Code'}});
 
     const data = {
       email: this.state.email,
-      code: this.state.code,
+      appCode: this.state.appCode,
+      projectCode: this.state.projectCode,
     };
 
     console.log('data', data);
@@ -38,7 +47,7 @@ class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.textTitle}> Login Here </Text>
-
+        {/* Email */}
         <View style={styles.containerForm}>
           <Text style={styles.textLabel}>Email</Text>
           <TextInput
@@ -56,18 +65,38 @@ class LoginScreen extends Component {
               <Text style={{color: 'red'}}>{this.state.errors.email}</Text>
             </View>
           ) : null}
-          <Text style={styles.textLabel}>Code</Text>
+          {/* App Code */}
+          <Text style={styles.textLabel}> App Code</Text>
           <TextInput
             style={styles.textInput}
-            onChangeText={code => this.setState({code, errors: {}})}
-            name="code"
-            value={this.state.code}
+            onChangeText={appCode => this.setState({appCode, errors: {}})}
+            name="appCode"
+            value={this.state.appCode}
             keyboardType="numeric"
             placeholder="123456"
           />
-          {this.state.errors.code ? (
+          {this.state.errors.appCode ? (
             <View style={{marginTop: -10}}>
-              <Text style={{color: 'red'}}>{this.state.errors.code}</Text>
+              <Text style={{color: 'red'}}>{this.state.errors.appCode}</Text>
+            </View>
+          ) : null}
+          {/* Project Code */}
+          <Text style={styles.textLabel}> Project Code</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={projectCode =>
+              this.setState({projectCode, errors: {}})
+            }
+            name="projectCode"
+            value={this.state.projectCode}
+            keyboardType="numeric"
+            placeholder="123456"
+          />
+          {this.state.errors.projectCode ? (
+            <View style={{marginTop: -10}}>
+              <Text style={{color: 'red'}}>
+                {this.state.errors.projectCode}
+              </Text>
             </View>
           ) : null}
 
@@ -81,7 +110,7 @@ class LoginScreen extends Component {
 }
 
 const mapStateToProps = state => ({
-  // errors: state.errors.errors,
+  errors: state.errors.errors,
   // isAuthenticated: state.auth.isAuthenticated,
 });
 

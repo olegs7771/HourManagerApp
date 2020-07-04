@@ -398,6 +398,7 @@ export const getProject = () => dispatch => {
         axios
           .post(
             'https://glacial-crag-30370.herokuapp.com/api/rnapp/getProject',
+            // 'http://192.168.1.11:5000/api/rnapp/getProject',
             payload,
           )
           .then(res => {
