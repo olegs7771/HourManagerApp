@@ -13,6 +13,7 @@ import {
 import {logoutEmp} from '../../store/actions/authAction';
 import moment from 'moment';
 import Button from '../components/Button';
+import UpCase from '../utils/UpCase';
 
 const m = moment();
 
@@ -152,12 +153,12 @@ export class JobdayScreen extends Component {
           <ActivityIndicator size={50} style={{marginTop: 100}} />
         </View>
       );
-    } else if (this.state.isLocationMatched) {
+    } else if (!this.state.isLocationMatched) {
       return (
         <View style={styles.container}>
           <View style={styles.containerHeader}>
             <Text style={styles.textGreeting}>
-              Good {getGreetingTime(m)} {this.state.name}!
+              Good {getGreetingTime(m)} {UpCase(this.state.name)}!
             </Text>
             <Text style={styles.textDate}>
               {m.format('LL')} {m.format('dddd')}
@@ -303,7 +304,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0c4538',
   },
   textGreeting: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#e4e3e6',

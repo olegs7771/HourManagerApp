@@ -44,6 +44,7 @@ class DashboardScreen extends Component {
         this.props.logoutEmp();
       }
     }
+    //change here for debug
     if (this.state.currentAddress !== prevState.currentAddress) {
       console.log('currentAddres updated');
       if (this.state.currentAddress !== this.state.projectAddress) {

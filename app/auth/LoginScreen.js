@@ -65,21 +65,6 @@ class LoginScreen extends Component {
               <Text style={{color: 'red'}}>{this.state.errors.email}</Text>
             </View>
           ) : null}
-          {/* App Code */}
-          <Text style={styles.textLabel}> App Code</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={appCode => this.setState({appCode, errors: {}})}
-            name="appCode"
-            value={this.state.appCode}
-            keyboardType="numeric"
-            placeholder="123456"
-          />
-          {this.state.errors.appCode ? (
-            <View style={{marginTop: -10}}>
-              <Text style={{color: 'red'}}>{this.state.errors.appCode}</Text>
-            </View>
-          ) : null}
           {/* Project Code */}
           <Text style={styles.textLabel}> Project Code</Text>
           <TextInput
@@ -97,6 +82,21 @@ class LoginScreen extends Component {
               <Text style={{color: 'red'}}>
                 {this.state.errors.projectCode}
               </Text>
+            </View>
+          ) : null}
+          {/* App Code */}
+          <Text style={styles.textLabel}> App Code</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={appCode => this.setState({appCode, errors: {}})}
+            name="appCode"
+            value={this.state.appCode}
+            keyboardType="numeric"
+            placeholder="123456"
+          />
+          {this.state.errors.appCode ? (
+            <View style={{marginTop: -10}}>
+              <Text style={{color: 'red'}}>{this.state.errors.appCode}</Text>
             </View>
           ) : null}
 
