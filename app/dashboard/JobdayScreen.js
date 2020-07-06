@@ -114,8 +114,9 @@ export class JobdayScreen extends Component {
   _checkIn = () => {
     //Create payload for Action
     const payload = {
-      timeStart: m.format(),
+      timeStart: new Date().toISOString(),
     };
+
     this.props.createCheckInAuto(payload);
   };
   _checkOut = () => {
@@ -123,8 +124,9 @@ export class JobdayScreen extends Component {
       return Alert.alert('Please Edit Start manually in Log!');
     //Create payload for Action
     const payload = {
-      timeEnd: m.format(),
+      timeEnd: new Date().toISOString(),
     };
+
     this.props.createCheckOutAuto(payload);
   };
 
