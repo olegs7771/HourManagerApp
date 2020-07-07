@@ -19,6 +19,7 @@ export const loginEmployee = data => dispatch => {
         token: res.data.token,
         uid: res.data.uid,
         projectID: res.data.projectID,
+        managerID: res.data.managerID,
       };
 
       AsyncStorage.setItem('user', JSON.stringify(payload)).then(() => {

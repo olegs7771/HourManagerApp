@@ -107,7 +107,7 @@ export const createCheckInAuto = data => dispatch => {
       const value = await AsyncStorage.getItem('user');
       if (value !== null) {
         const parsedData = JSON.parse(value);
-        // console.log('parsedData', parsedData);
+        console.log('parsedData', parsedData);
         //Send Request to API
         //Create payload for HTTP request
         const payload = {
