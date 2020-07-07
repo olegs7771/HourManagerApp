@@ -115,12 +115,13 @@ export const createCheckInAuto = data => dispatch => {
           id: parsedData.uid,
           projectID: parsedData.projectID,
           timeStart: data.timeStart,
+          managerID: parsedData.managerID,
         };
 
         axios
           .post(
             // 'https://glacial-crag-30370.herokuapp.com/api/rnapp/checkIn_automatic',
-            'http://192.168.43.14:5000/api/rnapp/checkIn_automatic',
+            'http://192.168.1.11:5000/api/rnapp/checkIn_automatic',
 
             payload,
           )
@@ -259,7 +260,7 @@ export const setStartTimeMan = data => dispatch => {
         axios
           .post(
             'https://glacial-crag-30370.herokuapp.com/api/rnapp/startTime_manually',
-            // 'http://192.168.43.14:5000/api/rnapp/startTime_manually',
+            // 'http://192.168.1.11:5000/api/rnapp/startTime_manually',
             payload,
           )
           .then(res => {
@@ -312,7 +313,7 @@ export const setEndTimeMan = data => dispatch => {
         axios
           .post(
             'https://glacial-crag-30370.herokuapp.com/api/rnapp/endTime_manually',
-            // 'http://192.168.43.14:5000/api/rnapp/endTime_manually',
+            // 'http://192.168.1.11:5000/api/rnapp/endTime_manually',
             payload,
           )
           .then(res => {
