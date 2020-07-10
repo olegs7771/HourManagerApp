@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Text, View, StyleSheet, TextInput, Button} from 'react-native';
 import {conect, connect} from 'react-redux';
 import {loginEmployee} from '../../store/actions/authAction';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 class LoginScreen extends Component {
   state = {
@@ -46,62 +47,86 @@ class LoginScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.textTitle}> Login Here </Text>
-        {/* Email */}
+        <View style={styles.containerTitle}>
+          <Text style={styles.textTitle}> Welcome! </Text>
+          <Text style={{fontSize: 16, color: '#3c6cb5', marginLeft: 10}}>
+            SignIn using your credentials
+          </Text>
+        </View>
         <View style={styles.containerForm}>
-          <Text style={styles.textLabel}>Email</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={email =>
-              this.setState({email: email.toLowerCase(), errors: {}})
-            }
-            name="email"
-            value={this.state.email}
-            keyboardType="email-address"
-            placeholder="john@example.com"
-          />
+          {/* Email */}
+          <View style={styles.containerInputField}>
+            <View style={styles.containerIcon}>
+              <Icon name="user" size={30} color="#3c6cb5" />
+            </View>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={email =>
+                this.setState({email: email.toLowerCase(), errors: {}})
+              }
+              name="email"
+              value={this.state.email}
+              keyboardType="email-address"
+              placeholder="Email Address"
+            />
+          </View>
           {this.state.errors.email ? (
-            <View style={{marginTop: -10}}>
+            <View style={{marginTop: -5, marginLeft: 20}}>
               <Text style={{color: 'red'}}>{this.state.errors.email}</Text>
             </View>
           ) : null}
+
+          {/* App Code */}
+          <View style={styles.containerInputField}>
+            <View style={styles.containerIcon}>
+              <Icon name="key" size={30} color="#3c6cb5" />
+            </View>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={appCode => this.setState({appCode, errors: {}})}
+              name="appCode"
+              value={this.state.appCode}
+              keyboardType="numeric"
+              placeholder="App Code"
+            />
+          </View>
+          {this.state.errors.appCode ? (
+            <View style={{marginTop: -5, marginLeft: 20}}>
+              <Text style={{color: 'red'}}>{this.state.errors.appCode}</Text>
+            </View>
+          ) : null}
           {/* Project Code */}
-          <Text style={styles.textLabel}> Project Code</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={projectCode =>
-              this.setState({projectCode, errors: {}})
-            }
-            name="projectCode"
-            value={this.state.projectCode}
-            keyboardType="numeric"
-            placeholder="123456"
-          />
+          <View style={styles.containerInputField}>
+            <View style={styles.containerIcon}>
+              <Icon name="key" size={30} color="#3c6cb5" />
+            </View>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={projectCode =>
+                this.setState({projectCode, errors: {}})
+              }
+              name="projectCode"
+              value={this.state.projectCode}
+              keyboardType="numeric"
+              placeholder="Project Code"
+            />
+          </View>
+
           {this.state.errors.projectCode ? (
-            <View style={{marginTop: -10}}>
+            <View style={{marginTop: -5, marginLeft: 20}}>
               <Text style={{color: 'red'}}>
                 {this.state.errors.projectCode}
               </Text>
             </View>
           ) : null}
-          {/* App Code */}
-          <Text style={styles.textLabel}> App Code</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={appCode => this.setState({appCode, errors: {}})}
-            name="appCode"
-            value={this.state.appCode}
-            keyboardType="numeric"
-            placeholder="123456"
-          />
-          {this.state.errors.appCode ? (
-            <View style={{marginTop: -10}}>
-              <Text style={{color: 'red'}}>{this.state.errors.appCode}</Text>
-            </View>
-          ) : null}
 
           <View style={styles.containerButton}>
-            <Button title="Submit" size={20} onPress={this._loginEmployee} />
+            <Button
+              title="Submit"
+              size={20}
+              color="#3c6cb5"
+              onPress={this._loginEmployee}
+            />
           </View>
         </View>
       </View>
@@ -122,34 +147,46 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     paddingVertical: 20,
+    backgroundColor: '#edf1f7',
+    justifyContent: 'center',
+  },
+  containerTitle: {
+    paddingLeft: 30,
   },
   textTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    borderWidth: 1,
-    alignSelf: 'center',
-    padding: 5,
-    borderRadius: 5,
+    fontSize: 30,
+    color: '#3c6cb5',
   },
   containerForm: {
     paddingHorizontal: 20,
     marginTop: 30,
   },
+  //Email Field
+  containerInputField: {
+    flexDirection: 'row',
+    backgroundColor: '#FFF',
+    borderRadius: 10,
+    marginBottom: 10,
+    paddingVertical: 10,
+    // borderWidth: 1,
+  },
+  containerIcon: {
+    width: '15%',
+    alignSelf: 'center',
+    paddingLeft: 15,
+    backgroundColor: '#FFF',
+  },
+
   textInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 20,
-    borderRadius: 5,
+    width: '80%',
+    paddingLeft: 10,
+    backgroundColor: '#FFF',
   },
-  textLabel: {
-    fontSize: 18,
-    marginBottom: 5,
-    marginLeft: 10,
-  },
+
   containerButton: {
     alignSelf: 'center',
+    borderRadius: 10,
+    width: 100,
   },
 });

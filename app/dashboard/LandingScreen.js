@@ -26,20 +26,18 @@ export class LandingScreen extends Component {
             style={{width: '90%', height: 100, alignSelf: 'center'}}
           />
         </View>
-        <View style={{padding: 10, marginTop: 30}}>
+        <View style={{paddingHorizontal: 20, marginTop: 30}}>
           <Text style={{fontSize: 18}}>
-            Dear Friend we are glad to see you! If you have Email and Code , You
-            free to use it.
+            Dear Friend we are glad to see you!
+          </Text>
+          <Text style={{fontSize: 18}}>
+            If you have Email, APP Code and Project Code , You free to use it.
+          </Text>
+          <Text style={{fontSize: 18}}>
+            We are looking forward for working together!
           </Text>
         </View>
-        <View
-          style={{
-            padding: 10,
-          }}>
-          <Text style={styles.textTitle}>
-            We are looking forward to working together!
-          </Text>
-        </View>
+
         {this.state.errors.error ? (
           <View
             style={{
@@ -76,19 +74,22 @@ export class LandingScreen extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   errors: state.errors.errors,
 });
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(LandingScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LandingScreen);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
-    backgroundColor: '#d2d5d9',
+    backgroundColor: '#edf1f7',
   },
   containerImage: {
     // borderWidth: 1,
@@ -104,6 +105,8 @@ const styles = StyleSheet.create({
   containerIcon: {
     padding: 10,
     borderRadius: 5,
-    backgroundColor: '#868f9c',
+    backgroundColor: '#3c6cb5',
+    width: 100,
+    alignItems: 'center',
   },
 });

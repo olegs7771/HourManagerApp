@@ -120,8 +120,8 @@ export const createCheckInAuto = data => dispatch => {
 
         axios
           .post(
-            // 'https://glacial-crag-30370.herokuapp.com/api/rnapp/checkIn_automatic',
-            'http://192.168.1.11:5000/api/rnapp/checkIn_automatic',
+            'https://glacial-crag-30370.herokuapp.com/api/rnapp/checkIn_automatic',
+            // 'http://192.168.1.11:5000/api/rnapp/checkIn_automatic',
 
             payload,
           )
@@ -252,6 +252,7 @@ export const setStartTimeMan = data => dispatch => {
           token: parsedData.token,
           id: parsedData.uid,
           projectID: parsedData.projectID,
+          managerID: parsedData.managerID,
           date: data.selectedDay,
           timeStart: data.timeStart, //manually set by Employee
           message: data.message,
