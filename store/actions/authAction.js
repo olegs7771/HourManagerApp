@@ -6,8 +6,8 @@ export const loginEmployee = data => dispatch => {
   console.log('data in loginEmployee', data);
   dispatch(loading());
   Axios.post(
-    // 'https://glacial-crag-30370.herokuapp.com/api/employee/employee_login',
-    'http://192.168.43.14:5000/api/employee/employee_login',
+    'https://glacial-crag-30370.herokuapp.com/api/employee/employee_login',
+    // 'http://192.168.43.14:5000/api/employee/employee_login',
     data,
   )
     .then(res => {

@@ -188,5 +188,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 10,
     width: 100,
+    marginTop: 20,
   },
 });

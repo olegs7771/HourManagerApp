@@ -22,11 +22,11 @@ export class LandingScreen extends Component {
       <View style={styles.container}>
         <View style={styles.containerImage}>
           <Image
-            source={require('../../assets/hourmanager.png')}
-            style={{width: '90%', height: 100, alignSelf: 'center'}}
+            source={require('../../assets/logoApp.png')}
+            style={{width: '80%', height: 150, alignSelf: 'center'}}
           />
         </View>
-        <View style={{paddingHorizontal: 20, marginTop: 30}}>
+        <View style={{paddingHorizontal: 30, marginTop: 30}}>
           <Text style={{fontSize: 18}}>
             Dear Friend we are glad to see you!
           </Text>
@@ -88,7 +88,7 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
+    paddingTop: 40,
     backgroundColor: '#edf1f7',
   },
   containerImage: {

@@ -120,13 +120,8 @@ export const createCheckInAuto = data => dispatch => {
 
         axios
           .post(
-<<<<<<< HEAD
             'https://glacial-crag-30370.herokuapp.com/api/rnapp/checkIn_automatic',
-            // 'http://192.168.1.11:5000/api/rnapp/checkIn_automatic',
-=======
-            // 'https://glacial-crag-30370.herokuapp.com/api/rnapp/checkIn_automatic',
-            'http://192.168.43.14:5000/api/rnapp/checkIn_automatic',
->>>>>>> 6dd264f051feafdba7b29d16dce547fe6971fc60
+            // 'http://192.168.43.14:5000/api/rnapp/checkIn_automatic',
 
             payload,
           )
