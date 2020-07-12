@@ -23,7 +23,7 @@ export class LandingScreen extends Component {
         <View style={styles.containerImage}>
           <Image
             source={require('../../assets/logoApp.png')}
-            style={{width: '80%', height: 150, alignSelf: 'center'}}
+            style={{width: '70%', height: 120, alignSelf: 'center'}}
           />
         </View>
         <View style={{paddingHorizontal: 30, marginTop: 30}}>

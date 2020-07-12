@@ -23,7 +23,7 @@
     "react-native": "0.62.2",
     "react-native-calendars": "^1.265.0",
     "react-native-geocoding": "^0.4.0",
-    "react-native-geolocation-service": "^4.0.2",
+    "react-native-geolocation-service": "^5.0.0",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-numeric-input": "^1.8.3",
     "react-native-popup-dialog": "^0.18.3",

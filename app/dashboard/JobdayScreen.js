@@ -155,7 +155,7 @@ export class JobdayScreen extends Component {
           <ActivityIndicator size={50} style={{marginTop: 100}} />
         </View>
       );
-    } else if (!this.state.isLocationMatched) {
+    } else if (this.state.isLocationMatched) {
       return (
         <View style={styles.container}>
           <View style={styles.containerHeader}>

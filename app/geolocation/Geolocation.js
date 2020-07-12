@@ -19,10 +19,10 @@ class Geolocation extends Component {
   async componentDidMount() {
     console.log('cdm in Geolocation first time');
     const permission = await RequestGeoLocPermission();
+    console.log('premission', permission);
 
     //Got Permission from GeoPermission
     if (permission) {
-      /////Get Current Position
       Geoloc.getCurrentPosition(
         position => {
           console.log('position ', position);
@@ -34,7 +34,7 @@ class Geolocation extends Component {
 
               this.setState(prevState => ({
                 ...prevState,
-                address: address.results[0].address_components[1].short_name,
+                address: address.results[0].formatted_address,
               }));
             })
             .catch(err => {
@@ -60,7 +60,7 @@ class Geolocation extends Component {
 
               this.setState(prevState => ({
                 ...prevState,
-                address: address.results[0].address_components[1].short_name,
+                address: address.results[0].formatted_address,
               }));
             })
             .catch(err => {
