@@ -20,20 +20,40 @@ export class LandingScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Image
+          source={require('../../assets/citymap.png')}
+          style={{
+            width: '100%',
+            height: 600,
+            position: 'absolute',
+          }}
+        />
         <View style={styles.containerImage}>
           <Image
             source={require('../../assets/logoApp.png')}
             style={{width: '70%', height: 120, alignSelf: 'center'}}
           />
         </View>
-        <View style={{paddingHorizontal: 30, marginTop: 30}}>
-          <Text style={{fontSize: 18}}>
+        <View
+          style={{
+            paddingLeft: 40,
+            paddingRight: 10,
+            marginTop: 100,
+            backgroundColor: '#FFF',
+            // borderBottomWidth: 1,
+            // borderTopWidth: 1,
+            paddingVertical: 10,
+            width: '90%',
+            alignSelf: 'center',
+            borderRadius: 10,
+          }}>
+          <Text style={{fontSize: 18, fontWeight: 'bold'}}>
             Dear Friend we are glad to see you!
           </Text>
-          <Text style={{fontSize: 18}}>
+          <Text style={{fontSize: 18, fontWeight: 'bold'}}>
             If you have Email, APP Code and Project Code , You free to use it.
           </Text>
-          <Text style={{fontSize: 18}}>
+          <Text style={{fontSize: 18, fontWeight: 'bold'}}>
             We are looking forward for working together!
           </Text>
         </View>
@@ -92,7 +112,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#edf1f7',
   },
   containerImage: {
-    // borderWidth: 1,
+    backgroundColor: '#FFF',
+    borderWidth: 1,
+    borderRadius: 10,
+
+    width: '90%',
+    alignSelf: 'center',
   },
   textTitle: {
     fontSize: 20,
@@ -103,9 +128,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   containerIcon: {
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 5,
-    backgroundColor: '#3c6cb5',
+    backgroundColor: '#6b7068',
     width: 100,
     alignItems: 'center',
   },

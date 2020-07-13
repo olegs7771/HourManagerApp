@@ -24,7 +24,9 @@ class DashboardScreen extends Component {
     this._getProject();
     this.state = {
       projectAddress: '',
+      projectPlus_code: '',
       currentAddress: '',
+      currentPlus_code: '',
       isMatchedLocation: false,
     };
   }
@@ -35,7 +37,10 @@ class DashboardScreen extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.project !== this.props.project) {
       if (this.props.project) {
-        this.setState({projectAddress: this.props.project.address});
+        this.setState({
+          projectAddress: this.props.project.address,
+          projectPlus_code: this.props.project.plus_code,
+        });
       }
     }
     //Handle Errors
@@ -47,7 +52,7 @@ class DashboardScreen extends Component {
     //change here for debug
     if (this.state.currentAddress !== prevState.currentAddress) {
       console.log('currentAddres updated');
-      if (this.state.currentAddress !== this.state.projectAddress) {
+      if (this.state.currentPlus_code !== this.state.projectPlus_code) {
         this.setState({isMatchedLocation: false});
         this.props.getLocationMatch({match: false});
       } else {
@@ -68,10 +73,9 @@ class DashboardScreen extends Component {
     console.log('data in dashboard ', data);
   };
   _updateCurrAddress = data => {
-    console.log('_updateCurrAddress data dashboard', data);
-
     this.setState({
-      currentAddress: data,
+      currentAddress: data.address,
+      currentPlus_code: data.plus_code,
     });
   };
 
@@ -79,7 +83,12 @@ class DashboardScreen extends Component {
     if (this.props.project) {
       return (
         <View style={styles.container}>
-          <View style={{flexDirection: 'row', backgroundColor: '#694fad'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              backgroundColor: '#022e54',
+              paddingVertical: 10,
+            }}>
             <TouchableOpacity style={styles.containerIconDrawerClosed}>
               <Icon
                 name="bars"
@@ -92,30 +101,99 @@ class DashboardScreen extends Component {
             <Image
               source={require('../../assets/hourmanagerLight.png')}
               style={{
-                width: '50%',
-                height: 60,
+                width: '40%',
+                height: 50,
                 alignSelf: 'center',
                 marginTop: 5,
-                marginLeft: 40,
+                marginLeft: 60,
               }}
             />
           </View>
+
           <View style={styles.containerMain}>
+            <Image
+              source={require('../../assets/citymap.png')}
+              style={{
+                width: '100%',
+                height: 600,
+                position: 'absolute',
+              }}
+            />
             {this.state.isMatchedLocation ? (
               <View style={styles.locationContainer}>
-                <Text style={styles.textTitle}>Location Matched</Text>
-                <Icon name="podcast" size={100} color="green" />
-                <Text>Current Address:{this.state.currentAddress}</Text>
-                <Text>Project Address:{this.state.projectAddress}</Text>
+                <View
+                  style={{
+                    marginVertical: 40,
+                    backgroundColor: '#fff',
+                    padding: 10,
+                  }}>
+                  <Text style={styles.textTitleLocationTrue}>
+                    Location Matched
+                  </Text>
+                </View>
+                <Icon name="map-marker" size={150} color="green" />
               </View>
             ) : (
               <View style={styles.locationContainer}>
-                <Text style={styles.textTitle}>Location Not Matched</Text>
-                <View style={{marginVertical: 20}}>
-                  <Icon name="podcast" size={100} color="red" />
+                <View
+                  style={{
+                    marginVertical: 40,
+                    backgroundColor: '#fff',
+                    padding: 5,
+                    borderRadius: 10,
+                  }}>
+                  <Text style={styles.textTitleLocationFalse}>No Location</Text>
                 </View>
-                <Text>Current Address:{this.state.currentAddress}</Text>
-                <Text>Project Address:{this.state.projectAddress}</Text>
+                <Icon name="map-marker" size={150} color="red" />
+
+                <View
+                  style={{
+                    marginVertical: 30,
+                    width: '80%',
+                    backgroundColor: '#FFF',
+                    padding: 10,
+                    borderRadius: 10,
+                  }}>
+                  <View style={{borderBottomWidth: 1}}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: 'bold',
+                        alignSelf: 'center',
+                        fontStyle: 'italic',
+                      }}>
+                      Your location
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: 'bold',
+                        alignSelf: 'center',
+                        fontStyle: 'italic',
+                        marginLeft: 20,
+                      }}>
+                      {this.state.currentAddress}
+                    </Text>
+                  </View>
+
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 'bold',
+                      alignSelf: 'center',
+                      fontStyle: 'italic',
+                    }}>
+                    Project Address
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 'bold',
+                      alignSelf: 'center',
+                    }}>
+                    {this.state.projectAddress}
+                  </Text>
+                </View>
               </View>
             )}
           </View>
@@ -158,15 +236,21 @@ const styles = StyleSheet.create({
   },
   containerMain: {
     flex: 1,
-    backgroundColor: '#eae6eb',
   },
   locationContainer: {
     flex: 1,
     paddingTop: 20,
     alignItems: 'center',
   },
-  textTitle: {
-    fontSize: 20,
+  textTitleLocationTrue: {
+    fontSize: 40,
     fontWeight: 'bold',
+    color: 'green',
+  },
+  textTitleLocationFalse: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: 'red',
+    fontStyle: 'italic',
   },
 });

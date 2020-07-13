@@ -8,11 +8,17 @@ Geocoder.init('AIzaSyDF9BWn17CT9geI3L-Ff0ujGWwpPHmxvCQ');
 class Geolocation extends Component {
   state = {
     address: '',
+    plus_code: '',
   };
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.address !== prevState.address) {
-      this.props.position(this.state.address);
+      const payload = {
+        address: this.state.address,
+        plus_code: this.state.plus_code,
+      };
+
+      this.props.position(payload);
     }
   }
 
@@ -35,6 +41,7 @@ class Geolocation extends Component {
               this.setState(prevState => ({
                 ...prevState,
                 address: address.results[0].formatted_address,
+                plus_code: address.plus_code.global_code.substring(8, 0),
               }));
             })
             .catch(err => {
@@ -61,6 +68,7 @@ class Geolocation extends Component {
               this.setState(prevState => ({
                 ...prevState,
                 address: address.results[0].formatted_address,
+                plus_code: address.plus_code.global_code.substring(8, 0),
               }));
             })
             .catch(err => {

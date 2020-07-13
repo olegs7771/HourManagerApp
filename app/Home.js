@@ -33,7 +33,8 @@ const TabNav = () => {
     <Tab.Navigator
       tabBarOptions={{
         tabStyle: {
-          backgroundColor: '#694fad',
+          backgroundColor: '#022e54',
+          // paddingTop: 20,
         },
         activeTintColor: '#FFF',
       }}>
