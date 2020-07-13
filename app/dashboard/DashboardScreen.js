@@ -151,7 +151,7 @@ class DashboardScreen extends Component {
                     marginVertical: 30,
                     width: '80%',
                     backgroundColor: '#FFF',
-                    padding: 10,
+                    paddingVertical: 10,
                     borderRadius: 10,
                   }}>
                   <View style={{borderBottomWidth: 1}}>
