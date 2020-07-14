@@ -31,7 +31,7 @@ export class LandingScreen extends Component {
         <View style={styles.containerImage}>
           <Image
             source={require('../../assets/logoApp.png')}
-            style={{width: '70%', height: 120, alignSelf: 'center'}}
+            style={{width: '100%', height: 120, alignSelf: 'center'}}
           />
         </View>
         <View
@@ -40,8 +40,10 @@ export class LandingScreen extends Component {
             paddingRight: 10,
             marginTop: 100,
             backgroundColor: '#FFF',
-            // borderBottomWidth: 1,
-            // borderTopWidth: 1,
+            borderWidth: 4,
+            borderRadius: 10,
+            borderColor: '#c1c3c7',
+
             paddingVertical: 10,
             width: '90%',
             alignSelf: 'center',
@@ -113,8 +115,10 @@ const styles = StyleSheet.create({
   },
   containerImage: {
     backgroundColor: '#FFF',
-    borderWidth: 1,
+    borderWidth: 4,
     borderRadius: 10,
+    borderColor: '#c1c3c7',
+    paddingHorizontal: 10,
 
     width: '90%',
     alignSelf: 'center',

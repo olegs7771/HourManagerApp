@@ -101,11 +101,11 @@ class DashboardScreen extends Component {
             <Image
               source={require('../../assets/hourmanagerLight.png')}
               style={{
-                width: '40%',
-                height: 50,
+                width: '60%',
+                height: 60,
                 alignSelf: 'center',
                 marginTop: 5,
-                marginLeft: 60,
+                marginLeft: 40,
               }}
             />
           </View>
@@ -119,7 +119,7 @@ class DashboardScreen extends Component {
                 position: 'absolute',
               }}
             />
-            {!this.state.isMatchedLocation ? (
+            {this.state.isMatchedLocation ? (
               <View style={styles.locationContainer}>
                 <View
                   style={{

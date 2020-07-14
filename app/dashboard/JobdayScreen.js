@@ -265,7 +265,12 @@ export class JobdayScreen extends Component {
             }}
           />
           <View
-            style={{backgroundColor: '#FFF', width: 200, alignSelf: 'center'}}>
+            style={{
+              backgroundColor: '#FFF',
+              width: 200,
+              alignSelf: 'center',
+              marginVertical: 20,
+            }}>
             <Text style={styles.textTitle2}>No Location</Text>
           </View>
           <View style={{alignSelf: 'center', paddingVertical: 20}}>
@@ -383,11 +388,10 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     alignItems: 'center',
-
-    borderRadius: 5,
+    borderRadius: 10,
     padding: 20,
     alignSelf: 'center',
-    backgroundColor: '#753e3e',
+    backgroundColor: '#3c6cb5',
   },
   text: {
     fontSize: 18,
