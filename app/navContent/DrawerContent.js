@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingBottom: 20,
   },
-  containerName: {flex},
+  containerName: {},
 
   textTitle: {
     textAlign: 'center',
