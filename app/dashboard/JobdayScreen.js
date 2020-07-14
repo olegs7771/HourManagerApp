@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Alert, ActivityIndicator} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  ActivityIndicator,
+  Image,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 // import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -249,13 +256,24 @@ export class JobdayScreen extends Component {
     } else {
       return (
         <View style={styles.container2}>
-          <Text style={styles.textTitle2}>No Location</Text>
+          <Image
+            source={require('../../assets/citymap.png')}
+            style={{
+              width: '100%',
+              height: 700,
+              position: 'absolute',
+            }}
+          />
+          <View
+            style={{backgroundColor: '#FFF', width: 200, alignSelf: 'center'}}>
+            <Text style={styles.textTitle2}>No Location</Text>
+          </View>
           <View style={{alignSelf: 'center', paddingVertical: 20}}>
-            <Icon name="times-circle" size={50} color="red" />
+            <Icon name="map-marker" size={80} color="red" />
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.text}>Can not find location.</Text>
-            <Text style={styles.text}>Please edit hours manually in Log</Text>
+            <Text style={styles.text}>You can edit hours manually in Log</Text>
             {/* {Current Coords} */}
             {this.state.currentAddress && (
               <View>
@@ -355,14 +373,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignContent: 'center',
     paddingTop: 20,
+    justifyContent: 'center',
   },
   textTitle2: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: 'red',
   },
   textContainer: {
     alignItems: 'center',
-    borderWidth: 1,
+
     borderRadius: 5,
     padding: 20,
     alignSelf: 'center',

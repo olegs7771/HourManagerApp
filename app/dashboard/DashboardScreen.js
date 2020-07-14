@@ -119,7 +119,7 @@ class DashboardScreen extends Component {
                 position: 'absolute',
               }}
             />
-            {this.state.isMatchedLocation ? (
+            {!this.state.isMatchedLocation ? (
               <View style={styles.locationContainer}>
                 <View
                   style={{

@@ -11,16 +11,6 @@ class DrawerContent extends Component {
     email: '',
   };
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.props.auth !== prevProps.auth) {
-  //     console.log('changed props');
-
-  //     this.setState({
-  //       name: this.props.auth.user.name,
-  //       email: this.props.auth.user.email,
-  //     });
-  //   }
-  // }
   componentDidMount() {
     if (this.props.auth) {
       this.setState({
@@ -54,13 +44,13 @@ class DrawerContent extends Component {
               style={{
                 marginBottom: 10,
               }}>
-              <Text style={{fontSize: 18, fontWeight: 'bold'}}>Name </Text>
-              <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                {this.state.name}
-              </Text>
+              <View style={styles.containerName}>
+                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+                  {this.state.name}
+                </Text>
+              </View>
             </View>
             <View>
-              <Text style={{fontSize: 18, fontWeight: 'bold'}}>Email </Text>
               <Text style={{fontSize: 16, fontWeight: 'bold'}}>
                 {this.state.email}
               </Text>
@@ -95,7 +85,7 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
+    justifyContent: 'center',
     alignItems: 'center',
   },
   containerProfile: {
@@ -103,6 +93,8 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingBottom: 20,
   },
+  containerName: {flex},
+
   textTitle: {
     textAlign: 'center',
     fontSize: 20,

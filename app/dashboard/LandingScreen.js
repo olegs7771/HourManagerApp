@@ -24,7 +24,7 @@ export class LandingScreen extends Component {
           source={require('../../assets/citymap.png')}
           style={{
             width: '100%',
-            height: 600,
+            height: 700,
             position: 'absolute',
           }}
         />
